@@ -1,0 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   put_board.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/20 00:56:38 by topiana-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+/* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
+int	put_board(t_mlx *mlx)
+{	
+	mlx->img.img = mlx_new_image(mlx->mlx, mlx->win_x, mlx->win_y);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img
+			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
+	if (!mlx->img.img || !mlx->img.addr)
+		return (0);
+
+	put2d_map(mlx, 0xff0000);
+	put2d_player(mlx, 0x0000FF);
+	cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], 0);
+	put2d_ray(mlx, 0xa0b000);
+	// put_grid(mlx);
+
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	//ft_printf("ccc\n");
+	mlx_destroy_image(mlx->mlx, mlx->img.img);
+	//ft_printf("the board is put\n");
+	return (1);
+}

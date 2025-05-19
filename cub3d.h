@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 19:17:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/19 23:01:29 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,38 @@
 #  define MLX_WIN_Y 500
 # endif
 
+# include <X11/X.h>
+# include <X11/keysym.h>
+
+# ifdef __APPLE__
+#  define __APPLE__
+#  define UP
+#  define DOWN
+#  define LEFT
+#  define RIGHT
+#  define W_KEY
+#  define A_KEY
+#  define S_KEY
+#  define D_KEY
+# else
+#  define __LINUX__
+#  define UP 65362
+#  define DOWN 65364
+#  define LEFT 65361
+#  define RIGHT 65363
+#  define W_KEY 'w'
+#  define A_KEY 'a'
+#  define S_KEY 's'
+#  define D_KEY 'd'
+#  define SPACE ' '
+#  define PLUS 61
+#  define MINUS 45
+#  define ESC_KEY 65367
+# endif 
 
 # include "libft.h"
 # include "mlx.h"
+# include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
 
@@ -43,6 +72,7 @@ typedef struct s_local
 	float	pos[2];		// pointer to the lobby's pos
 	int		fov[2];		// xvof, yfov
 	int		dir[2];		// 0/360 = west (x), front (y)
+	float	mspeed;
 }				t_local;
 
 
@@ -70,27 +100,39 @@ typedef struct s_mlx
 	int				key_lx_rx[2];
 	int				mouse[2];
 	char			on_window;
+	int				frames;
+	float			ray[2];
 }				t_mlx;
 
 /* ============ GAME ============= */
 
+float	cast_ray(t_mlx *mlx, float x, float y, int dir);
+
+int 	update_frame(void *arg);
+int		handle_key_press(int keysym, void *arg);
+int		handle_key_release(int keysym, void *arg);
+int		handle_mouse(int keysym, int x, int y, t_mlx *mlx);
 int 	clean_exit(t_mlx *mlx);
 
 /* ========== GRAPHICS ========== */
 
+int		put_board(t_mlx *mlx);
 void	my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 int		put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
-int		put_map(t_mlx *mlx, unsigned int color);
+int		put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
+
+int		put2d_map(t_mlx *mlx, unsigned int color);
+int		put2d_player(t_mlx *mlx, unsigned int color);
+int		put2d_ray(t_mlx *mlx, unsigned int color);
 
 /* =========== PARSING =========== */
 
 char	**parse_map(const char *path);
-int		get_map_size(const char **map, int win_x, int win_y, int *buff);
+int		get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 /* ============ UTILS ============= */
 
-void	free_mtx(void **mtx);
-size_t	ft_mtxlen(const void **mtx);
+char	*trim_back_nl(char *str);
 
 /* ============ DEBUG ============= */
 

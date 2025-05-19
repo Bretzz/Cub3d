@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 19:21:44 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 00:57:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,19 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	if (juice_the_pc(mlx))
 		return (1);
-	mlx->player.pos[0] = 2;								// arbitrary position X
-	mlx->player.pos[1] = 2;								// arbitrary position Y
+	mlx->player.pos[0] = 2.5;								// arbitrary position X
+	mlx->player.pos[1] = 1.5;								// arbitrary position Y
 	mlx->player.fov[0] = 90;
-	mlx->player.fov[1] = 0;
+	mlx->player.fov[1] = 1;
 	mlx->player.dir[0] = 0;
 	mlx->player.dir[1] = 0;
+	mlx->player.mspeed = 0.3f;
 	mlx->map = parse_map("map.cub");
 	if (mlx->map == NULL)
 		return (1);
-	get_map_size((const char **)mlx->map, mlx->win_x, mlx->win_y, mlx->map_dim);
+	get_map_stats((const char **)mlx->map, mlx->win_x, mlx->win_y, mlx->map_dim);
+	mlx->frames = 21;
 	return (0);	
-}
-
-
-static int	put_board(t_mlx *mlx)
-{	
-	mlx->img.img = mlx_new_image(mlx->mlx, mlx->win_x, mlx->win_y);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img
-			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
-	if (!mlx->img.img || !mlx->img.addr)
-		return (0);
-
-	put_map(mlx, 0xff0000);
-	// put_grid(mlx);
-
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
-	//ft_printf("ccc\n");
-	mlx_destroy_image(mlx->mlx, mlx->img.img);
-	//ft_printf("the board is put\n");
-	return (1);
 }
 
 int main(int argc, char *argv[])
@@ -75,7 +58,16 @@ int main(int argc, char *argv[])
 	if (data_init(&mlx, argc, argv))
 		return (1);
 
-	put_board(&mlx);
+	// put_board(&mlx);
+
+	// key hooks
+	mlx_hook(mlx.win, KeyPress, KeyPressMask, &handle_key_press, &mlx);
+	mlx_hook(mlx.win, KeyRelease, KeyReleaseMask, &handle_key_release, &mlx);
+
+	// mouse hook
+	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
+	// frame updater
+	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
 	mlx_loop(mlx.mlx);
 }

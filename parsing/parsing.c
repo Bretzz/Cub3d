@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 19:20:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/19 21:22:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static char	**get_map_from_path(const char *path)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		map = ft_realloc(map, i + 1, i + 2);
+		map = ft_realloc(map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
 		if (map == NULL)
 		{
 			ft_printfd(2, "Error: malloc failure\n");
 			return (close(fd), free(line), NULL);
 		}
-		map[i] = line;
+		map[i] = trim_back_nl(line);
 		line = get_next_line(fd);
 		i++;
 	}
@@ -99,18 +99,18 @@ char	**parse_map(const char *path)
 	if (map == NULL)
 		return (NULL);
 	i = 0;
-	while (map[i] && !ft_mapchr(map[i], "01NSEW"))
+	while (map[i] && !ft_mapchr(map[i], "01NSEW\n"))
 		i++;
 	if (map[i] != NULL)
 	{
-		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW"));
+		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW\n"));
 		return (free_mtx((void **)map), NULL);
 	}
 	print_map(map);
 	return (map);
 }
 
-int	get_map_size(const char **map, int win_x, int win_y, int *buff)
+int	get_map_stats(const char **map, int win_x, int win_y, int *buff)
 {
 	unsigned int	i;
 	int				max;
@@ -118,7 +118,7 @@ int	get_map_size(const char **map, int win_x, int win_y, int *buff)
 
 	if (map == NULL)
 		return (0);
-	max = -1;
+	max = 0;
 	i = 0;
 	while (map[i] != NULL)
 	{
@@ -128,9 +128,10 @@ int	get_map_size(const char **map, int win_x, int win_y, int *buff)
 		i++;
 	}
 	buff[0] = max;
-	buff[1] = ft_mtxlen((const void **)map);
+	buff[1] = ft_mtxlen((void **)map);
 	buff[2] = win_x / buff[0];
 	if (buff[2] > win_y / buff[1])
 		buff[2] = win_y / buff[1];
+	ft_printf("got maX %d, maY %d, side %u\n", buff[0], buff[1], buff[2]);
 	return (1);
 }

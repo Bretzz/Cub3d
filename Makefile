@@ -20,14 +20,12 @@ CFLAGS			:= -Wall -Wextra -Werror
 
 #Libs
 LIBFT			= libft/
-MSG				= msg/
-LBB				= lbb/
 
 #Linkers
-LINKS			= -L/usr/lib -L$(MLX_DIR) -lXext -lX11 -lm -lz -lpthread
+LINKS			= -L/usr/lib -L$(MLX_DIR) -lXext -lX11 -lm -lz #-lpthread
 
 #Includes
-INKS			= -I$(CURDIR) -I$(MSG) -I$(LBB) -I$(LIBFT) -Ionline/ -I$(MLX_DIR)
+INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR)
 
 ifeq ($(UNAME),Darwin)
 	MLX_DIR		= minilibx_opengl
@@ -51,14 +49,18 @@ endif
 SRCS_DIR		=
 SRC_FILES		= main.c \
 				\
+				cast_ray.c \
+				\
+				put_board.c \
 				my_pixel_put.c \
+				put_line.c \
+				put2d.c \
 				\
 				parsing.c \
 				\
-				put2d.c \
-				\
-				utils.c \
-				free_stuff.c clean_exit.c \
+				update_frame.c \
+				handle_keys.c handle_mouse.c \
+				clean_exit.c utils.c \
 				\
 				debug.c
 
@@ -69,10 +71,9 @@ OBJS_DIR		= obj/
 OBJ_FILES		= $(SRCS:.c=.o)
 OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 
-VPATH 			= $(MSG) $(LBB) \
-				online/ \
-				online/client/ online/server \
-				minigame/ parsing \
+VPATH 			= parsing/ \
+				puts/ \
+				input/ \
 				utils/
 
 all: $(NAME)

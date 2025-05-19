@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   free_mtx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 21:50:59 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/19 20:57:44 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/19 20:58:39 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-char	*trim_back_nl(char *str)
+void	free_mtx(void **mtx)
 {
-	size_t	i;
+	unsigned int	i;
 
-	i = ft_strlen(str);
-	while (str[i] == '\n')
-		i--;
-	str[i] = '\0';
-	return (str);
+	i = 0;
+	while (mtx[i] != NULL)
+	{
+		free(mtx[i]);
+		i++;
+	}
+	free(mtx);
 }
