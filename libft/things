@@ -1,0 +1,21 @@
+add to libft:
+	ft_freentf	(minishell)
+	ft_realloc	(minishell) (DONE)
+	ft_atof		(fdf_x_duck) (DONE)
+	ft_atohexi	(socket_is_closed) (not found)
+	ft_printf(%z)	(minishell)	(DONE)
+	ft_strjoin_free (minishell)	(DONE)
+	ft_strichr		(minishell) (DONE)
+	drop_string		(minishell) to improve
+
+check for usefull stuff too
+
+also make folder, header (and makefile) for printf (DONE)
+
+protect ft_strlen (NO U)
+
+change 'int' to 'unsigned int' when navigating a strig (DONE)
+
+remove commented mains from libft
+
+ADD FT_STRNCMP PLS
