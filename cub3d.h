@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 12:17:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:01:37 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ typedef struct s_mlx
 
 /* ============ GAME ============= */
 
+int		move_player(t_mlx *mlx);
+int		move_mouse(t_mlx *mlx);
+
 int 	update_frame(void *arg);
 
 int		handle_key_press(int keysym, void *arg);
@@ -137,6 +140,8 @@ int		put2d_minimap(t_mlx *mlx, size_t side);
 
 char	**parse_map(const char *path);
 int		get_map_stats(const char **map, int win_x, int win_y, int *buff);
+
+int		get_player_stats(char **map, float *pos, float *dir);
 
 /* ============ UTILS ============= */
 

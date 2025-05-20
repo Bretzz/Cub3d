@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:20:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:02:49 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 	float		len;
 	int			i;
 
+	// if (mlx->player.pos[0] < 0 || mlx->player.pos[0])
 	// /* ft_ */printf("delta_angle %f\n", delta_dir);
 	ft_memset(mlx->ray, 0, 2 * sizeof(float));
 

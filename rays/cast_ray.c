@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 11:11:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:26:47 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,19 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 
 	while (mlx->map[(int)ray[1]][(int)ray[0]] != '1')
 	{
+		//ft_printf("start\n");
 		if ((/* x +  */incr[0]) / fabsf(cosf(angle))
 			< (/* y +  */incr[1]) / fabsf(sinf(angle)))
 		{
+			//ft_printf("X\n");
 			// move trough x
 			ray[0] = x + incr[0] * axis[0];
 			ray[1] = y + incr[0] / fabsf(cosf(angle)) * fabsf(sinf(angle)) * axis[1];
 			// checks for collisions
-			if (axis[0] < 0 && ((int)ray[0]) > 0 && mlx->map[(int)ray[1]][((int)ray[0]) - 1] == '1')
+			//ft_printf("low check map[%d, %d]\n", (int)ray[1], (int)ray[0] - 1);
+			if (axis[0] < 0 && ((int)ray[0]) > 0 && mlx->map[(int)ray[1]][(int)ray[0] - 1] == '1')
 				break ;
+			//ft_printf("high\n");
 			if (axis[0] > 0 && ((int)ray[0]) < mlx->map_dim[0] && mlx->map[(int)ray[1]][((int)ray[0])] == '1')
 				break ;
 			// modify incr[0]
@@ -61,6 +65,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		}
 		else
 		{
+			//ft_printf("Y\n");
 			// move trough y
 			ray[0] = x + incr[1] / fabsf(sinf(angle)) * fabsf(cosf(angle)) * axis[0];
 			ray[1] = y + incr[1] * axis[1];
@@ -76,12 +81,17 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		if (ray[0] < 0 || ray[0] >= mlx->map_dim[0]
 			|| ray[1] < 0 || ray[1] >= mlx->map_dim[1])
 			return (-1);	//flag it big
+		//ft_printf("end\n");
 	}
-
+	//ft_printf("out\n");
 	// just lame second return
 	if (mlx->player.fov[1] != 0)
 		ft_memcpy(mlx->ray, ray, 2 * sizeof(float));
-		
+	
+	//ft_printf("copy ok\n");
 	// /* ft_ */printf("============= CONTACT: [%f, %f] ============= \n", ray[0], ray[1]);
-	return (sqrt(pow(ray[0] - x, 2) + pow(ray[1] - y, 2)));
+	// ft_printf("player (%f, %f)\n", x, y);
+	// printf("%f\n", ray[0] - x);
+	// printf("%f\n", ray[1] - y);
+	return (sqrt((ray[0] - x) * (ray[0] - x) + (ray[1] - y) * (ray[1] - y)));
 }

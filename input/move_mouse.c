@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   move_mouse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:50:48 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/20 14:56:30 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/20 14:58:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	*trim_back_nl(char *str)
+int	move_mouse(t_mlx *mlx)
 {
-	size_t	i;
-
-	i = ft_strlen(str) - 1;
-	while (str[i] == '\n')
-		i--;
-	str[++i] = '\0';
-	return (str);
+	(void)mlx;
+	return (0);
 }

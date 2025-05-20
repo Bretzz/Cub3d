@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:15:09 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:09:10 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,30 +108,4 @@ char	**parse_map(const char *path)
 	}
 	print_map(map);
 	return (map);
-}
-
-int	get_map_stats(const char **map, int win_x, int win_y, int *buff)
-{
-	unsigned int	i;
-	int				max;
-	size_t			len;
-
-	if (map == NULL)
-		return (0);
-	max = 0;
-	i = 0;
-	while (map[i] != NULL)
-	{
-		len = ft_strlen(map[i]);
-		if (len > (size_t)max)
-			max = len;
-		i++;
-	}
-	buff[0] = max;
-	buff[1] = ft_mtxlen((void **)map);
-	buff[2] = win_x / buff[0];
-	if (buff[2] > win_y / buff[1])
-		buff[2] = win_y / buff[1];
-	ft_printf("got maX %d, maY %d, side %u\n", buff[0], buff[1], buff[2]);
-	return (1);
 }

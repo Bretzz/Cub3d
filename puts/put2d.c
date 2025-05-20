@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 11:45:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:37:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color)
 	}
 	return (0);
 }
+
 int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 {
 	int		i;

@@ -59,8 +59,11 @@ SRC_FILES		= main.c \
 				put2d.c \
 				\
 				parsing.c \
+				get_player_stats.c \
+				get_map_stats.c \
 				\
 				update_frame.c \
+				move_player.c move_mouse.c \
 				handle_keys.c handle_mouse.c handle_hover.c \
 				clean_exit.c utils.c \
 				\
@@ -68,18 +71,42 @@ SRC_FILES		= main.c \
 
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
+#B_SRCS_DIR		= bonus/
+B_SRC_FILES		= move_player_bonus.c \
+				move_mouse_bonus.c
+
+# Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
+B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))
+
+# Final bonus source list: SRC_FILES minus the ones replaced, plus the bonus files
+BONUS_FILES		= $(filter-out $(B_REPLACED), $(SRC_FILES)) $(B_SRC_FILES)
+
+# If you want full paths using SRCS_DIR:
+B_SRCS			= $(addprefix $(SRCS_DIR), $(BONUS_FILES))
+
 # Objects
 OBJS_DIR		= obj/
 OBJ_FILES		= $(SRCS:.c=.o)
 OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 
-VPATH 			= rays/ \
-				puts/ \
-				input/ \
-				parsing/ \
-				utils/
+#Bonus objects
+B_OBJ_FILES		= $(B_SRCS:.c=.o)
+B_OBJS			= $(addprefix $(OBJS_DIR), $(B_OBJ_FILES))
+
+
+VPATH 			= rays \
+				puts \
+				input \
+				parsing \
+				utils \
+				bonus
 
 all: $(NAME)
+
+show_bonus:
+	@printf "BOBJS		: $(B_OBJS)\n"
+	@printf "B_REPLACED		  : $(B_REPLACED:.c=.o)\n"
+	@printf "MANDATORY REMOVE : $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o))\n"
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
@@ -105,9 +132,16 @@ $(LIBFT)libft.a:
 	@$(MAKE) all -C $(LIBFT) --quiet
 
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o));
 	@echo "${BOLD}compiling the $(NAME)...${RESET}"
-	$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME)
-	@echo "${LIGHT_GREEN}DONE${RESET}"
+	$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
+	&& echo "${LIGHT_GREEN}DONE${RESET}"
+
+bonus: $(LIBFT)libft.a $(MLX) $(B_OBJS) $(HERE_DOCS_DIR)
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o));
+	@echo "${BOLD}compiling $(NAME)_bonus...${RESET}"
+	$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME)_bonus \
+	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 tar:
 	@ls | grep -q "$(NAME).tar" && rm -f $(NAME).tar || true

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:15:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:02:05 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	if (mlx->map == NULL)
 		return (1);
 	get_map_stats((const char **)mlx->map, mlx->win_x, mlx->win_y, mlx->map_dim);
+	get_player_stats(mlx->map, mlx->player.pos, mlx->player.dir);
 	mlx->frames = 21;
 	return (0);	
 }
