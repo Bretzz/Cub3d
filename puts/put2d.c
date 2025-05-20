@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:55:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:45:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ int	put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color)
 	}
 	return (0);
 }
-int	put2d_map(t_mlx *mlx, unsigned int color)
+int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 {
-	const int	side = mlx->map_dim[2];
 	int		i;
 	size_t	j;
 
@@ -53,28 +52,40 @@ int	put2d_map(t_mlx *mlx, unsigned int color)
 	return (0);
 }
 
-int	put2d_player(t_mlx *mlx, unsigned int color)
+/* side is the length of the single square unit in pixel */
+int	put2d_player(t_mlx *mlx, int side, unsigned int color)
 {
 	put_square(mlx,
-		mlx->map_dim[2] / 2,
-		mlx->player.pos[0] * mlx->map_dim[2],
-		mlx->player.pos[1] * mlx->map_dim[2],
+		side / 2,
+		mlx->player.pos[0] * side,
+		mlx->player.pos[1] * side,
 		color);
 	return (0);
 }
 
-int	put2d_ray(t_mlx *mlx, unsigned int color)
+int	put2d_ray(void *my_struct, int side, float null2, unsigned int color)
 {
+	t_mlx	*const mlx = (t_mlx *)my_struct;
 	int ray[2];
 	int	pos[2];
 
+	(void)null2;
 	if (mlx->ray[0] != 0 || mlx->ray[1] != 0)
 	{
-		ray[0] = mlx->ray[0] * mlx->map_dim[2];
-		ray[1] = mlx->ray[1] * mlx->map_dim[2];
-		pos[0] = mlx->player.pos[0] * mlx->map_dim[2];
-		pos[1] = mlx->player.pos[1] * mlx->map_dim[2];
+		ray[0] = mlx->ray[0] * side;
+		ray[1] = mlx->ray[1] * side;
+		pos[0] = mlx->player.pos[0] * side;
+		pos[1] = mlx->player.pos[1] * side;
 		put_line(mlx, pos, ray, color);
 	}
+	return (0);
+}
+
+int	put2d_minimap(t_mlx *mlx, size_t side)
+{
+	put2d_map(mlx, side, 0x0000ff);
+	put2d_player(mlx, side, 0xff0000);
+	cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
+	put2d_ray(mlx, side, 0, 0x00ff00);
 	return (0);
 }

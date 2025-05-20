@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:56:38 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:20:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ int	put_board(t_mlx *mlx)
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
 
-	put2d_map(mlx, 0xff0000);
-	put2d_player(mlx, 0x0000FF);
-	cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], 0);
-	put2d_ray(mlx, 0xa0b000);
+	// put2d_map(mlx, mlx->map_dim[2], 0xff0000);
+	// put2d_player(mlx, mlx->map_dim[2], 0x0000FF);
+	// cast_field(mlx, &put2d_ray);
+
+	cast_field(mlx, &put_central_line);
+	put2d_minimap(mlx, 10);
+
+	// cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
+	// put2d_ray(mlx, 0xa0b000);
 	// put_grid(mlx);
 
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);

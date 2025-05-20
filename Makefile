@@ -50,16 +50,18 @@ SRCS_DIR		=
 SRC_FILES		= main.c \
 				\
 				cast_ray.c \
+				cast_field.c \
 				\
 				put_board.c \
 				my_pixel_put.c \
 				put_line.c \
+				put_central_line.c \
 				put2d.c \
 				\
 				parsing.c \
 				\
 				update_frame.c \
-				handle_keys.c handle_mouse.c \
+				handle_keys.c handle_mouse.c handle_hover.c \
 				clean_exit.c utils.c \
 				\
 				debug.c
@@ -71,9 +73,10 @@ OBJS_DIR		= obj/
 OBJ_FILES		= $(SRCS:.c=.o)
 OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 
-VPATH 			= parsing/ \
+VPATH 			= rays/ \
 				puts/ \
 				input/ \
+				parsing/ \
 				utils/
 
 all: $(NAME)

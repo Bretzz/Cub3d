@@ -6,15 +6,26 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:50:29 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:11:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
+
+// Normalize the angle to stay within the range [0, 2*PI)
+float normalize_dir(float dir)
+{
+	if (dir < -180)
+		return (180 - (-dir - 180));
+	else if (dir > 180)
+		return (-180 + (dir - 180));
+	return (dir);
+}
 
 /* casts a ray starting from (x,y) headed for the direction 'dir'
 (dir is 0 -> 360). returns the lenght of the ray */
-float	cast_ray(t_mlx *mlx, float x, float y, int dir)
+float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 {
 	const float	angle = dir * M_PI / 180; // 0 = right
 	float	incr[2];
@@ -61,7 +72,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, int dir)
 			// modify incr[1]
 			incr[1] += 1;
 		}
-		// ft_printf("RAY: [%d, %d]\n", ray[0], ray[1]);
+		// /* ft_ */printf("RAY: [%f, %f]\n", ray[0], ray[1]);
 		if (ray[0] < 0 || ray[0] >= mlx->map_dim[0]
 			|| ray[1] < 0 || ray[1] >= mlx->map_dim[1])
 			return (-1);	//flag it big
@@ -71,6 +82,6 @@ float	cast_ray(t_mlx *mlx, float x, float y, int dir)
 	if (mlx->player.fov[1] != 0)
 		ft_memcpy(mlx->ray, ray, 2 * sizeof(float));
 		
-	// ft_printf("%d intersection: [%d, %d]\n", i, ray[0], ray[1]);
+	// /* ft_ */printf("============= CONTACT: [%f, %f] ============= \n", ray[0], ray[1]);
 	return (sqrt(pow(ray[0] - x, 2) + pow(ray[1] - y, 2)));
 }

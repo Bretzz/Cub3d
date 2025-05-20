@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 21:22:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:15:09 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ char	**parse_map(const char *path)
 	if (map == NULL)
 		return (NULL);
 	i = 0;
-	while (map[i] && !ft_mapchr(map[i], "01NSEW\n"))
+	while (map[i] && !ft_mapchr(map[i], "01NSEW \n"))
 		i++;
 	if (map[i] != NULL)
 	{
-		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW\n"));
+		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW \n"));
 		return (free_mtx((void **)map), NULL);
 	}
 	print_map(map);

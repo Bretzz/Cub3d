@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 23:01:29 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:17:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define RESET "\033[0m"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 500
+#  define MLX_WIN_X 1000
 # endif
 # ifndef MLX_WIN_Y
 #  define MLX_WIN_Y 500
@@ -71,7 +71,7 @@ typedef struct s_local
 {
 	float	pos[2];		// pointer to the lobby's pos
 	int		fov[2];		// xvof, yfov
-	int		dir[2];		// 0/360 = west (x), front (y)
+	float	dir[2];		// 0/360 = west (x), front (y)
 	float	mspeed;
 }				t_local;
 
@@ -106,24 +106,32 @@ typedef struct s_mlx
 
 /* ============ GAME ============= */
 
-float	cast_ray(t_mlx *mlx, float x, float y, int dir);
-
 int 	update_frame(void *arg);
+
 int		handle_key_press(int keysym, void *arg);
 int		handle_key_release(int keysym, void *arg);
 int		handle_mouse(int keysym, int x, int y, t_mlx *mlx);
+int		leave_notify_handler(t_mlx *mlx);
+int		enter_notify_handler(t_mlx *mlx);
+
 int 	clean_exit(t_mlx *mlx);
 
 /* ========== GRAPHICS ========== */
+
+float 	normalize_dir(float angle);
+float	cast_ray(t_mlx *mlx, float x, float y, float dir);
+int		cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int));
 
 int		put_board(t_mlx *mlx);
 void	my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 int		put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
 int		put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
+int		put_central_line(void *my_struct, int x, float len, unsigned int color);
 
-int		put2d_map(t_mlx *mlx, unsigned int color);
-int		put2d_player(t_mlx *mlx, unsigned int color);
-int		put2d_ray(t_mlx *mlx, unsigned int color);
+int		put2d_map(t_mlx *mlx, int side, unsigned int color);
+int		put2d_player(t_mlx *mlx, int side, unsigned int color);
+int		put2d_ray(void *my_struct, int side, float null2, unsigned int color);
+int		put2d_minimap(t_mlx *mlx, size_t side);
 
 /* =========== PARSING =========== */
 

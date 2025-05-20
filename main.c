@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:57:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:15:26 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	if (juice_the_pc(mlx))
 		return (1);
-	mlx->player.pos[0] = 2.5;								// arbitrary position X
-	mlx->player.pos[1] = 1.5;								// arbitrary position Y
-	mlx->player.fov[0] = 90;
+	mlx->player.pos[0] = 4.5f;								// arbitrary position X
+	mlx->player.pos[1] = 3.5f;								// arbitrary position Y
+	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 1;
 	mlx->player.dir[0] = 0;
 	mlx->player.dir[1] = 0;
@@ -68,6 +68,10 @@ int main(int argc, char *argv[])
 	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
+
+	// on windiw hooks
+	mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
+	mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
 
 	mlx_loop(mlx.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:22:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 00:44:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:11:45 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color)
 	ft_memcpy(proj, p1, 2 * sizeof(int));
 
 	for (int i = 0;;i++){  /* loop */
+
+		if (proj[0] == p2[0] && proj[1] == p2[1]) break;
+
 		e2 = 2 * err;
 		if (e2 >= dy) { err += dy; proj[0] += sx; } /* e_xy+e_x > 0 */
 		if (e2 <= dx) { err += dx; proj[1] += sy; } /* e_xy+e_y < 0 */
@@ -31,8 +34,8 @@ int	put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color)
 		//my stuff (death check)
 		// if (i > 5 && abs(proj[0] - my_pos[0]) < 5 && abs(proj[1] - my_pos[1]) < 5) return (0);
 
-		if (proj[0] == p2[0] && proj[1] == p2[1]) break;
-		ft_printf("i %d\n", i);
+		//if (proj[0] == p2[0] && proj[1] == p2[1]) break;
+		// ft_printf("i %d of (%d,%d) -> (%d, %d)\n", i, p1[0], p1[1], p2[0], p2[1]);
 	}
 	return (1);
 }

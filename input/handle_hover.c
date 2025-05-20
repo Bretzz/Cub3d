@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   handle_hover.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 10:13:33 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/20 12:16:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+int	leave_notify_handler(t_mlx *mlx);
+int	enter_notify_handler(t_mlx *mlx);
 
-
-char	*trim_back_nl(char *str)
+int	leave_notify_handler(t_mlx *mlx)
 {
-	size_t	i;
+	mlx->on_window = 0;
+	mlx_mouse_show(mlx->mlx, mlx->win); // make the cursor visible
+	return (0);
+}
 
-	i = ft_strlen(str);
-	while (str[i] == '\n')
-		i--;
-	str[i] = '\0';
-	return (str);
+int	enter_notify_handler(t_mlx *mlx)
+{
+	mlx->on_window = 1;
+	mlx_mouse_hide(mlx->mlx, mlx->win); // hide it again
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 22:21:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:29:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ int	handle_key_press(int keysym, void *arg)
 		// ft_printf(RESET);
 		return (0);
 	}
+	else if (keysym == XK_Right || keysym == RIGHT)
+		mlx->player.dir[0] += 5;
+	else if (keysym == XK_Left || keysym == LEFT)
+		mlx->player.dir[0] -= 5;
 	else if (keysym == XK_plus || keysym == PLUS)
 		mlx->frames += 10;
 	else if ((keysym == XK_minus || keysym == MINUS)
@@ -62,8 +66,8 @@ int	handle_key_press(int keysym, void *arg)
 	// 	mlx->player.dir[0] += 10;
 	// else
 
-	// mlx->player.dir[0] = mlx->player.dir[0] % 360;
-	// mlx->player.dir[1] = mlx->player.dir[1] % 360;
+	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
+	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
 	// ft_printf("dir[%d,%d]\n", mlx->player.dir[0], mlx->player.dir[1]);
 	return (0);
 }
