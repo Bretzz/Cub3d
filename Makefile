@@ -56,6 +56,7 @@ SRC_FILES		= main.c \
 				my_pixel_put.c \
 				put_line.c \
 				put_central_line.c \
+				put_sky_floor.c \
 				put2d.c \
 				\
 				parsing.c \
@@ -72,8 +73,8 @@ SRC_FILES		= main.c \
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
-B_SRC_FILES		= move_player_bonus.c \
-				move_mouse_bonus.c
+B_SRC_FILES		= move_player_bonus.c move_mouse_bonus.c \
+				put_central_line_bonus.c put_sky_floor_bonus.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
 B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))
@@ -92,7 +93,6 @@ OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 #Bonus objects
 B_OBJ_FILES		= $(B_SRCS:.c=.o)
 B_OBJS			= $(addprefix $(OBJS_DIR), $(B_OBJ_FILES))
-
 
 VPATH 			= rays \
 				puts \
@@ -124,6 +124,7 @@ $(MLX_DIR):
 	@git clone $(URL) && $(MAKE) -C $(MLX_DIR)
 
 $(MLX): $(MLX_DIR)
+#	@echo ciao
 	@rm -f $(MLX_DIR)/libmlx.a
 	@$(MAKE) -C $(MLX_DIR) --quiet
 
@@ -133,14 +134,14 @@ $(LIBFT)libft.a:
 
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o));
-	@echo "${BOLD}compiling the $(NAME)...${RESET}"
-	$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
+	@echo "${BOLD}compiling $(NAME)...${RESET}"
+	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
-bonus: $(LIBFT)libft.a $(MLX) $(B_OBJS) $(HERE_DOCS_DIR)
+bonus: $(LIBFT)libft.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o));
 	@echo "${BOLD}compiling $(NAME)_bonus...${RESET}"
-	$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME)_bonus \
+	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME)_bonus \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 tar:
@@ -148,12 +149,14 @@ tar:
 	@tar -cf $(NAME).tar --exclude=".git" --exclude="$(NAME)" --exclude="$(OBJS_DIR)" --exclude="$(MLX_DIR)" ./*
 
 clean:
-	@rm -f $(OBJS_DIR)* game test
+	@rm -f $(OBJS_DIR)*
 	@$(MAKE) clean -C $(LIBFT) --quiet
 fclean: clean
-	@rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJS_DIR) $(NAME) $(NAME)_bonus
 	@$(MAKE) fclean -C $(LIBFT) --quiet
 
 lre: clean all
 
 re: fclean all
+
+.PHONY: all clean fclean re lre bonus

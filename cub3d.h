@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:01:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:49:40 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 int		put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
 int		put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
 int		put_central_line(void *my_struct, int x, float len, unsigned int color);
+int		put_sky_floor(t_mlx *mlx);
 
 int		put2d_map(t_mlx *mlx, int side, unsigned int color);
 int		put2d_player(t_mlx *mlx, int side, unsigned int color);

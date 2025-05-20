@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:20:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:51:02 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	put_board(t_mlx *mlx)
 	// put2d_player(mlx, mlx->map_dim[2], 0x0000FF);
 	// cast_field(mlx, &put2d_ray);
 
+	put_sky_floor(mlx);
 	cast_field(mlx, &put_central_line);
 	put2d_minimap(mlx, 10);
 
