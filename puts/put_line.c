@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:22:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 11:11:45 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:24:03 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color)
 	int err = dx + dy, e2; /* error value e_xy */
 	ft_memcpy(proj, p1, 2 * sizeof(int));
 
-	for (int i = 0;;i++){  /* loop */
+	for (;;){  /* loop */
 
 		if (proj[0] == p2[0] && proj[1] == p2[1]) break;
 

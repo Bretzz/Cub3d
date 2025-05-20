@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:37:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:29:43 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	move_player(t_mlx *mlx);
 /* returns the 'legal' value of the 'new_x' based on map limitations */
 static float x_cropped(t_mlx *mlx, float old_y, float new_x)
 {
-	const int	x_max = ft_strlen(mlx->map[(int)old_y]) - 1;
+	const int	x_max = ft_strlen(mlx->map.mtx[(int)old_y]);
 
 	if (new_x < 0)
 		return (DIST_MIN);
@@ -31,7 +31,7 @@ static float x_cropped(t_mlx *mlx, float old_y, float new_x)
 /* returns the 'legal' value of the 'new_y' based on map limitations */
 static float y_cropped(t_mlx *mlx, float old_x, float new_y)
 {
-	const int	y_max = mlx->map_dim[1];
+	const int	y_max = mlx->map.stats[1];
 
 	(void)old_x;
 	if (new_y < 0)
@@ -67,10 +67,10 @@ static int move_lx_rx(t_mlx *mlx, float mspeed)
 	}
 
 	// check movement validity
-	if (moved[0] != 0)
-		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
 	if (moved[1] != 0)
 		mlx->player.pos[1] = y_cropped(mlx, mlx->player.pos[0], new_pos[1]);
+	if (moved[0] != 0)
+		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
 
 	// ft_memcpy(mlx->player.pos, new_pos, 2 * sizeof(float));
 	return (moved[0] + moved[1]);
@@ -102,10 +102,10 @@ static int move_up_dw(t_mlx *mlx, float mspeed)
 	}
 
 	// check movement validity
-	if (moved[0] != 0)
-		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
 	if (moved[1] != 0)
 		mlx->player.pos[1] = y_cropped(mlx, mlx->player.pos[0], new_pos[1]);
+	if (moved[0] != 0)
+		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
 
 	// ft_memcpy(mlx->player.pos, new_pos, 2 * sizeof(float));
 	return (moved[0] + moved[1]);

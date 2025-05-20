@@ -30,14 +30,16 @@ INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR)
 ifeq ($(UNAME),Darwin)
 	MLX_DIR		= minilibx_opengl
 	MLX			= $(MLX_DIR)/libmlx.a
-	URL			= https://github.com/42paris/minilibx_opengl
-	DEFS		=
+	CLONE		= curl https://cdn.intra.42.fr/document/document/34410/minilibx_macos_opengl.tgz --output $(MLX_DIR).tgz \
+				&& tar -xf $(MLX_DIR).tgz && rm -f $(MLX_DIR).tgz \
+				&& ls $(MLX_DIR) || mv `ls | grep $(MLX_DIR)` $(MLX_DIR)
+	DEFS		= -D __APPLE__
 	INKS		+= -I/usr/X11/include -I$(MLX_DIR)
 	LINKS		+= -I/opt/homebrew/include -I/usr/X11/include -L/usr/X11/lib -framework OpenGL -framework AppKit
 else ifeq ($(UNAME),Linux)
 	MLX_DIR		= minilibx-linux
 	MLX			= $(MLX_DIR)/libmlx_$(UNAME).a
-	URL			= https://github.com/42paris/minilibx-linux
+	CLONE		= git clone https://github.com/42paris/minilibx-linux.git
 	DEFS		=
 	INKS		+= -I/usr/include
 	LINKS		+= -lmlx_Linux -I$(MLX_DIR)
@@ -121,7 +123,7 @@ test: main.c $(OBJS)
 
 $(MLX_DIR):
 	@echo "${BOLD}creating $(MLX_DIR)...${RESET}"
-	@git clone $(URL) && $(MAKE) -C $(MLX_DIR)
+	$(CLONE) && $(MAKE) -C $(MLX_DIR)
 
 $(MLX): $(MLX_DIR)
 #	@echo ciao

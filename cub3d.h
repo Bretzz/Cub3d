@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:49:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:35:14 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,18 @@
 # include <X11/keysym.h>
 
 # ifdef __APPLE__
-#  define __APPLE__
-#  define UP
-#  define DOWN
-#  define LEFT
-#  define RIGHT
-#  define W_KEY
-#  define A_KEY
-#  define S_KEY
-#  define D_KEY
+#  define UP 126
+#  define DOWN 125
+#  define LEFT 123
+#  define RIGHT 124
+#  define W_KEY 13
+#  define A_KEY 0
+#  define S_KEY 1
+#  define D_KEY 2
+#  define SPACE 49
+#  define PLUS 24
+#  define MINUS 27
+#  define ESC_KEY 53
 # else
 #  define __LINUX__
 #  define UP 65362
@@ -67,6 +70,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+// player data
 typedef struct s_local
 {
 	float	pos[2];		// pointer to the lobby's pos
@@ -75,6 +79,13 @@ typedef struct s_local
 	float	mspeed;
 }				t_local;
 
+typedef struct s_map
+{
+	char			**mtx;
+	int				stats[3];	// max X, Y, side
+	unsigned int	sky;
+	unsigned int	floor;
+}				t_map;
 
 typedef struct s_img
 {
@@ -93,9 +104,8 @@ typedef struct s_mlx
 	int				win_x;
 	int				win_y;
 	t_img			img;
+	t_map			map;
 	t_local			player;
-	char			**map;
-	int				map_dim[3];					// max X, Y, side
 	int				key_up_dw[2];
 	int				key_lx_rx[2];
 	int				mouse[2];
