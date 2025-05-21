@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put2d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:18:06 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/21 16:06:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	put2d_ray(void *my_struct, int side, float null2, unsigned int color)
 	int	pos[2];
 
 	(void)null2;
-	if (mlx->ray[0] != 0 || mlx->ray[1] != 0)
+	if (mlx->ray.hit[0] != 0 || mlx->ray.hit[1] != 0)
 	{
-		ray[0] = mlx->ray[0] * side;
-		ray[1] = mlx->ray[1] * side;
+		ray[0] = mlx->ray.hit[0] * side;
+		ray[1] = mlx->ray.hit[1] * side;
 		pos[0] = mlx->player.pos[0] * side;
 		pos[1] = mlx->player.pos[1] * side;
 		put_line(mlx, pos, ray, color);

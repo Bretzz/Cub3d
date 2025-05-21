@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 15:45:09 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:12:44 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define RESET "\033[0m"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 1920
+#  define MLX_WIN_X 1000
 # endif
 # ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1080
+#  define MLX_WIN_Y 1000
 # endif
 
 # include <X11/X.h>
@@ -90,6 +90,14 @@ typedef struct s_map
 	unsigned int	floor;
 }				t_map;
 
+// ray data
+typedef struct s_ray
+{
+	float	len;		// length of the ray
+	float	hit[2];		// coord of the point hit
+	char	face;		// 'N', 'S', 'E', 'W', 'V' (V = 'Void')
+}				t_ray;
+
 typedef struct s_img
 {
 	void	*img;
@@ -114,7 +122,8 @@ typedef struct s_mlx
 	int				mouse[2];
 	char			on_window;
 	int				frames;
-	float			ray[2];
+	int				fps;
+	t_ray			ray;
 }				t_mlx;
 
 /* ============ GAME ============= */
