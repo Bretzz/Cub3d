@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 14:54:46 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:45:09 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define RESET "\033[0m"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
+#  define MLX_WIN_X 1920
 # endif
 # ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 500
+#  define MLX_WIN_Y 1080
 # endif
 
 # include <X11/X.h>

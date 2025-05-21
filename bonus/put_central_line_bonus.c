@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:17:16 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 14:19:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:55:52 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	put_central_line(void *my_struct, int x, float len, unsigned int color)
 	if (len < 0)
 		return (1);
 	if (len == 0)
-		heigth = mlx->win_y / 2;
+		heigth = (mlx->win_x / 2) / 2;
 	else
 		heigth = (mlx->win_y) / len;	// dim 0?
 	y = 0;
