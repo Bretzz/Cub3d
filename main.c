@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:08:46 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:58:17 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	juice_the_pc(t_mlx *mlx)
 
 int	data_init(t_mlx *mlx, int argc, char *argv[])
 {
-	(void)argc; (void)argv;
+	/* (void)argc;(void)argv; */
+	if (argc != 2)
+		error_msg(ERR_ARGS);
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	if (juice_the_pc(mlx))
 		return (1);
@@ -40,7 +42,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
 	mlx->player.mspeed = 0.1f;
-	mlx->map.mtx = parse_map("map.cub");
+	mlx->map.mtx = parsing(argv[1]);
 	if (mlx->map.mtx == NULL)
 		return (1);
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
