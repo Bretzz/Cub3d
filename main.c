@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 13:54:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:08:46 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
-	mlx->player.mspeed = 0.3f;
+	mlx->player.mspeed = 0.1f;
 	mlx->map.mtx = parse_map("map.cub");
 	if (mlx->map.mtx == NULL)
 		return (1);

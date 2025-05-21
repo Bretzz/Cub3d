@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_keys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:39:02 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:20:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_key_press(int keysym, void *arg)
 	else if (keysym == XK_plus || keysym == PLUS)
 		mlx->frames += 10;
 	else if ((keysym == XK_minus || keysym == MINUS)
-		&& mlx->frames >= 10)
+		&& mlx->frames >= 11)
 		mlx->frames -= 10;
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 1;
@@ -63,6 +63,7 @@ int	handle_key_press(int keysym, void *arg)
 
 	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
+	// ft_printf("cap %d\n", mlx->frames);
 	// ft_printf("dir[%d,%d]\n", mlx->player.dir[0], mlx->player.dir[1]);
 	return (0);
 }

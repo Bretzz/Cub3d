@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 15:38:51 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:18:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,55 +47,24 @@ int	put_sprite(t_mlx *mlx, int x_screen, int y_screen, float scale)
 int	put_sprite_on_map(t_mlx *mlx, float x, float y, unsigned int color)
 {
 	const float	*my_pos = mlx->player.pos;
-	const float	my_dist = sqrt(pow(x - my_pos[0], 2) + pow(y - my_pos[1], 2));
 	const float sprite_dir = atan2((my_pos[1] - y), (my_pos[0] - x)) * 180 / M_PI;
-	const float	ray	= cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
 	const int	mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
-
+	float		my_dist;
 	// visibility check
 	if (sprite_dir < mlx->player.dir[0] - (mlx->player.fov[0] / 2)
-		|| sprite_dir > mlx->player.dir[0] + (mlx->player.fov[0] / 2))
+	|| sprite_dir > mlx->player.dir[0] + (mlx->player.fov[0] / 2))
 		return (1);
+	// obstacle check
+	cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
+	my_dist = sqrt(pow(x - my_pos[0], 2) + pow(y - my_pos[1], 2));
 	// ft_printf("sprint inside the fov\n");
-	if (ray > 0 && ray < my_dist)
+	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
 		return (1);
 	// /* ft_ */printf("SEEING SPRITE: dir %f\n", sprite_dir);
 	int x_screen = (mlx->win_x / 2) + (sprite_dir - mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
 	// /* ft_ */printf("sprite on x_screen %d, diff dir %f\n", x_screen, (sprite_dir - mlx->player.dir[0]));
 	// put_square(mlx, 10, x_screen, mlx->win_y / 2, color);
-	put_sprite(mlx, x_screen, mid_line, (mlx->win_y / (25/* mlx->player.sprite_y / 4 */)) / my_dist);
+	put_sprite(mlx, x_screen, mid_line, ((mlx->win_x / 2) / mlx->player.sprite_y) / my_dist);
 	(void)color;
 	return (0);
 }
-
-// int	put_player(t_mlx *mlx, int *my_pos, int *his_pos, unsigned int color)
-// {
-// 	(void)mlx; (void)my_pos; (void)his_pos; (void)color;
-// 	const float delta_angle = (mlx->player.fov[0] * M_PI / 180) / mlx->win_x;	// 0 = left, pi/2 = up
-// 	const float angle = normalize_angle(atan2((my_pos[1] - his_pos[1]), (my_pos[0] - his_pos[0])));
-// 	const float	my_dist = sqrt(pow(his_pos[0] - my_pos[0], 2) + pow(his_pos[1] - my_pos[1], 2));
-// 	const float	dir = mlx->player.dir[0] * M_PI / 180;
-// 	// mlx->player.fov[1] = 1;
-// 	const float	ray	= cast_ray(mlx, my_pos, angle);
-// 	// mlx->player.fov[1] = 0;
-
-// 	(void)delta_angle;
-// 	// ft_printf("player dist = %d\n", my_dist);
-// 	// visibility check
-// 	if (angle < dir - mlx->player.fov[0] * M_PI / 90
-// 		|| angle > dir + mlx->player.fov[0] * M_PI / 90)
-// 		return (1);
-// 	if (ray > 0 && ray < my_dist)
-// 		return (1);
-// 	// visibility check
-// 	// put_square(mlx, mlx->win_x / 2, mlx->win_y / 2, 0, 10, 0xed80e9);
-	
-// 	// mlx->win_x = player.fov
-// 	int centre = mlx->win_x / 2 + (angle - dir) / delta_angle;
-// 	put_centre_line(mlx, centre - 2, my_dist, color);
-// 	put_centre_line(mlx, centre - 1, my_dist, color);
-// 	put_centre_line(mlx, centre, my_dist, color);
-// 	put_centre_line(mlx, centre + 1, my_dist, color);
-// 	put_centre_line(mlx, centre + 2, my_dist, color);
-// 	return (0);
-// }

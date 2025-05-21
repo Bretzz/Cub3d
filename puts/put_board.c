@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:51:02 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:02:38 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int	put_board(t_mlx *mlx)
 	// put_grid(mlx);
 
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
-	//ft_printf("ccc\n");
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
-	//ft_printf("the board is put\n");
+
+	// fps counter
+	mlx_string_put(mlx->mlx, mlx->win, mlx->win_x - 25, 25, 0xff0000, ft_itoa(mlx->fps));
 	return (1);
 }
