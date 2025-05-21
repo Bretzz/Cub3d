@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:50:48 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:51:16 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,12 @@ char	*trim_back_nl(char *str)
 		i--;
 	str[++i] = '\0';
 	return (str);
+}
+
+void	error_msg(char *msg/* , t_data data */)
+{
+	printf("Error\n");
+	printf("%s\n", msg);
+	/* free_map(&data); */ //chiama funzione per liberare tutto
+	exit(1);
 }
