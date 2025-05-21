@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_hover.c                                     :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 12:36:08 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/21 12:59:30 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/21 13:37:39 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
-int	leave_notify_handler(t_mlx *mlx);
-int	enter_notify_handler(t_mlx *mlx);
+# include "cub3d.h"
 
-int	leave_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 0;
-	mlx_mouse_show(mlx->mlx, mlx->win); // make the cursor visible // macOS issues
-	return (0);
-}
+int	put_sprite_on_map(t_mlx *mlx, float x, float y, unsigned int color);
 
-int	enter_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 1;
-	mlx_mouse_hide(mlx->mlx, mlx->win); // hide it again // macOS issues
-	return (0);
-}
+#endif

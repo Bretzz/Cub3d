@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_field.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:02:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:04:51 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 	// /* ft_ */printf("delta_angle %f\n", delta_dir);
 	ft_memset(mlx->ray, 0, 2 * sizeof(float));
 
-	(void)func;
 	i = -mlx->win_x / 2;
 	while (i <= mlx->win_x / 2)
 	{
@@ -34,7 +33,7 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 		len = cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], dir);
 		// mlx->player.fov[1] = 0;
 		if (len > 0)
-			len = len * cosf((i * delta_dir) * M_PI / 180);
+			len *= cosf((i * delta_dir) * M_PI / 180);
 		// /* ft_ */printf("casting pixel %d, with angle %f, got len %f\n", i, dir * M_PI / 180, len);
 		//put_centre_line(mlx, i + mlx->win_x / 2, len, 0xff0000);
 		if (i != 0)

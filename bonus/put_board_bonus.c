@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_board.c                                        :+:      :+:    :+:   */
+/*   put_board_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:51:02 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:00:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
 int	put_board(t_mlx *mlx)
@@ -29,11 +29,13 @@ int	put_board(t_mlx *mlx)
 	cast_field(mlx, &put_central_line);
 	put2d_minimap(mlx, 10);
 
+	
 	// cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
 	// put2d_ray(mlx, 0xa0b000);
 	// put_grid(mlx);
-
+	
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	put_sprite_on_map(mlx, 5, 10, 0xed80e9);
 	//ft_printf("ccc\n");
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	//ft_printf("the board is put\n");

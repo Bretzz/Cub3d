@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 15:26:47 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:17:48 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 	incr[0] = fabsf(ray[0] - (incr[0]));
 	incr[1] = fabsf(ray[1] - (incr[1]));
 
-	while (mlx->map[(int)ray[1]][(int)ray[0]] != '1')
+	while (mlx->map.mtx[(int)ray[1]][(int)ray[0]] != '1')
 	{
 		//ft_printf("start\n");
 		if ((/* x +  */incr[0]) / fabsf(cosf(angle))
@@ -55,10 +55,10 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 			ray[1] = y + incr[0] / fabsf(cosf(angle)) * fabsf(sinf(angle)) * axis[1];
 			// checks for collisions
 			//ft_printf("low check map[%d, %d]\n", (int)ray[1], (int)ray[0] - 1);
-			if (axis[0] < 0 && ((int)ray[0]) > 0 && mlx->map[(int)ray[1]][(int)ray[0] - 1] == '1')
+			if (axis[0] < 0 && ((int)ray[0]) > 0 && mlx->map.mtx[(int)ray[1]][(int)ray[0] - 1] == '1')
 				break ;
 			//ft_printf("high\n");
-			if (axis[0] > 0 && ((int)ray[0]) < mlx->map_dim[0] && mlx->map[(int)ray[1]][((int)ray[0])] == '1')
+			if (axis[0] > 0 && ((int)ray[0]) < mlx->map.stats[0] && mlx->map.mtx[(int)ray[1]][((int)ray[0])] == '1')
 				break ;
 			// modify incr[0]
 			incr[0] += 1;
@@ -70,16 +70,16 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 			ray[0] = x + incr[1] / fabsf(sinf(angle)) * fabsf(cosf(angle)) * axis[0];
 			ray[1] = y + incr[1] * axis[1];
 			// checks for collisions
-			if (axis[1] < 0 && ((int)ray[1]) > 0 && mlx->map[((int)ray[1]) - 1][(int)ray[0]] == '1')
+			if (axis[1] < 0 && ((int)ray[1]) > 0 && mlx->map.mtx[((int)ray[1]) - 1][(int)ray[0]] == '1')
 				break ;
-			if (axis[1] > 0 && ((int)ray[1]) < mlx->map_dim[1] && mlx->map[(int)ray[1]][((int)ray[0])] == '1')
+			if (axis[1] > 0 && ((int)ray[1]) < mlx->map.stats[1] && mlx->map.mtx[(int)ray[1]][((int)ray[0])] == '1')
 				break ;
 			// modify incr[1]
 			incr[1] += 1;
 		}
 		// /* ft_ */printf("RAY: [%f, %f]\n", ray[0], ray[1]);
-		if (ray[0] < 0 || ray[0] >= mlx->map_dim[0]
-			|| ray[1] < 0 || ray[1] >= mlx->map_dim[1])
+		if (ray[0] < 0 || ray[0] >= mlx->map.stats[0]
+			|| ray[1] < 0 || ray[1] >= mlx->map.stats[1])
 			return (-1);	//flag it big
 		//ft_printf("end\n");
 	}

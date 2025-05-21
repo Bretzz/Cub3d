@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put2d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:37:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:18:06 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 	size_t	j;
 
 	i = 0;
-	while (mlx->map[i] != NULL)
+	while (mlx->map.mtx[i] != NULL)
 	{
 		j = 0;
-		while (mlx->map[i][j] != '\0')
+		while (mlx->map.mtx[i][j] != '\0')
 		{
-			if (mlx->map[i][j] == '1')
+			if (mlx->map.mtx[i][j] == '1')
 				put_square(mlx, side, j * side, i * side, color);
 			j++;
 		}

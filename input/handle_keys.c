@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_keys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 14:59:34 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/20 22:39:02 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,16 @@ int	handle_key_press(int keysym, void *arg)
 		// ft_printf(RESET);
 		return (0);
 	}
-	else if (keysym == XK_Right || keysym == RIGHT)
-		mlx->player.dir[0] += 5;
+	else if ((keysym == XK_Up || keysym == UP)
+		&& mlx->player.dir[1] - 5 >= 0)
+		mlx->player.dir[1] -= 5;
+	else if ((keysym == XK_Down || keysym == DOWN)
+		&& mlx->player.dir[1] + 5 <= 180)
+		mlx->player.dir[1] += 5;
 	else if (keysym == XK_Left || keysym == LEFT)
 		mlx->player.dir[0] -= 5;
+	else if (keysym == XK_Right || keysym == RIGHT)
+		mlx->player.dir[0] += 5;
 	else if (keysym == XK_plus || keysym == PLUS)
 		mlx->frames += 10;
 	else if ((keysym == XK_minus || keysym == MINUS)
