@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 12:46:36 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:16:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-# define DIST_MIN 0.1f
+# define DIST_MIN 0.01f
 
 int	move_player(t_mlx *mlx);
 

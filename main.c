@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:22:53 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:54:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
 	mlx->frames = 21;	// do not insert a multiple of 10
+	mlx->player.sprite_x = 100;
+	mlx->player.sprite_y = 100;
+	mlx->player.sprite = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_front.xpm", &mlx->player.sprite_x, &mlx->player.sprite_y);
+	if (mlx->player.sprite == NULL)
+		return (1);
 	return (0);	
 }
 

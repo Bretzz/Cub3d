@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:35:14 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:54:46 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ typedef struct s_local
 	int		fov[2];		// xvof, yfov
 	float	dir[2];		// 0/360 = west (x), front (y)
 	float	mspeed;
+	int		sprite_x;
+	int		sprite_y;
+	void	*sprite;
 }				t_local;
 
 typedef struct s_map
