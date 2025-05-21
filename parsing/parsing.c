@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:09:10 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:31:53 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	**parse_map(const char *path);
+char	**parsing(const char *path);
 
 // cool stuff
 
@@ -81,7 +81,7 @@ int	is_file_type(const char *file, const char *type)
 }
 
 /* char * ok, 0 error */
-char	**parse_map(const char *path)
+char	**parsing(const char *path)
 {
 	const int	fd = open(path, O_RDONLY);
 	char		**map;
