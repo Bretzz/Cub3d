@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 18:54:53 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:37:28 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@
 // player data
 typedef struct s_local
 {
-	float	pos[2];		// pointer to the lobby's pos
+	float	pos[3];		// pointer to the lobby's pos
 	int		fov[2];		// xvof, yfov
 	float	dir[2];		// 0/360 = west (x), front (y)
 	float	mspeed;

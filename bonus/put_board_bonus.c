@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:32:47 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:29:51 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	put_board(t_mlx *mlx)
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
 
-	// put2d_map(mlx, mlx->map_dim[2], 0xff0000);
-	// put2d_player(mlx, mlx->map_dim[2], 0x0000FF);
+	// put2d_map(mlx, mlx->map.stats[2], 0xff0000);
+	// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
 	// cast_field(mlx, &put2d_ray);
 
 	put_sky_floor(mlx);

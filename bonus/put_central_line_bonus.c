@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:17:16 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:32:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:39:28 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	put_central_line(void *my_struct, int x, float len, unsigned int color)
 {
 	t_mlx	*const	mlx = (t_mlx *)my_struct;
-	const int		mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
+	const int		mid_line =/*  mlx->player.pos[2] +  */cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
 	int				heigth;
 	int				y;
 	char			up_dw[2];

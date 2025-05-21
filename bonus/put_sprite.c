@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 16:18:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:35:59 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	put_sprite_on_map(t_mlx *mlx, float x, float y, unsigned int color)
 	|| sprite_dir > mlx->player.dir[0] + (mlx->player.fov[0] / 2))
 		return (1);
 	// obstacle check
+	// ft_printf("casting sprite ray... ");
 	cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
+	// ft_printf("done\n");
 	my_dist = sqrt(pow(x - my_pos[0], 2) + pow(y - my_pos[1], 2));
 	// ft_printf("sprint inside the fov\n");
 	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
@@ -64,7 +66,9 @@ int	put_sprite_on_map(t_mlx *mlx, float x, float y, unsigned int color)
 	int x_screen = (mlx->win_x / 2) + (sprite_dir - mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
 	// /* ft_ */printf("sprite on x_screen %d, diff dir %f\n", x_screen, (sprite_dir - mlx->player.dir[0]));
 	// put_square(mlx, 10, x_screen, mlx->win_y / 2, color);
+	// ft_printf("putting sprite... ");
 	put_sprite(mlx, x_screen, mid_line, ((mlx->win_x / 2) / mlx->player.sprite_y) / my_dist);
+	// ft_printf("done\n");
 	(void)color;
 	return (0);
 }

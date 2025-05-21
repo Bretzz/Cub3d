@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_sky_floor_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:54:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:25:49 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:39:23 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* update the color */
 int	put_sky_floor(t_mlx *mlx)
 {
-	const int		mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
+	const int		mid_line =/*  mlx->player.pos[2] +  */cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
 	int			pixel[2];
 
 	pixel[1] = 0;
