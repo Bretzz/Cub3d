@@ -54,8 +54,9 @@ SRC_FILES		= main.c \
 				cast_ray.c \
 				cast_field.c \
 				\
-				put_board.c \
 				my_pixel_put.c \
+				get_pixel_color.c \
+				put_board.c \
 				put_line.c \
 				put_central_line.c \
 				put_sky_floor.c \

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 20:37:28 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:39:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,52 +136,54 @@ typedef struct s_mlx
 
 /* ============ GAME ============= */
 
-int		move_player(t_mlx *mlx);
-int		move_mouse(t_mlx *mlx);
+int				move_player(t_mlx *mlx);
+int				move_mouse(t_mlx *mlx);
 
-int 	update_frame(void *arg);
+int 			update_frame(void *arg);
 
-int		handle_key_press(int keysym, void *arg);
-int		handle_key_release(int keysym, void *arg);
-int		handle_mouse(int keysym, int x, int y, t_mlx *mlx);
-int		leave_notify_handler(t_mlx *mlx);
-int		enter_notify_handler(t_mlx *mlx);
+int				handle_key_press(int keysym, void *arg);
+int				handle_key_release(int keysym, void *arg);
+int				handle_mouse(int keysym, int x, int y, t_mlx *mlx);
+int				leave_notify_handler(t_mlx *mlx);
+int				enter_notify_handler(t_mlx *mlx);
 
-int 	clean_exit(t_mlx *mlx);
+int 			clean_exit(t_mlx *mlx);
 
 /* ========== GRAPHICS ========== */
 
-float 	normalize_dir(float angle);
-float	cast_ray(t_mlx *mlx, float x, float y, float dir);
-int		cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int));
+float 			normalize_dir(float angle);
+float			cast_ray(t_mlx *mlx, float x, float y, float dir);
+int				cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int));
 
-int		put_board(t_mlx *mlx);
-void	my_pixel_put(void *my_struct, int x, int y, unsigned int color);
-int		put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
-int		put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
-int		put_central_line(void *my_struct, int x, float len, unsigned int color);
-int		put_sky_floor(t_mlx *mlx);
+void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
+unsigned int	get_pixel_color(void *sprite, int x, int y);
 
-int		put2d_map(t_mlx *mlx, int side, unsigned int color);
-int		put2d_player(t_mlx *mlx, int side, unsigned int color);
-int		put2d_ray(void *my_struct, int side, float null2, unsigned int color);
-int		put2d_minimap(t_mlx *mlx, size_t side);
+int				put_board(t_mlx *mlx);
+int				put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
+int				put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
+int				put_central_line(void *my_struct, int x, float len, unsigned int color);
+int				put_sky_floor(t_mlx *mlx);
+
+int				put2d_map(t_mlx *mlx, int side, unsigned int color);
+int				put2d_player(t_mlx *mlx, int side, unsigned int color);
+int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
+int				put2d_minimap(t_mlx *mlx, size_t side);
 
 /* =========== PARSING =========== */
 
-char	**parsing(const char *path);
-int		get_map_stats(const char **map, int win_x, int win_y, int *buff);
+char			**parsing(const char *path);
+int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
-int		get_player_stats(char **map, float *pos, float *dir);
+int				get_player_stats(char **map, float *pos, float *dir);
 
 /* ============ UTILS ============= */
 
-char	*trim_back_nl(char *str);
-void	error_msg(char *msg/* , t_data data */);
+char			*trim_back_nl(char *str);
+void			error_msg(char *msg/* , t_data data */);
 
 
 /* ============ DEBUG ============= */
 
-void	print_map(char **map);
+void			print_map(char **map);
 
 #endif
