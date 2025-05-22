@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_keys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 22:08:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:20:42 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ int	handle_key_press(int keysym, void *arg)
 		clean_exit(mlx);
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
-	{
 		mlx->jump_key[0] = 1;
-		// if (mlx->player.pos[2] <= 17)
-		// 	mlx->player.pos[2] += 2;
+	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
+		mlx->player.mspeed *= 2.0f;
+	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
+	{
+		mlx->player.pos[2] -= 0.5f;
+		mlx->player.jheigth = 3;
+		mlx->player.jspeed -= 35;
 	}
 	else if ((keysym == XK_Up || keysym == UP)
 		&& mlx->player.dir[1] - 5 >= 0)
@@ -61,6 +65,7 @@ int	handle_key_press(int keysym, void *arg)
 		ft_printf("Key Pressed: %i\n", keysym);
 	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
+	// ft_printf("dir[%f, %f]\n", mlx->player.dir[0], mlx->player.dir[1]);
 	return (0);
 }
 
@@ -70,6 +75,14 @@ int	handle_key_release(int keysym, void *arg)
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->jump_key[0] = 0;
+	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
+		mlx->player.mspeed /= 2.0f;
+	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
+	{
+		mlx->player.pos[2] += 0.5f;
+		mlx->player.jheigth = 17;
+		mlx->player.jspeed += 35;
+	}
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 0;
 	else if (keysym == XK_s || keysym == S_KEY)

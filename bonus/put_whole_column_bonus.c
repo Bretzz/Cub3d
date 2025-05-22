@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 21:17:44 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:50:35 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 {
 	t_mlx	*const	mlx = (t_mlx *)my_struct;
-	const int		mid_line =/*  mlx->player.pos[2] +  */cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
+	const int		mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
 	int				heigth;
 	int				y;
 
 	if (len < 0)
 		heigth = 0;
 	else if (len == 0)
-		heigth = mlx->win_y / 2;
+		heigth = mlx->win_y;
 	else
-		heigth = (mlx->win_x / 2) / len;	// dim 0?
-
-	heigth *= 2;
+		heigth = mlx->win_x / len;	// dim 0?
 	int		z = heigth / (mlx->player.pos[2]);	// 1 -> 2 slide, 2 -> 17 jump
 	int		cw = z;
 	int		tw = heigth - z;

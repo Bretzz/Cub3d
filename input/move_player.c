@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 12:33:52 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:43:03 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static float	y_cropped(t_mlx *mlx, float old_x, float new_y)
 
 static int	move_lx_rx(t_mlx *mlx, float mspeed)
 {
-	const float	x_diff = mspeed * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
-	const float	y_diff = mspeed * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
+	const float	x_diff = mspeed * DIST_MIN * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
+	const float	y_diff = mspeed * DIST_MIN * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
 	float		new_pos[2];
 	int			moved[2];
 
@@ -74,8 +74,8 @@ static int	move_lx_rx(t_mlx *mlx, float mspeed)
 
 static int	move_up_dw(t_mlx *mlx, float mspeed)
 {
-	const float	x_diff = mspeed * cosf(mlx->player.dir[0] * M_PI / 180);
-	const float	y_diff = mspeed * sinf(mlx->player.dir[0] * M_PI / 180);
+	const float	x_diff = mspeed * DIST_MIN * cosf(mlx->player.dir[0] * M_PI / 180);
+	const float	y_diff = mspeed * DIST_MIN * sinf(mlx->player.dir[0] * M_PI / 180);
 	float		new_pos[2];
 	int			moved[2];
 

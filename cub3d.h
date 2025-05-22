@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 21:38:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:06:36 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 #  define S_KEY 1
 #  define D_KEY 2
 #  define SPACE 49
+#  define LSHIFT 257
+#  define LALT 261
 #  define PLUS 24
 #  define MINUS 27
 #  define ESC_KEY 53
@@ -67,6 +69,8 @@
 #  define S_KEY 's'
 #  define D_KEY 'd'
 #  define SPACE ' '
+#  define LSHIFT
+#  define LALT
 #  define PLUS 61
 #  define MINUS 45
 #  define ESC_KEY 65367

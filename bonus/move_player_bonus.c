@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 22:11:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:20:28 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,11 @@ int	move_player(t_mlx *mlx)
 		mlx->jump_key[1] = 1;
 	if (mlx->player.pos[2] >= mlx->player.jheigth)
 		mlx->jump_key[1] = 2;
-	if (mlx->player.pos[2] <= (2/*  + mlx->player.jspeed */) && mlx->jump_key[1] == 2)
+	if (mlx->player.pos[2] <= 2 && mlx->jump_key[1] == 2)
+	{
+		// mlx->player.pos[2] = 2;
 		mlx->jump_key[1] = 0;
+	}
 	
 	if (mlx->jump_key[1] == 1)
 	{

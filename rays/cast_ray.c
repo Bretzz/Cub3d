@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 15:13:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:42:17 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 // Normalize the direction to stay within the range [-180, 180]
 float normalize_dir(float dir)
 {
-	if (dir < -180)
+	// if (dir < 0)
+	// 	return (360 - dir);
+	// if (dir >= 360)
+	// 	return (dir - 360);
+	if (dir <= -180)
 		return (180 - (-dir - 180));
 	else if (dir > 180)
 		return (-180 + (dir - 180));
