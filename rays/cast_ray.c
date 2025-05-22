@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 16:05:39 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:02:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 	int				axis[2];
 
 	mlx->ray.len = -1;
-	mlx->ray.face = 'W';
+	mlx->ray.face = 'V';
 
 	ray[0] = x;
 	ray[1] = y;
@@ -52,21 +52,22 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		if ((/* x +  */incr[0]) / fabsf(cosf(angle))
 			< (/* y +  */incr[1]) / fabsf(sinf(angle)))
 		{
-			//ft_printf("X\n");
-			// move trough x ('N', 'S')
-			ray[0] = x + incr[0] * axis[0];
+			if (mlx->player.sprite_x > 32) {ft_printf("X\n");}
+			// move trough x ('E', 'W')
+			// ray[0] = x + incr[0] * axis[0];
+			ray[0] = axis[0] > 0 ? (int)x + (int)incr[0] + 1 : (int)x - (int)incr[0];
 			ray[1] = y + incr[0] / fabsf(cosf(angle)) * fabsf(sinf(angle)) * axis[1];
 			// checks for collisions
 			//ft_printf("low check map[%d, %d]\n", (int)ray[1], (int)ray[0] - 1);
 			if (axis[0] < 0 && ((int)ray[0]) > 0 && mlx->map.mtx[(int)ray[1]][(int)ray[0] - 1] == '1')
 			{
-				mlx->ray.face = 'S';
+				mlx->ray.face = 'E';
 				break ;
 			}
 			//ft_printf("high\n");
-			if (axis[0] > 0 && ((int)ray[0]) < mlx->map.stats[0] && mlx->map.mtx[(int)ray[1]][((int)ray[0])] == '1')
+			if (axis[0] > 0 && ((int)ray[0]) < (int)ft_strlen(mlx->map.mtx[(int)ray[1]]) && mlx->map.mtx[(int)ray[1]][((int)ray[0])] == '1')
 			{
-				mlx->ray.face = 'N';
+				mlx->ray.face = 'W';
 				break ;
 			}
 			// modify incr[0]
@@ -74,27 +75,28 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		}
 		else
 		{
-			//ft_printf("Y\n");
-			// move trough y ('W', 'E')
+			if (mlx->player.sprite_x > 32) {ft_printf("Y\n");}
+			// move trough y ('N', 'S')
 			ray[0] = x + incr[1] / fabsf(sinf(angle)) * fabsf(cosf(angle)) * axis[0];
-			ray[1] = y + incr[1] * axis[1];
+			ray[1] = axis[1] > 0 ? (int)y + (int)incr[1] + 1 : (int)y - (int)incr[1];
+			// ray[1] = y + incr[1] * axis[1];
 			// checks for collisions
 			if (axis[1] < 0 && ((int)ray[1]) > 0 && mlx->map.mtx[((int)ray[1]) - 1][(int)ray[0]] == '1')
 			{
-				mlx->ray.face = 'E';
+				mlx->ray.face = 'S';
 				break ;
 			}
 			if (axis[1] > 0 && ((int)ray[1]) < mlx->map.stats[1] && mlx->map.mtx[(int)ray[1]][((int)ray[0])] == '1')
 			{
-				mlx->ray.face = 'W';
+				mlx->ray.face = 'N';
 				break ;
 			}
 			// modify incr[1]
 			incr[1] += 1;
 		}
-		// /* ft_ */printf("RAY: [%f, %f]\n", ray[0], ray[1]);
-		if (ray[0] < 0 || ray[0] >= mlx->map.stats[0]
-			|| ray[1] < 0 || ray[1] >= mlx->map.stats[1])
+		if (mlx->player.sprite_x > 32) {/* ft_ */printf("RAY: [%f, %f]\n", ray[0], ray[1]);}
+		if (ray[1] < 0 || ray[1] >= mlx->map.stats[1]
+			|| ray[0] < 0 || ray[0] >= (int)ft_strlen(mlx->map.mtx[(int)ray[1]]))
 			return (mlx->ray.len);	//flag it big
 		//ft_printf("end\n");
 	}
@@ -103,7 +105,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 	// just lame second return
 	
 	//ft_printf("copy ok\n");
-	// /* ft_ */printf("============= CONTACT: [%f, %f] ============= \n", ray[0], ray[1]);
+	if (mlx->player.sprite_x > 32) {/* ft_ */printf("============= %c: [%f, %f] ============= \n", mlx->ray.face, ray[0], ray[1]);}
 	// ft_printf("player (%f, %f)\n", x, y);
 	// printf("%f\n", ray[0] - x);
 	// printf("%f\n", ray[1] - y);

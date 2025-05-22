@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 18:58:17 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:41:29 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.sprite = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_front.xpm", &mlx->player.sprite_x, &mlx->player.sprite_y);
 	if (mlx->player.sprite == NULL)
 		return (1);
+	ft_printf("got sprite of size [%d,%d]\n", mlx->player.sprite_x, mlx->player.sprite_y);
 	return (0);	
 }
 

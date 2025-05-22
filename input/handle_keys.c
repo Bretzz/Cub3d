@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:20:00 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:37:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	handle_key_press(int keysym, void *arg)
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
 	{
+		mlx->player.pos[2] += 10;
 		// ft_printf(BLUE"== = = == == =\n");
 		// ft_printf("status: ");
 		// if (*mlx->index == HOST)

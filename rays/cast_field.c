@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:32:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:30:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 		{
 			len *= cosf((i * delta_dir) * M_PI / 180);
 			if (i != 0)
+				// (*func)(mlx, mlx->map.stats[2], len, 0xa0b0c0);
 				(*func)(mlx, i + mlx->win_x / 2, len, 0xa0b0c0);
 			else	//central ray
 				(*func)(mlx, i + mlx->win_x / 2, len, 0xa0bff);
