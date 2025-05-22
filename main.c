@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 22:07:27 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:32:14 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
 	mlx->player.mspeed = 10.0f;
-	mlx->player.jspeed = 182.0f;
+	mlx->player.jspeed = 182.0f;	// don't go below 100
 	mlx->player.jheigth = 17;
 	mlx->map.mtx = parsing(argv[1]);
 	if (mlx->map.mtx == NULL)
