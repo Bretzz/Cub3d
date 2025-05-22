@@ -58,8 +58,7 @@ SRC_FILES		= main.c \
 				get_pixel_color.c \
 				put_board.c \
 				put_line.c \
-				put_central_line.c \
-				put_sky_floor.c \
+				put_whole_column.c \
 				put2d.c \
 				\
 				parsing.c \
@@ -78,7 +77,7 @@ SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 #B_SRCS_DIR		= bonus/
 B_SRC_FILES		= move_player_bonus.c move_mouse_bonus.c \
 				put_board_bonus.c \
-				put_central_line_bonus.c put_sky_floor_bonus.c \
+				put_whole_column_bonus.c \
 				put_sprite.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)

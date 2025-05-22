@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 10:39:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:38:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct s_local
 	int		fov[2];		// xvof, yfov
 	float	dir[2];		// 0/360 = west (x), front (y)
 	float	mspeed;
+	float	jspeed;
+	int		jheigth;
 	int		sprite_x;
 	int		sprite_y;
 	void	*sprite;
@@ -127,6 +129,7 @@ typedef struct s_mlx
 	t_local			player;
 	int				key_up_dw[2];
 	int				key_lx_rx[2];
+	int				jump_key[2];	// check for jump key
 	int				mouse[2];
 	char			on_window;
 	int				frames;
@@ -159,10 +162,9 @@ void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 unsigned int	get_pixel_color(void *sprite, int x, int y);
 
 int				put_board(t_mlx *mlx);
-int				put_square(t_mlx *mlx, size_t side, int x, int y, unsigned int color);
+int				put_square(t_mlx *mlx, size_t side, int *origin, unsigned int color);
 int				put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
-int				put_central_line(void *my_struct, int x, float len, unsigned int color);
-int				put_sky_floor(t_mlx *mlx);
+int				put_whole_column(void *my_struct, int x, float len, unsigned int color);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
 int				put2d_player(t_mlx *mlx, int side, unsigned int color);

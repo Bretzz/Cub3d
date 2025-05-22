@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:41:29 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:07:27 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
-	mlx->player.mspeed = 0.1f;
+	mlx->player.mspeed = 10.0f;
+	mlx->player.jspeed = 182.0f;
+	mlx->player.jheigth = 17;
 	mlx->map.mtx = parsing(argv[1]);
 	if (mlx->map.mtx == NULL)
 		return (1);
@@ -82,6 +84,8 @@ int main(int argc, char *argv[])
 
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
+
+	ft_printf("SOMETIMES CRASHES NEAR THE BIG ORIZON\n");
 
 	mlx_loop(mlx.mlx);
 }

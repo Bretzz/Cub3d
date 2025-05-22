@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 20:37:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:08:49 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,17 @@
 
 int	handle_key_press(int keysym, void *arg)
 {
-	t_mlx	*const mlx = (t_mlx *)arg;
-	// char	buffer[92];
+	t_mlx *const	mlx = (t_mlx *)arg;
 
 	if (keysym == XK_Escape || keysym == ESC_KEY)
 	{
-		// ft_printf("buffer is '%s'\n", buffer);
 		clean_exit(mlx);
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
 	{
-		mlx->player.pos[2] += 10;
-		// ft_printf(BLUE"== = = == == =\n");
-		// ft_printf("status: ");
-		// if (*mlx->index == HOST)
-		// 	ft_printf("HOST");
-		// else
-		// 	ft_printf("PLAYER");
-		// ft_printf(", socket %d\n", *mlx->socket);
-		// print_quick_lobby(mlx->lobby);
-		// ft_printf(RESET);
-		return (0);
+		mlx->jump_key[0] = 1;
+		// if (mlx->player.pos[2] <= 17)
+		// 	mlx->player.pos[2] += 2;
 	}
 	else if ((keysym == XK_Up || keysym == UP)
 		&& mlx->player.dir[1] - 5 >= 0)
@@ -47,10 +37,18 @@ int	handle_key_press(int keysym, void *arg)
 	else if (keysym == XK_Right || keysym == RIGHT)
 		mlx->player.dir[0] += 5;
 	else if (keysym == XK_plus || keysym == PLUS)
+	{
 		mlx->frames += 10;
+		mlx->player.mspeed *= 2.0f;
+		mlx->player.jspeed += 35;
+	}
 	else if ((keysym == XK_minus || keysym == MINUS)
 		&& mlx->frames >= 11)
+	{
 		mlx->frames -= 10;
+		mlx->player.mspeed /= 2.0f;
+		mlx->player.jspeed -= 35;
+	}
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 1;
 	else if (keysym == XK_s || keysym == S_KEY)
@@ -61,19 +59,18 @@ int	handle_key_press(int keysym, void *arg)
 		mlx->key_lx_rx[1] = 1;
 	else
 		ft_printf("Key Pressed: %i\n", keysym);
-
 	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
-	// ft_printf("cap %d\n", mlx->frames);
-	// ft_printf("dir[%d,%d]\n", mlx->player.dir[0], mlx->player.dir[1]);
 	return (0);
 }
 
 int	handle_key_release(int keysym, void *arg)
 {
-	t_mlx	*const mlx = (t_mlx *)arg;
+	t_mlx *const	mlx = (t_mlx *)arg;
 
-	if (keysym == XK_w || keysym == W_KEY)
+	if (keysym == XK_KP_Space || keysym == SPACE)
+		mlx->jump_key[0] = 0;
+	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 0;
 	else if (keysym == XK_s || keysym == S_KEY)
 		mlx->key_up_dw[1] = 0;
