@@ -6,7 +6,7 @@
 /*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 18:51:16 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:15:09 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ char	*trim_back_nl(char *str)
 	return (str);
 }
 
-void	error_msg(char *msg/* , t_data data */)
+void	error_msg(char *msg)
 {
-	printf("Error\n");
-	printf("%s\n", msg);
-	/* free_map(&data); */ //chiama funzione per liberare tutto
-	exit(1);
+	write(2, RED, ft_strlen(RED));
+	ft_printfd(2, "Error\n");
+	ft_printfd(2, "%s\n", msg);
+	write(2, RESET, ft_strlen(RESET));
+	//clean_exit(mlx); //chiama funzione per liberare tutto
+	//exit(1);
 }
