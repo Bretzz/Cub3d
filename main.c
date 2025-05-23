@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:41:29 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:00:41 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 {
 	/* (void)argc;(void)argv; */
 	if (argc != 2)
+	{
 		error_msg(ERR_ARGS);
+		exit(1);
+	}
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	if (juice_the_pc(mlx))
 		return (1);
@@ -42,9 +45,10 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
 	mlx->player.mspeed = 0.1f;
-	mlx->map.mtx = parsing(argv[1]);
+	mlx->map.mtx = parsing(argv[1], mlx);
 	if (mlx->map.mtx == NULL)
-		return (1);
+		//return (1);
+		clean_exit(mlx);
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->map.sky = 0xadd8e6;

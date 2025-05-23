@@ -6,13 +6,13 @@
 /*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 18:31:53 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/23 18:14:51 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	**parsing(const char *path);
+char	**parsing(const char *path, t_mlx *mlx);
 
 // cool stuff
 
@@ -50,6 +50,11 @@ static char	**get_map_from_path(const char *path)
 		return (close(fd), NULL);
 	}
 	line = get_next_line(fd);
+	if (line == NULL)
+	{
+		error_msg(ERR_EMPTY_OR_FOLDER);
+		return (close(fd), free(map), NULL);
+	}
 	while (line != NULL)
 	{
 		map = ft_realloc(map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
@@ -75,24 +80,31 @@ int	is_file_type(const char *file, const char *type)
 	i = ft_strlen(file);
 	while (i >= 0 && file[i] != '.')
 		i--;
-	if (ft_strcmp(&file[i], type) != 0)
+	if (ft_strncmp(&file[i], type, 5) != 0)
+	{
+		error_msg(ERR_FORMAT);
 		return (0);
+	}
 	return (1);
 }
 
 /* char * ok, 0 error */
-char	**parsing(const char *path)
+char	**parsing(const char *path, t_mlx *mlx)
 {
-	const int	fd = open(path, O_RDONLY);
+	int	fd;
 	char		**map;
 	int			i;
 
-	if (!is_file_type(path, ".cub"))
-		return (NULL);
-	close(fd);
-	if (fd < 0)
+	if (!is_file_type(path, ".cub"))//wrong file format
+		//return (NULL);
+		clean_exit(mlx);
+	fd = open(path, O_RDONLY);
+	//printf("fd = %d\n", fd);
+	//close(fd);
+	if (fd < 0)//file not found
 	{
-		ft_printfd(2, "Error: cannot open %s\n", path);
+		error_msg(ERR_OPEN);
+		clean_exit(mlx);
 		return (NULL);
 	}
 	map = get_map_from_path(path);
@@ -107,5 +119,6 @@ char	**parsing(const char *path)
 		return (free_mtx((void **)map), NULL);
 	}
 	print_map(map);
+	close(fd);
 	return (map);
 }
