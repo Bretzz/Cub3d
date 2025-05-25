@@ -6,7 +6,7 @@
 /*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/23 18:14:51 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:36:10 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ int	is_file_type(const char *file, const char *type)
 /* char * ok, 0 error */
 char	**parsing(const char *path, t_mlx *mlx)
 {
-	int	fd;
-	char		**map;
-	int			i;
+	int		fd;
+	char	**map;
+	int		i;
+	char	*line;
 
 	if (!is_file_type(path, ".cub"))//wrong file format
 		//return (NULL);
@@ -107,6 +108,22 @@ char	**parsing(const char *path, t_mlx *mlx)
 		clean_exit(mlx);
 		return (NULL);
 	}
+	//check informazioni su muri, pavimento e soffitto
+	line = get_next_line(fd);
+	while (line [0] == '\n') //forse mettere ft_isspace
+		line = get_next_line(fd);
+	if (line == NULL)//empty file
+	{
+		error_msg(ERR_EMPTY_OR_FOLDER);
+		close(fd);
+		return (NULL);
+	}
+	// mettere ciclo che controlla righe informazioni
+	while ()
+	if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
+		|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
+		//chiama funzione per pareti
+	
 	map = get_map_from_path(path);
 	if (map == NULL)
 		return (NULL);

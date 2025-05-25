@@ -30,7 +30,7 @@
 # define ERR_FORMAT "	incorrect file format"
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
-# define ERR_CHAR ": invalid character in map"
+# define ERR_CHAR "	invalid character in map"
 
 # ifndef MLX_WIN_X
 #  define MLX_WIN_X 1000
