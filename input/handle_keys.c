@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/23 01:33:35 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 09:16:07 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ int	handle_key_press(int keysym, void *arg)
 		mlx->jump_key[0] = 1;
 	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
 		mlx->player.mspeed *= 2.0f;
-	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT
-		&& mlx->player.jheigth != 3)	// lame
+	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)	// lame
 	{
-		mlx->player.pos[2] -= 0.5f;
-		mlx->player.jheigth = 3;
-		mlx->player.jspeed -= 35;
+		// mlx->player.pos[2] -= 0.5f;
+		// mlx->player.jheigth = 3;
+		// mlx->player.jspeed -= 35;
 	}
 	else if ((keysym == XK_Up || keysym == UP)
 		&& mlx->player.dir[1] - 5 >= 0)
@@ -80,9 +79,9 @@ int	handle_key_release(int keysym, void *arg)
 		mlx->player.mspeed /= 2.0f;
 	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
 	{
-		mlx->player.pos[2] += 0.5f;
-		mlx->player.jheigth = 17;
-		mlx->player.jspeed += 35;
+		// mlx->player.pos[2] += 0.5f;
+		// mlx->player.jheigth = 17;
+		// mlx->player.jspeed += 35;
 	}
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 0;
