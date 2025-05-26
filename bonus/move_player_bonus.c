@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:33:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 01:20:28 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ static float y_cropped(t_mlx *mlx, float old_x, float new_y)
 
 static int move_lx_rx(t_mlx *mlx, float mspeed)
 {
-	const float	x_diff = mspeed * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
-	const float	y_diff = mspeed * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
+	const float	x_diff = mspeed * DIST_MIN * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
+	const float	y_diff = mspeed * DIST_MIN * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
 	float		new_pos[2];
 	int			moved[2];
-	
+
 	ft_memset(moved, 0, 2 * sizeof(int));
 	ft_memcpy(new_pos, mlx->player.pos, 2 * sizeof(float));
+	// Calculate the new X and Y positions using the player's direction
 	if (mlx->key_lx_rx[1] == 1) {
-		// Calculate the new X and Y positions using the player's direction
 		if (x_diff && ++moved[0])
 			new_pos[0] += x_diff;
 		if (y_diff && ++moved[1])	
@@ -91,15 +91,15 @@ static int move_lx_rx(t_mlx *mlx, float mspeed)
 
 static int move_up_dw(t_mlx *mlx, float mspeed)
 {
-	const float	x_diff = mspeed * cosf(mlx->player.dir[0] * M_PI / 180);
-	const float	y_diff = mspeed * sinf(mlx->player.dir[0] * M_PI / 180);
+	const float	x_diff = mspeed * DIST_MIN * cosf(mlx->player.dir[0] * M_PI / 180);
+	const float	y_diff = mspeed * DIST_MIN * sinf(mlx->player.dir[0] * M_PI / 180);
 	float		new_pos[2];
 	int			moved[2];
-	
+
 	ft_memset(moved, 0, 2 * sizeof(int));
 	ft_memcpy(new_pos, mlx->player.pos, 2 * sizeof(float));
+	// Calculate the new X and Y positions using the player's direction
 	if (mlx->key_up_dw[1] == 1) {
-		// Calculate the new X and Y positions using the player's direction
 		if (x_diff && ++moved[0])
 			new_pos[0] += x_diff;
 		if (y_diff && ++moved[1])	
@@ -124,6 +124,7 @@ static int move_up_dw(t_mlx *mlx, float mspeed)
 	return (moved[0] + moved[1]);
 }
 
+/* Jump feature by Fre007 */
 /* returns 1->4 if it moved, 0 if it hasn't */
 int	move_player(t_mlx *mlx)
 {
@@ -131,9 +132,29 @@ int	move_player(t_mlx *mlx)
 	int			moved;
 
 	moved = 0;
-	moved += move_lx_rx(mlx, mspeed);
-	moved += move_up_dw(mlx, mspeed);
+	if (mlx->key_lx_rx[0] == 1 || mlx->key_lx_rx[1] == 1)
+		moved += move_lx_rx(mlx, mspeed);
+	if (mlx->key_up_dw[0] == 1 || mlx->key_up_dw[1] == 1)
+		moved += move_up_dw(mlx, mspeed);
 
+	if (mlx->jump_key[0] != 0 && mlx->jump_key[1] == 0)	// pressed space
+		mlx->jump_key[1] = 1;
+	if (mlx->player.pos[2] >= mlx->player.jheigth)
+		mlx->jump_key[1] = 2;
+	if (mlx->player.pos[2] <= 2 && mlx->jump_key[1] == 2)
+	{
+		// mlx->player.pos[2] = 2;
+		mlx->jump_key[1] = 0;
+	}
+	
+	if (mlx->jump_key[1] == 1)
+	{
+		mlx->player.pos[2] *= (DIST_MIN * mlx->player.jspeed)/* (mlx->player.pos[2] * 2)- mlx->player.pos[2] */;
+	}
+	else if (mlx->jump_key[1] == 2)
+	{
+		mlx->player.pos[2] /= (DIST_MIN * mlx->player.jspeed);
+	}
 	if (moved)
 	{
 		// ft_printf("moved player (%f, %f)\n", mlx->player.pos[0], mlx->player.pos[1]);

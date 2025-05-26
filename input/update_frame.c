@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 17:38:10 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:09:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 
-int	get_fps(int frame)
+static int	get_fps(int frame)
 {
 	static struct timeval	old_time;
 	static int				old_frame;
@@ -49,7 +49,7 @@ int update_frame(void *arg)
 	}
 	else
 		usleep(1000);
-	if (frame % (50) == 0)
+	if (frame % (75) == 0) 
 		mlx->fps = get_fps(frame / mlx->frames);
 	return (0);
 }

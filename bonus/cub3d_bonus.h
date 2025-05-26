@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 13:37:39 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:04:51 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "cub3d.h"
 
-int	put_sprite_on_map(t_mlx *mlx, float x, float y, unsigned int color);
+int	put_sprite_on_map(t_mlx *mlx, float x, float y);
 
 #endif

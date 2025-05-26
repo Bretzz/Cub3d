@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:38:15 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 10:38:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:11:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ unsigned int	get_pixel_color(void *sprite, int x, int y)
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-	const void	*addr = mlx_get_data_addr(sprite, &bits_per_pixel, &line_length, &endian);
-	const char	*dst = addr + (y * line_length + x * (bits_per_pixel / sizeof(int *)));
+	const void	*addr = mlx_get_data_addr(sprite,
+			&bits_per_pixel, &line_length, &endian);
+	const char	*dst = addr
+		+ (y * line_length + x * (bits_per_pixel / sizeof(int *)));
+
 	return (*(unsigned int *)dst);
 }

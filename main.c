@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/23 18:00:41 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/26 09:27:40 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
-	mlx->player.mspeed = 0.1f;
-	mlx->map.mtx = parsing(argv[1], mlx);
+	mlx->player.mspeed = 10.0f;
+	mlx->player.jspeed = 182.0f;	// don't go below 100
+	mlx->player.jheigth = 17;
+	mlx->map.mtx = parsing(argv[1]);
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);
@@ -86,6 +88,8 @@ int main(int argc, char *argv[])
 
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
+
+	ft_printf("SOMETIMES CRASHES NEAR THE BIG ORIZON\n");
 
 	mlx_loop(mlx.mlx);
 }

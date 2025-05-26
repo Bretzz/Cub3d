@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_sprite.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 10:50:38 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/23 00:49:51 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ int	put_sprite(t_mlx *mlx, int x_screen, int y_screen, float scale)
 	}
 	return (0);
 }
+/* junky as hell, useful for difference in directions
+that are normalize usually in (-180, 180] in other parts
+of the code */
+float	monoscale_dir(float dir)
+{
+	if (dir <= -90)
+		return (360 + dir);
+	if (dir > 360)
+		return (dir - 360);
+	return (dir);
+}
+
+/* difference in direction after making them comparable. */
+float	dir_diff(float dir1, float dir2)
+{
+	return (monoscale_dir(dir1) - monoscale_dir(dir2));
+}
+
 
 /* (x,y) position of the sprite in the map,
 'len' is the distance from the sprite
@@ -57,16 +75,26 @@ int	put_sprite_on_map(t_mlx *mlx, float x, float y)
 	int			x_screen;
 
 	// visibility check
-	if (sprite_dir < mlx->player.dir[0] - (mlx->player.fov[0] / 2)
-		|| sprite_dir > mlx->player.dir[0] + (mlx->player.fov[0] / 2))
+	if (fabsf(dir_diff(sprite_dir, mlx->player.dir[0])) > mlx->player.fov[0] / 2)
+	{
+		// ft_printf("DIRECTION OUT: %f\n not in %f\n", sprite_dir, mlx->player.dir[0]);
 		return (1);
+	}
 	// obstacle check
 	cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
 	my_dist = sqrt(pow(x - my_pos[0], 2) + pow(y - my_pos[1], 2));
 	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
+	{
+		// ft_printf("OBSTACLE OUT\n");
 		return (1);
+	}
 	// putting sprite
-	x_screen = (mlx->win_x / 2) + (sprite_dir - mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
-	put_sprite(mlx, x_screen, mid_line, ((mlx->win_x / 2) / mlx->player.sprite_y) / my_dist);
+
+	int floor = (mlx->win_x) / my_dist;
+	floor -= floor / (mlx->player.pos[2]);
+	x_screen = (mlx->win_x / 2) + dir_diff(sprite_dir, mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
+
+	// ft_printf("spriting (%d, %d)\n", x_screen, mid_line + floor);
+	put_sprite(mlx, x_screen, mid_line + floor, ((mlx->win_x / 2) / mlx->player.sprite_y) / my_dist);
 	return (0);
 }

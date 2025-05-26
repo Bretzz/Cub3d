@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_hover.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 12:36:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:43:16 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 int	leave_notify_handler(t_mlx *mlx);
 int	enter_notify_handler(t_mlx *mlx);
 
+// make the cursor visible // macOS issues
 int	leave_notify_handler(t_mlx *mlx)
 {
 	mlx->on_window = 0;
-	mlx_mouse_show(mlx->mlx, mlx->win); // make the cursor visible // macOS issues
+	// mlx_mouse_show(mlx->mlx, mlx->win);
 	return (0);
 }
 
+// hide it again // macOS issues
 int	enter_notify_handler(t_mlx *mlx)
 {
 	mlx->on_window = 1;
-	mlx_mouse_hide(mlx->mlx, mlx->win); // hide it again // macOS issues
+	// mlx_mouse_hide(mlx->mlx, mlx->win);
 	return (0);
 }

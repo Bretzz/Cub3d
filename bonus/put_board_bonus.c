@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 19:29:51 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:45:05 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	put_board(t_mlx *mlx)
 	// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
 	// cast_field(mlx, &put2d_ray);
 
-	put_sky_floor(mlx);
-	cast_field(mlx, &put_central_line);
+	// put_sky_floor(mlx);
+	cast_field(mlx, &put_whole_column);
 	put2d_minimap(mlx, 10);
 	
-	put_sprite_on_map(mlx, 5, 10, 0xed80e9);
+	put_sprite_on_map(mlx, 5, 10);
 	// cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
 	// put2d_ray(mlx, 0xa0b000);
 	// put_grid(mlx);

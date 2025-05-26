@@ -6,11 +6,24 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:52:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 20:00:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:10:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int	get_dir(char player_char)
+{
+	if (player_char == 'N')
+		return (90);
+	if (player_char == 'S')
+		return (-90);
+	if (player_char == 'E')
+		return (180);
+	if (player_char == 'W')
+		return (0);
+	return (0);
+}
 
 int	get_player_stats(char **map, float *pos, float *dir)
 {
@@ -35,13 +48,7 @@ int	get_player_stats(char **map, float *pos, float *dir)
 	}
 	pos[0] = j + 0.5f;
 	pos[1] = i + 0.5f;
-	if (map[i][j] == 'N')
-		dir[0] = 90;
-	if (map[i][j] == 'S')
-		dir[0] = -90;
-	if (map[i][j] == 'E')
-		dir[0] = 180;
-	if (map[i][j] == 'W')
-		dir[0] = 0;
+	pos[2] = 2;
+	dir[0] = get_dir(map[i][j]);
 	return (0);
 }
