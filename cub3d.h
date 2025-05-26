@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 09:27:15 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:40:36 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 # define ERR_CHAR ": invalid character in map"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
+#  define MLX_WIN_X 1440
 # endif
 # ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1000
+#  define MLX_WIN_Y 900
 # endif
 
 # include <X11/X.h>
@@ -88,9 +88,10 @@ typedef struct s_local
 	float	pos[3];		// pointer to the lobby's pos
 	int		fov[2];		// xvof, yfov
 	float	dir[2];		// 0/360 = west (x), front (y)
-	float	mspeed;
-	float	jspeed;
-	int		jheigth;
+	float	speed[3];
+	float	tspeed[2];	// top speed (x,y), z
+	float	jheigth;	// maximum jump heigth
+	float	friction;	// multiplier of the x_diff and y_diff
 	int		sprite_x;
 	int		sprite_y;
 	void	*sprite;
@@ -133,7 +134,7 @@ typedef struct s_mlx
 	t_local			player;
 	int				key_up_dw[2];
 	int				key_lx_rx[2];
-	int				jump_key[2];	// check for jump key
+	int				key_jump_slide[2];
 	int				mouse[2];
 	char			on_window;
 	int				frames;

@@ -6,118 +6,161 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 22:43:03 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:42:05 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 #define DIST_MIN 0.01f
+#define	SPEED_DELTA 0.05f
 
 int	move_player(t_mlx *mlx);
 
-/* returns the 'legal' value of the 'new_x' based on map limitations */
-static float	x_cropped(t_mlx *mlx, float old_y, float new_x)
+/* return the 'legal' value of speed */
+float	speed_bound(t_mlx *mlx, float speed)
 {
-	const int	x_max = ft_strlen(mlx->map.mtx[(int)old_y]);
-
-	if (new_x < 0)
-		return (DIST_MIN);
-	if (new_x > x_max)
-		return (x_max - DIST_MIN);
-	return (new_x);
+	if (speed > 0 && speed > mlx->player.tspeed[0])
+		return (mlx->player.tspeed[0]);
+	if (speed < 0 && speed < -mlx->player.tspeed[0])
+		return (-mlx->player.tspeed[0]);
+	return (speed);
 }
 
-/* returns the 'legal' value of the 'new_y' based on map limitations */
-static float	y_cropped(t_mlx *mlx, float old_x, float new_y)
+/* moves 'speed' towords 0 of 'diff' increments */
+static float crunch_speed_diff(float speed, float diff, float friction)
 {
-	const int	y_max = mlx->map.stats[1];
+	float	new_speed;
 
-	(void)old_x;
-	if (new_y < 0)
-		return (DIST_MIN);
-	if (new_y > y_max)
-		return (y_max - DIST_MIN);
-	return (new_y);
+	if (speed == 0)
+		return (0);
+	diff = fabsf(diff) * friction;
+	new_speed = speed;
+	if (speed > 0)
+		new_speed -= diff;
+	else
+		new_speed += diff;
+	if (speed > 0 && new_speed < 0)
+		return (0);
+	if (speed < 0 && new_speed > 0)
+		return (0);
+	return (new_speed);
 }
 
-static int	move_lx_rx(t_mlx *mlx, float mspeed)
+/* changes the speed[3] vector based of the keys
+pressed:
+	A: increses based on angle
+	D: increses based on angle
+	-: decreses based on angle */
+static int	speed_lx_rx(t_mlx *mlx)
 {
-	const float	x_diff = mspeed * DIST_MIN * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
-	const float	y_diff = mspeed * DIST_MIN * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
-	float		new_pos[2];
-	int			moved[2];
+	const float	x_diff = SPEED_DELTA * cosf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
+	const float	y_diff = SPEED_DELTA * sinf((mlx->player.dir[0] * M_PI / 180) - M_PI_2);
 
-	ft_memset(moved, 0, 2 * sizeof(int));
-	ft_memcpy(new_pos, mlx->player.pos, 2 * sizeof(float));
-	// Calculate the new X and Y positions using the player's direction
-	if (mlx->key_lx_rx[1] == 1) {
-		if (x_diff && ++moved[0])
-			new_pos[0] += x_diff;
-		if (y_diff && ++moved[1])	
-			new_pos[1] += y_diff;
+	if (mlx->key_lx_rx[0] == 1)
+	{
+		mlx->player.speed[0] -= x_diff;
+		mlx->player.speed[1] -= y_diff;
 	}
-	// Move backward (decrease position in direction opposite to the player's facing)
-	if (mlx->key_lx_rx[0] == 1) {
-		if (x_diff && ++moved[0])
-			new_pos[0] -= x_diff;
-		if (y_diff && ++moved[1])	
-			new_pos[1] -= y_diff;
+	if (mlx->key_lx_rx[1] == 1)
+	{
+		mlx->player.speed[0] += x_diff;
+		mlx->player.speed[1] += y_diff;
 	}
-	// check movement validity
-	if (moved[1] != 0)
-		mlx->player.pos[1] = y_cropped(mlx, mlx->player.pos[0], new_pos[1]);
-	if (moved[0] != 0)
-		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
-	return (moved[0] + moved[1]);
+	if (mlx->key_lx_rx[0] == 0 && mlx->key_lx_rx[1] == 0)
+	{
+		mlx->player.speed[0] = crunch_speed_diff(mlx->player.speed[0], x_diff, mlx->player.friction);
+		mlx->player.speed[1] = crunch_speed_diff(mlx->player.speed[1], y_diff, mlx->player.friction);
+	}
+
+	mlx->player.speed[0] = speed_bound(mlx, mlx->player.speed[0]);
+	mlx->player.speed[1] = speed_bound(mlx, mlx->player.speed[1]);
+
+	// ft_printf("lx_rx new vector: (%f, %f, %f)\n", mlx->player.speed[0],  mlx->player.speed[1], mlx->player.speed[2]);
+	return (0);
 }
 
-static int	move_up_dw(t_mlx *mlx, float mspeed)
+/* changes the speed[3] vector based of the keys
+pressed:
+	A: increses based on angle
+	D: increses based on angle
+	-: decreses based on angle */
+static int	speed_up_dw(t_mlx *mlx)
 {
-	const float	x_diff = mspeed * DIST_MIN * cosf(mlx->player.dir[0] * M_PI / 180);
-	const float	y_diff = mspeed * DIST_MIN * sinf(mlx->player.dir[0] * M_PI / 180);
-	float		new_pos[2];
-	int			moved[2];
+	const float	x_diff = SPEED_DELTA * cosf(mlx->player.dir[0] * M_PI / 180);
+	const float	y_diff = SPEED_DELTA * sinf(mlx->player.dir[0] * M_PI / 180);
 
-	ft_memset(moved, 0, 2 * sizeof(int));
-	ft_memcpy(new_pos, mlx->player.pos, 2 * sizeof(float));
-	// Calculate the new X and Y positions using the player's direction
-	if (mlx->key_up_dw[1] == 1) {
-		if (x_diff && ++moved[0])
-			new_pos[0] += x_diff;
-		if (y_diff && ++moved[1])	
-			new_pos[1] += y_diff;
+	if (mlx->key_up_dw[0] == 1)
+	{
+		mlx->player.speed[0] -= x_diff;
+		mlx->player.speed[1] -= y_diff;
 	}
-	// Move backward (decrease position in direction opposite to the player's facing)
-	if (mlx->key_up_dw[0] == 1) {
-		if (x_diff && ++moved[0])
-			new_pos[0] -= x_diff;
-		if (y_diff && ++moved[1])	
-			new_pos[1] -= y_diff;
+	if (mlx->key_up_dw[1] == 1)
+	{
+		mlx->player.speed[0] += x_diff;
+		mlx->player.speed[1] += y_diff;
 	}
-	// check movement validity
-	if (moved[1] != 0)
-		mlx->player.pos[1] = y_cropped(mlx, mlx->player.pos[0], new_pos[1]);
-	if (moved[0] != 0)
-		mlx->player.pos[0] = x_cropped(mlx, mlx->player.pos[1], new_pos[0]);
-	return (moved[0] + moved[1]);
+	if (mlx->key_up_dw[0] == 0 && mlx->key_up_dw[1] == 0)
+	{
+		mlx->player.speed[0] = crunch_speed_diff(mlx->player.speed[0], x_diff, mlx->player.friction);
+		mlx->player.speed[1] = crunch_speed_diff(mlx->player.speed[1], y_diff, mlx->player.friction);
+	}
+
+	mlx->player.speed[0] = speed_bound(mlx, mlx->player.speed[0]);
+	mlx->player.speed[1] = speed_bound(mlx, mlx->player.speed[1]);
+
+	// ft_printf("up_dw new vector: (%f, %f, %f)\n", mlx->player.speed[0],  mlx->player.speed[1], mlx->player.speed[2]);
+	return (0);
+}
+
+/* moves the player (.pos) based on the speed (.speed) */
+int	move_and_slide(t_local *player, t_map map)
+{
+	const int	x_max = ft_strlen(map.mtx[(int)player->pos[1]]);
+
+	// x-limits [0, map-size]
+	if (player->pos[0] + player->speed[0] > x_max)
+	{
+		player->pos[0] = x_max - DIST_MIN;
+		player->speed[0] = 0;
+	}
+	else if (player->pos[0] + player->speed[0] < 0)
+	{
+		player->pos[0] = 0 + DIST_MIN;
+		player->speed[0] = 0;
+	}
+	else
+		player->pos[0] += player->speed[0];
+
+	// y-limits [0, map-size]
+	if (player->pos[1] + player->speed[1] > map.stats[1])
+	{
+		player->pos[1] = map.stats[1] - DIST_MIN;
+		player->speed[1] = 0;
+	}
+	else if (player->pos[1] + player->speed[1] < 0)
+	{
+		player->pos[1] = 0 + DIST_MIN;
+		player->speed[1] = 0;
+	}
+	else
+		player->pos[1] += player->speed[1];
+	return (0);
 }
 
 /* returns 1->4 if it moved, 0 if it hasn't */
+/* check the corresponding key switch:
+	== 1: increase speed vector up to max-speed
+	== 0: decrerase speed vector down to zero
+check the correspondig dir vector:
+	!= 0: move of that value,
+	== 0: do nothing. */
 int	move_player(t_mlx *mlx)
 {
-	const float mspeed = mlx->player.mspeed;
-	int			moved;
-
-	moved = 0;
-	if (mlx->key_lx_rx[0] == 1 || mlx->key_lx_rx[1] == 1)
-		moved += move_lx_rx(mlx, mspeed);
-	if (mlx->key_up_dw[0] == 1 || mlx->key_up_dw[1] == 1)
-		moved += move_up_dw(mlx, mspeed);
-	if (moved)
-	{
-		//ft_printf("moved player (%f, %f)\n", mlx->player.pos[0], mlx->player.pos[1]);
-		return (1);
-	}
+	speed_lx_rx(mlx);
+	speed_up_dw(mlx);
+	// /* ft_ */printf("diff[%f, %f, %f, %f]\n", diff[0], diff[1], diff[2], diff[3]);
+	move_and_slide(&mlx->player, mlx->map);
+	// other_forces(mlx, diff);
 	return (0);
 }

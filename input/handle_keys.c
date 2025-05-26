@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 09:16:07 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:46:35 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,11 @@ int	handle_key_press(int keysym, void *arg)
 		clean_exit(mlx);
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
-		mlx->jump_key[0] = 1;
+		mlx->key_jump_slide[0] = 1;
+	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
+		mlx->key_jump_slide[1] = 1;
 	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
-		mlx->player.mspeed *= 2.0f;
-	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)	// lame
-	{
-		// mlx->player.pos[2] -= 0.5f;
-		// mlx->player.jheigth = 3;
-		// mlx->player.jspeed -= 35;
-	}
+		/* mlx->player.mspeed *= 2.0f */;
 	else if ((keysym == XK_Up || keysym == UP)
 		&& mlx->player.dir[1] - 5 >= 0)
 		mlx->player.dir[1] -= 5;
@@ -43,15 +39,17 @@ int	handle_key_press(int keysym, void *arg)
 	else if (keysym == XK_plus || keysym == PLUS)
 	{
 		mlx->frames += 10;
-		mlx->player.mspeed *= 2.0f;
-		mlx->player.jspeed += 35;
+		mlx->player.tspeed[0] += 0.2f;
+		mlx->player.friction += 0.46f;
+		// mlx->player.jspeed += 35;
 	}
 	else if ((keysym == XK_minus || keysym == MINUS)
 		&& mlx->frames >= 11)
 	{
 		mlx->frames -= 10;
-		mlx->player.mspeed /= 2.0f;
-		mlx->player.jspeed -= 35;
+		mlx->player.tspeed[0] -= 0.2f;
+		mlx->player.friction -= 0.46f;	// not >= 0.5f
+		// mlx->player.jspeed -= 35;
 	}
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 1;
@@ -74,15 +72,16 @@ int	handle_key_release(int keysym, void *arg)
 	t_mlx *const	mlx = (t_mlx *)arg;
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
-		mlx->jump_key[0] = 0;
-	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
-		mlx->player.mspeed /= 2.0f;
+		mlx->key_jump_slide[0] = 0;
 	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
 	{
+		mlx->key_jump_slide[1] = 0;
 		// mlx->player.pos[2] += 0.5f;
 		// mlx->player.jheigth = 17;
 		// mlx->player.jspeed += 35;
 	}
+	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
+		/* mlx->player.mspeed /= 2.0f */;
 	else if (keysym == XK_w || keysym == W_KEY)
 		mlx->key_up_dw[0] = 0;
 	else if (keysym == XK_s || keysym == S_KEY)
