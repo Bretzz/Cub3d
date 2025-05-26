@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_player_stats.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:52:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 21:10:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/26 23:21:27 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	get_player_stats(char **map, float *pos, float *dir)
 	}
 	pos[0] = j + 0.5f;
 	pos[1] = i + 0.5f;
-	pos[2] = 2;
+	pos[2] = 1;
 	dir[0] = get_dir(map[i][j]);
 	return (0);
 }

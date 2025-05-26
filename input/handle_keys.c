@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:46:35 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:13:49 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	handle_key_press(int keysym, void *arg)
 		clean_exit(mlx);
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
+	{
 		mlx->key_jump_slide[0] = 1;
+		ft_printf("jumping\n");
+	}
 	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)
 		mlx->key_jump_slide[1] = 1;
 	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
@@ -39,7 +42,7 @@ int	handle_key_press(int keysym, void *arg)
 	else if (keysym == XK_plus || keysym == PLUS)
 	{
 		mlx->frames += 10;
-		mlx->player.tspeed[0] += 0.2f;
+		mlx->player.tspeed[0] += 100;
 		mlx->player.friction += 0.46f;
 		// mlx->player.jspeed += 35;
 	}
@@ -47,7 +50,7 @@ int	handle_key_press(int keysym, void *arg)
 		&& mlx->frames >= 11)
 	{
 		mlx->frames -= 10;
-		mlx->player.tspeed[0] -= 0.2f;
+		mlx->player.tspeed[0] -= 100;
 		mlx->player.friction -= 0.46f;	// not >= 0.5f
 		// mlx->player.jspeed -= 35;
 	}

@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:40:36 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:39:43 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 # define ERR_CHAR ": invalid character in map"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 1440
+#  define MLX_WIN_X 500
 # endif
 # ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 900
+#  define MLX_WIN_Y 500
 # endif
 
 # include <X11/X.h>
@@ -88,7 +88,8 @@ typedef struct s_local
 	float	pos[3];		// pointer to the lobby's pos
 	int		fov[2];		// xvof, yfov
 	float	dir[2];		// 0/360 = west (x), front (y)
-	float	speed[3];
+	int		speed[3];	// speed oriented on the map's axis
+	int		o_speed[3];	// speed oriented on his axis (dir)
 	float	tspeed[2];	// top speed (x,y), z
 	float	jheigth;	// maximum jump heigth
 	float	friction;	// multiplier of the x_diff and y_diff

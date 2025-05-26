@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 12:48:47 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:51:39 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.dir[1] = 90;
 	mlx->player.speed[0] = 0.0f;
 	mlx->player.speed[1] = 0.0f;
-	mlx->player.speed[2] = 182.0f;	// don't go below 100
-	mlx->player.tspeed[0] = 0.5f;
+	mlx->player.speed[2] = 0.0f;	// don't go below 100
+	mlx->player.tspeed[0] = 300.0f;
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jheigth = 17;
 	mlx->player.friction = 1.0f;

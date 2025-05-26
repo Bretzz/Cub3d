@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/23 00:50:35 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:07:37 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 		heigth = mlx->win_y;
 	else
 		heigth = mlx->win_x / len;	// dim 0?
-	int		z = heigth / (mlx->player.pos[2]);	// 1 -> 2 slide, 2 -> 17 jump
+	int		z = heigth / (mlx->player.pos[2] + 1);	// 0 -> 1 slide, 1 -> 16 jump
 	int		cw = z;
 	int		tw = heigth - z;
 	//ft_printf("height %d\n", heigth);
