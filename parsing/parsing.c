@@ -116,6 +116,10 @@ char	**parsing(const char *path, t_mlx *mlx)
 	char	**map;
 	int		i;
 	char	*line;
+	int		fd;
+	char	**map;
+	int		i;
+	char	*line;
 
 	if (!is_file_type(path, ".cub"))//wrong file format
 		//return (NULL);
