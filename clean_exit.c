@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:35 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:59:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ int clean_exit(t_mlx *mlx);
 
 int	clean_exit(t_mlx *mlx)
 {
+	int	i;
+
 	// destroying sprites
-	if (mlx->player.front.image != NULL)
-		mlx_destroy_image(mlx->mlx, mlx->player.front.image);
-	if (mlx->player.back.image != NULL)
-		mlx_destroy_image(mlx->mlx, mlx->player.back.image);
-	if (mlx->player.left.image != NULL)
-		mlx_destroy_image(mlx->mlx, mlx->player.left.image);
-	if (mlx->player.right.image != NULL)
-		mlx_destroy_image(mlx->mlx, mlx->player.right.image);
+	i = 0;
+	while (i < 4)
+	{
+		if (mlx->player.sprite[i].image != NULL)
+			mlx_destroy_image(mlx->mlx, mlx->player.sprite[i].image);
+		i++;
+	}
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
 	//freeing mlx resources 

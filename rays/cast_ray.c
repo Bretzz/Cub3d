@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:58:29 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 	ray[0] = x;
 	ray[1] = y;
 	ray_init(&mlx->ray, incr, axis, angle);
-	if (mlx->player.front.width > 32) {printf("incr: [%f, %f]\n", incr[0], incr[1]);}
-	if (mlx->player.front.width > 32) {printf("RAY-0: [%f, %f]\n", ray[0], ray[1]);}
+	if (mlx->player.sprite[0].width > 32) {printf("incr: [%f, %f]\n", incr[0], incr[1]);}
+	if (mlx->player.sprite[0].width > 32) {printf("RAY-0: [%f, %f]\n", ray[0], ray[1]);}
 	if (ray[1] <= 0 || (int)ray[1] >= mlx->map.stats[1]
 			|| ray[0] <= 0 ||/*  ft_printf("before strlen2, %i, %i\n", (int)ray[0], (int)ray[1]) < 0 || */ (int)ray[0] >= (int)ft_strlen(mlx->map.mtx[(int)ray[1]]))
 			return (/* ft_printf("ray lost1\n"),  */mlx->ray.len);
@@ -125,7 +125,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		if ((incr[0]+ i[0]) / fabsf(cosf(angle))
 			< (incr[1]+ i[1]) / fabsf(sinf(angle)))
 		{
-			if (mlx->player.front.width > 32) {printf("X\n");}
+			if (mlx->player.sprite[0].width > 32) {printf("X\n");}
 			// move trough x ('E', 'W')
 			ray[0] = axis[0] > 0 ? (int)x + i[0] + 1 : (int)x - i[0];
 			ray[1] = y + (incr[0]+ i[0]) / fabsf(cosf(angle)) * fabsf(sinf(angle)) * axis[1];
@@ -139,20 +139,20 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		}
 		else
 		{
-			if (mlx->player.front.width > 32) {printf("Y\n");}
+			if (mlx->player.sprite[0].width > 32) {printf("Y\n");}
 			// move trough y ('N', 'S')
 			ray[0] = x + (incr[1]+ i[1]) / fabsf(sinf(angle)) * fabsf(cosf(angle)) * axis[0];
 			ray[1] = axis[1] > 0 ? (int)y + i[1] + 1 : (int)y - i[1];
 			// checks for collisions
 			// ft_printf("collision_y_check\n");
-			if (mlx->player.front.width > 32) {/* ft_ */printf("RAY-Y%d: [%f, %f]\n", i[0] + i[1], ray[0], ray[1]);}
+			if (mlx->player.sprite[0].width > 32) {/* ft_ */printf("RAY-Y%d: [%f, %f]\n", i[0] + i[1], ray[0], ray[1]);}
 			if (collision_y_check(mlx, axis[1]) != 0)
 				break ;
 			// incr[1] += 1;
 			i[1]++;
 		}
 		// printf("RAY: [%f, %f]\n", ray[0], ray[1]);
-		if (mlx->player.front.width > 32) {/* ft_ */printf("RAY-%d: [%f, %f]\n", i[0] + i[1], ray[0], ray[1]);}
+		if (mlx->player.sprite[0].width > 32) {/* ft_ */printf("RAY-%d: [%f, %f]\n", i[0] + i[1], ray[0], ray[1]);}
 		if (ray[1] <= 0 || (int)ray[1] >= mlx->map.stats[1]
 			|| ray[0] <= 0 ||/*  ft_printf("before strlen2, %i, %i\n", (int)ray[0], (int)ray[1]) < 0 || */ (int)ray[0] >= (int)ft_strlen(mlx->map.mtx[(int)ray[1]]))
 			return (/* ft_printf("ray lost2\n"),  */mlx->ray.len);
@@ -163,7 +163,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 	// just lame second return
 	
 	//ft_printf("copy ok\n");
-	if (mlx->player.front.width > 32) {/* ft_ */printf("============= %c: [%f, %f] ============= \n", mlx->ray.face, ray[0], ray[1]);}
+	if (mlx->player.sprite[0].width > 32) {/* ft_ */printf("============= %c: [%f, %f] ============= \n", mlx->ray.face, ray[0], ray[1]);}
 	return (mlx->ray.len);
 }
 

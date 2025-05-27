@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:55:05 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 00:00:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	put_board(t_mlx *mlx)
 	// ft_printf("field out\n");
 	put2d_minimap(mlx, 10);
 	// ft_printf("minimap out\n");
-	put_sprite_on_map(mlx, 5, 10, mlx->player.front);
+	put_sprite_on_map(mlx, 5, 10, mlx->player.sprite[0]);
 
 	float	pos[2] = {10 , 10};
 	put_player(mlx, pos, 0);
