@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 09:27:15 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/24 18:42:29 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define ERR_FORMAT "	incorrect file format"
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
-# define ERR_CHAR ": invalid character in map"
+# define ERR_CHAR "	invalid character in map"
 
 # ifndef MLX_WIN_X
 #  define MLX_WIN_X 1000
@@ -69,8 +69,8 @@
 #  define S_KEY 's'
 #  define D_KEY 'd'
 #  define SPACE ' '
-#  define LSHIFT
-#  define LALT
+#  define LSHIFT 65505
+#  define LALT 65513
 #  define PLUS 61
 #  define MINUS 45
 #  define ESC_KEY 65367
@@ -102,6 +102,10 @@ typedef struct s_map
 	int				stats[3];	// max X, Y, side
 	unsigned int	sky;
 	unsigned int	floor;
+	char			*no_wall;
+	char			*so_wall;
+	char			*we_wall;
+	char			*ea_wall;
 }				t_map;
 
 // ray data
@@ -181,6 +185,7 @@ char			**parsing(const char *path, t_mlx *mlx);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
+void			check_texture(t_mlx *mlx, char	*line, char *wall);
 
 /* ============ UTILS ============= */
 

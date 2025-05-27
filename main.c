@@ -39,15 +39,17 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 		exit(1);
 	}
 	ft_memset(mlx, 0, sizeof(t_mlx));
-	if (juice_the_pc(mlx))
-		return (1);
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
 	mlx->player.mspeed = 10.0f;
 	mlx->player.jspeed = 182.0f;	// don't go below 100
 	mlx->player.jheigth = 17;
-	mlx->map.mtx = parsing(argv[1]);
+	mlx->map.no_wall = NULL;
+	mlx->map.so_wall = NULL;
+	mlx->map.we_wall = NULL;
+	mlx->map.ea_wall = NULL;
+	mlx->map.mtx = parsing(argv[1], mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);
@@ -62,6 +64,8 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	if (mlx->player.sprite == NULL)
 		return (1);
 	ft_printf("got sprite of size [%d,%d]\n", mlx->player.sprite_x, mlx->player.sprite_y);
+	if (juice_the_pc(mlx))
+		return (1);
 	return (0);	
 }
 

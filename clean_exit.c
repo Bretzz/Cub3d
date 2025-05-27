@@ -20,16 +20,19 @@ int	clean_exit(t_mlx *mlx)
 	//freeing mlx resources 
 	if (mlx->player.sprite != NULL)
 		mlx_destroy_image(mlx->mlx, mlx->player.sprite);	//for freeing sprites
-	if (mlx->win)
-		mlx_destroy_window(mlx->mlx, mlx->win);
+	
 	if (mlx->mlx)
 	{
-		mlx_destroy_display(mlx->mlx);	// macOS issues
 		//free_mtx((void **)mlx->map.mtx);
-		if (mlx->map.mtx)
-			free_mtx((void **)mlx->map.mtx);
+		if (mlx->win)
+			mlx_destroy_window(mlx->mlx, mlx->win);
+		mlx_destroy_display(mlx->mlx);	// macOS issues
 		free(mlx->mlx);
 	}
+	if (mlx->map.mtx)
+			free_mtx((void **)mlx->map.mtx);
+	if (mlx->map.no_wall)
+		free(mlx->map.no_wall);
 	//finally exit
 	exit(EXIT_SUCCESS);
 	return (0);

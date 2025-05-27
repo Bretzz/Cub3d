@@ -6,7 +6,7 @@
 /*   By: scarlucc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/23 18:14:51 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:36:10 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,38 @@ int	is_file_type(const char *file, const char *type)
 	return (1);
 }
 
+void	check_texture(t_mlx *mlx, char	*line, char *wall)
+{
+	int	count;
+
+	count = 2;
+	while (line[count] == ' ')
+		count++;
+	if (ft_strcmp(wall, "NO") == 0)
+		mlx->map.no_wall = ft_strdup(&line[count]);
+	/* else if (ft_strcmp(wall, "SO") == 0)
+		mlx->map.so_wall = ft_strdup(line[count]);
+	else if (ft_strcmp(wall, "WE") == 0)
+		mlx->map.we_wall = ft_strdup(line[count]);
+	else if (ft_strcmp(wall, "EA") == 0)
+		mlx->map.ea_wall = ft_strdup(line[count]); */
+	printf("muro nord: %s\n", mlx->map.no_wall);
+	/* printf("muro sud: %s\n", mlx->map.so_wall);
+	printf("muro ovest: %s\n", mlx->map.we_wall);
+	printf("muro est: %s\n", mlx->map.ea_wall); */
+}
+
 /* char * ok, 0 error */
 char	**parsing(const char *path, t_mlx *mlx)
 {
-	int	fd;
-	char		**map;
-	int			i;
+	int		fd;
+	char	**map;
+	int		i;
+	char	*line;
+	int		fd;
+	char	**map;
+	int		i;
+	char	*line;
 
 	if (!is_file_type(path, ".cub"))//wrong file format
 		//return (NULL);
@@ -103,10 +129,35 @@ char	**parsing(const char *path, t_mlx *mlx)
 	//close(fd);
 	if (fd < 0)//file not found
 	{
-		error_msg(ERR_OPEN);
+		error_msg(ERR_OPEN);//serve close(fd)?
 		clean_exit(mlx);
 		return (NULL);
 	}
+	//check informazioni su muri, pavimento e soffitto
+	line = get_next_line(fd);
+	while (line [0] == '\n') //forse mettere ft_isspace
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	
+	if (line == NULL)//empty file
+	{
+		error_msg(ERR_EMPTY_OR_FOLDER);
+		close(fd);
+		return (NULL);
+	}
+	// presa texture pareti
+
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		check_texture(mlx, line, "NO");
+	/* else if (ft_strncmp(line, "SO ", 3) == 0)
+		check_texture(mlx, line, "SO");
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		check_texture(mlx, line, "WE");
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		check_texture(mlx, line, "EA"); */
+	free(line);
 	map = get_map_from_path(path);
 	if (map == NULL)
 		return (NULL);
@@ -116,7 +167,7 @@ char	**parsing(const char *path, t_mlx *mlx)
 	if (map[i] != NULL)
 	{
 		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW \n"));
-		return (free_mtx((void **)map), NULL);
+		return (free_mtx((void **)map), clean_exit(mlx), NULL);
 	}
 	print_map(map);
 	close(fd);
