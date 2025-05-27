@@ -22,9 +22,9 @@ int	handle_key_press(int keysym, void *arg)
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->jump_key[0] = 1;
-	else if (/* keysym == XK_KP_Shift ||  */keysym == LSHIFT)
+	else if (/* keysym == XK_KP_Shift ||  */ keysym == LSHIFT)
 		mlx->player.mspeed *= 2.0f;
-	else if (/* keysym == XK_KP_Alt ||  */keysym == LALT)	// lame
+	else if (/* keysym == XK_KP_Alt ||  */ keysym == LALT)	// lame
 	{
 		// mlx->player.pos[2] -= 0.5f;
 		// mlx->player.jheigth = 3;

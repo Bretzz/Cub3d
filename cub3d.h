@@ -69,8 +69,8 @@
 #  define S_KEY 's'
 #  define D_KEY 'd'
 #  define SPACE ' '
-#  define LSHIFT
-#  define LALT
+#  define LSHIFT 65505
+#  define LALT 65513
 #  define PLUS 61
 #  define MINUS 45
 #  define ESC_KEY 65367
@@ -102,6 +102,10 @@ typedef struct s_map
 	int				stats[3];	// max X, Y, side
 	unsigned int	sky;
 	unsigned int	floor;
+	char			*no_wall;
+	char			*so_wall;
+	char			*we_wall;
+	char			*ea_wall;
 }				t_map;
 
 // ray data
@@ -181,6 +185,7 @@ char			**parsing(const char *path, t_mlx *mlx);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
+void			check_texture(t_mlx *mlx, char	*line, char *wall);
 
 /* ============ UTILS ============= */
 
