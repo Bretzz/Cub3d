@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 23:07:37 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/27 23:55:48 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D_bonus.h"
 
 int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 {

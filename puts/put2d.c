@@ -6,11 +6,11 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 11:08:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 /* put a square in the window, (x, y) are the coordinates
 of the top left corner. */
@@ -94,7 +94,10 @@ int	put2d_minimap(t_mlx *mlx, size_t side)
 {
 	put2d_map(mlx, side, 0x0000ff);
 	put2d_player(mlx, side, 0xff0000);
+	// ft_printf("minimap in\n");
 	cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
+	// ft_printf("minimap out\n");
 	put2d_ray(mlx, side, 0, 0x00ff00);
+	// ft_printf("2dray out\n");
 	return (0);
 }

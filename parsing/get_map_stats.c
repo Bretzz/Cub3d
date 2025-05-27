@@ -6,11 +6,11 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:09:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 16:09:27 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 int	get_map_stats(const char **map, int win_x, int win_y, int *buff)
 {

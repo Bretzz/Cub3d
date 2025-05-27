@@ -6,11 +6,11 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 14:06:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 /* 2D PUTS */
 // put2d_map(mlx, mlx->map_dim[2], 0xff0000);
 // put2d_player(mlx, mlx->map_dim[2], 0x0000FF);

@@ -13,7 +13,8 @@ LIGHT_GREEN		= \033[92m
 LIGHT_CYAN		= \033[96m
 RESET			= \033[0m
 
-NAME			:= cub3d
+NAME			:= cub3D
+NAME_BONUS		:= $(NAME)_bonus
 UNAME			:= $(shell uname)
 CC				:= cc
 CFLAGS			:= -Wall -Wextra -Werror
@@ -66,7 +67,8 @@ SRC_FILES		= main.c \
 				get_map_stats.c \
 				\
 				update_frame.c \
-				move_player.c move_mouse.c \
+				move_player.c move_player_dom.c \
+				move_mouse.c \
 				handle_keys.c handle_mouse.c handle_hover.c \
 				clean_exit.c utils.c \
 				\
@@ -75,10 +77,11 @@ SRC_FILES		= main.c \
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
-B_SRC_FILES		= move_player_bonus.c move_mouse_bonus.c \
+B_SRC_FILES		= main_bonus.c \
+				move_player_bonus.c move_mouse_bonus.c \
 				put_board_bonus.c \
 				put_whole_column_bonus.c \
-				put_sprite.c
+				put_sprite_on_map.c put_player.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
 B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))
@@ -142,11 +145,13 @@ $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
-bonus: $(LIBFT)libft.a $(MLX) $(B_OBJS)
+$(NAME_BONUS): $(LIBFT)libft.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o));
-	@echo "${BOLD}compiling $(NAME)_bonus...${RESET}"
-	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME)_bonus \
+	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
+	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
+
+bonus: $(NAME_BONUS)
 
 tar:
 	@ls | grep -q "$(NAME).tar" && rm -f $(NAME).tar || true

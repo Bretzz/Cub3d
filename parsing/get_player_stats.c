@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_player_stats.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:52:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 23:21:27 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 static int	get_dir(char player_char)
 {

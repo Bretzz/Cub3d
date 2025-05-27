@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 23:51:39 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 /*set up the pc-side of the t_data (mlx) struct
 RETURNS: 0 all good, 1 error*/
@@ -44,13 +44,13 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
-	mlx->player.speed[0] = 0.0f;
-	mlx->player.speed[1] = 0.0f;
-	mlx->player.speed[2] = 0.0f;	// don't go below 100
+	mlx->player.speed[0] = 0;
+	mlx->player.speed[1] = 0;
+	mlx->player.speed[2] = 0;
 	mlx->player.tspeed[0] = 300.0f;
 	mlx->player.tspeed[1] = 300;
-	mlx->player.jheigth = 17;
-	mlx->player.friction = 1.0f;
+	mlx->player.jground = 1;
+	mlx->player.friction = 1;
 	mlx->map.mtx = parsing(argv[1], mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
@@ -60,12 +60,6 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
 	mlx->frames = 21;	// do not insert a multiple of 10
-	mlx->player.sprite_x = 100;
-	mlx->player.sprite_y = 100;
-	mlx->player.sprite = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_front.xpm", &mlx->player.sprite_x, &mlx->player.sprite_y);
-	if (mlx->player.sprite == NULL)
-		return (1);
-	ft_printf("got sprite of size [%d,%d]\n", mlx->player.sprite_x, mlx->player.sprite_y);
 	return (0);	
 }
 
@@ -74,7 +68,7 @@ int main(int argc, char *argv[])
 	t_mlx	mlx;
 
 	if (data_init(&mlx, argc, argv))
-		return (1);
+		clean_exit(&mlx);
 
 	// key hooks
 	mlx_hook(mlx.win, KeyPress, KeyPressMask, &handle_key_press, &mlx);
@@ -93,7 +87,7 @@ int main(int argc, char *argv[])
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
-	ft_printf("TO-DO: CHANGE SPEED TO INT\nSOMETIMES CRASHES NEAR THE BIG ORIZON\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
+	ft_printf("TO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
 
 	mlx_loop(mlx.mlx);
 }

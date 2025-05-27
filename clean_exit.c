@@ -3,28 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/26 10:09:26 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 #include <stdlib.h>
 
 int clean_exit(t_mlx *mlx);
 
 int	clean_exit(t_mlx *mlx)
 {
-	//freeing mlx resources 
-	if (mlx->player.sprite != NULL)
-		mlx_destroy_image(mlx->mlx, mlx->player.sprite);	//for freeing sprites
+	// destroying sprites
+	if (mlx->player.front.image != NULL)
+		mlx_destroy_image(mlx->mlx, mlx->player.front.image);
+	if (mlx->player.back.image != NULL)
+		mlx_destroy_image(mlx->mlx, mlx->player.back.image);
+	if (mlx->player.left.image != NULL)
+		mlx_destroy_image(mlx->mlx, mlx->player.left.image);
+	if (mlx->player.right.image != NULL)
+		mlx_destroy_image(mlx->mlx, mlx->player.right.image);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
+	//freeing mlx resources 
 	if (mlx->mlx)
 	{
-		// mlx_destroy_display(mlx->mlx);	// macOS issues
+		mlx_destroy_display(mlx->mlx);	// macOS issues
 		//free_mtx((void **)mlx->map.mtx);
 		if (mlx->map.mtx)
 			free_mtx((void **)mlx->map.mtx);

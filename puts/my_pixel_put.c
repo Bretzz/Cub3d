@@ -6,11 +6,11 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:57:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 11:19:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 /* takes 'mlx' a pixel coordinates and a color as parameters.
 Sets the color of said pixel to the passed color.

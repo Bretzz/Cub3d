@@ -6,11 +6,11 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:38:15 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 11:11:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 /* takes a sprite pointer (mlx_xpm_file_to_image()) and the
 coordinates of a pixel of that image and returns the color of that pixel.

@@ -6,16 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/22 21:09:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 #include <sys/time.h>
 
 #include <stdio.h>
 
-static int	get_fps(int frame)
+/* static  */int	get_fps(int frame)
 {
 	static struct timeval	old_time;
 	static int				old_frame;
