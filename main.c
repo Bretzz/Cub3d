@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:39:14 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:42:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->map.so_wall = NULL;
 	mlx->map.we_wall = NULL;
 	mlx->map.ea_wall = NULL;
-	mlx->map.mtx = parsing(argv[1], mlx, mlx);
+	mlx->map.mtx = parsing(argv[1], mlx/* , mlx */);
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);
+	if (juice_the_pc(mlx))
+		return (1);
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->map.sky = 0xadd8e6;

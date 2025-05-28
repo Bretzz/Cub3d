@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:40:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:43:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,6 @@ void	check_texture(t_mlx *mlx, char	*line, char *wall)
 /* char * ok, 0 error */
 char	**parsing(const char *path, t_mlx *mlx)
 {
-	int		fd;
-	char	**map;
-	int		i;
-	char	*line;
 	int		fd;
 	char	**map;
 	int		i;
