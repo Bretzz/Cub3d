@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                      :+:      :+:    :+:   */
+/*   msg_read_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 12:59:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Created: 2025/03/21 13:11:06 by topiana-          #+#    #+#             */
+/*   Updated: 2025/03/21 13:16:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_BONUS_H
-# define CUB3D_BONUS_H
+#include "msg.h"
 
-# include "cub3D.h"
-# include "hpc.h"
-# include <pthread.h>
+int	has_pos(const char *msg);
+int	has_tar(const char *msg);
 
-int	    put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite);
-int     put_player(t_mlx *mlx, float *pos, float dir);
+int	has_pos(const char *msg)
+{
+	if (msg[str_skip(msg, 2, ':')] != '\0')
+		return (1);
+	return (0);
+}
 
-#endif
+int	has_tar(const char *msg)
+{
+	if (msg[str_skip(msg, 3, ':')] != '\0')
+		return (1);
+	return (0);
+}

@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_hover.c                                     :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 01:46:12 by totommi          ###   ########.fr       */
+/*   Created: 2025/05/06 21:23:28 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/21 01:09:45 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "libft.h"
+#include <errno.h>
+#include <string.h>
 
-int	leave_notify_handler(t_mlx *mlx);
-int	enter_notify_handler(t_mlx *mlx);
-
-// make the cursor visible // macOS issues
-int	leave_notify_handler(t_mlx *mlx)
+static char	*ft_strerror(int code)
 {
-	mlx->on_window = 0;
-	// mlx_mouse_show(mlx->mlx, mlx->win);
-	return (0);
+	if (code == 256)
+		return ("corrrupted message");
+	else if (code == 257)
+		return ("lobby not initialized");
+	else
+		return (strerror(errno));
 }
 
-// hide it again // macOS issues
-int	enter_notify_handler(t_mlx *mlx)
+int	ft_perror(const char *string)
 {
-	mlx->on_window = 1;
-	// mlx_mouse_hide(mlx->mlx, mlx->win);
-	return (0);
+	ft_printfd(STDERR_FILENO, "%s: %s\n", string, ft_strerror(errno));
+	return (errno);
 }

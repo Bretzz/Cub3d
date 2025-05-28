@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_hover.c                                     :+:      :+:    :+:   */
+/*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 01:46:12 by totommi          ###   ########.fr       */
+/*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
+/*   Updated: 2025/05/08 02:48:14 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "lbb.h"
 
-int	leave_notify_handler(t_mlx *mlx);
-int	enter_notify_handler(t_mlx *mlx);
-
-// make the cursor visible // macOS issues
-int	leave_notify_handler(t_mlx *mlx)
+/* Clean way to free the whole player array */
+void	lbb_delete_lobby(t_player *lobby)
 {
-	mlx->on_window = 0;
-	// mlx_mouse_show(mlx->mlx, mlx->win);
-	return (0);
-}
+	const void		*small = lbb_kill_player(NULL);
+	unsigned int	i;
 
-// hide it again // macOS issues
-int	enter_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 1;
-	// mlx_mouse_hide(mlx->mlx, mlx->win);
-	return (0);
+	i = 0;
+	while (i < MAXPLAYERS)
+	{
+		if (lobby[i].online >= small)
+			free(lobby[i].online);
+		i++;
+	}
+	free(lobby);
 }

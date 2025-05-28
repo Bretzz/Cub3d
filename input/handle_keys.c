@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_keys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 01:55:32 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	handle_key_press(int keysym, void *arg)
 		mlx->keys.jump_slide[0] = 1;
 		// ft_printf("jumping\n");
 	}
-	else if (keysym == 'c' || keysym == XK_Alt_L || keysym == LALT)
+	else if (keysym == 'c' || keysym == 8
+		||keysym == XK_Alt_L || keysym == LALT)
 		mlx->keys.jump_slide[1] = 1;
 	else if (keysym == XK_Shift_L || keysym == LSHIFT)
 		mlx->keys.shift = 1;
@@ -76,7 +77,8 @@ int	handle_key_release(int keysym, void *arg)
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->keys.jump_slide[0] = 0;
-	else if (keysym == 'c' || keysym == XK_Alt_L || keysym == LALT)
+	else if (keysym == 'c' || keysym == 8 ||
+		keysym == XK_Alt_L || keysym == LALT)
 	{
 		mlx->keys.jump_slide[1] = 0;
 		// mlx->player.pos[2] += 0.5f;

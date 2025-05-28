@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_hover.c                                     :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 01:46:12 by totommi          ###   ########.fr       */
+/*   Created: 2025/05/06 23:00:12 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/28 02:38:36 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-int	leave_notify_handler(t_mlx *mlx);
-int	enter_notify_handler(t_mlx *mlx);
+# include <unistd.h>
 
-// make the cursor visible // macOS issues
-int	leave_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 0;
-	// mlx_mouse_show(mlx->mlx, mlx->win);
-	return (0);
-}
+int				ft_perror(const char *string);
+void			free_mtx(void **mtx);
+unsigned int	ip_to_uns(const char *ip);
+int				is_ip(const char *s);
+int				ft_chrnum(const char *s, int c);
 
-// hide it again // macOS issues
-int	enter_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 1;
-	// mlx_mouse_hide(mlx->mlx, mlx->win);
-	return (0);
-}
+#endif

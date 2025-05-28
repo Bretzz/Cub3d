@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 00:00:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 02:53:31 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,30 @@ static int cub3d(int argc, char *argv[])
     return (0);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *envp[])
 {
-    cub3d(argc, argv);
+	// t_player	*lobby;
+
+	(void)argc; (void)argv; (void)envp;
+	if (argc > 4)
+	{
+		error_msg(ERR_ARGS);
+		return (1);
+	}
+	if (argc > 2)
+	{
+		if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
+		{
+			ft_printf("wrong IP\n");
+			return (1);
+		}
+		make_him_host(argv[2], envp);
+		if (argc < 3)
+			set_my_name("b4llbre4k3r", envp);
+		else
+			set_my_name(argv[3], envp);
+	}
+	ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
+    cub3d(2, argv);
     return (0);
 }

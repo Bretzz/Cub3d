@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                      :+:      :+:    :+:   */
+/*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 12:59:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/06 23:35:15 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/09 12:35:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_BONUS_H
-# define CUB3D_BONUS_H
+#ifndef SERVER_H
+# define SERVER_H
 
-# include "cub3D.h"
-# include "hpc.h"
-# include <pthread.h>
+/* WARNING: we need to catch the 'we are dead' signal from the 'game' so
+that every thread can exit cleanly. */
 
-int	    put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite);
-int     put_player(t_mlx *mlx, float *pos, float dir);
+# include "../online.h"
+
+/* EXTERNAL USE */
+
+int server_sender(int socket, char *buffer, void *addr, char flag);
+int	server_routine(pthread_t *tid, char *envp[]);
+
+/* INTERNAL USE */
+
+int	server_reciever(pthread_t *tid, int socket);
 
 #endif

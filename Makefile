@@ -21,12 +21,13 @@ CFLAGS			:= -Wall -Wextra -Werror
 
 #Libs
 LIBFT			= libft/
+HPC				= hpc/
 
 #Linkers
 LINKS			= -L/usr/lib -L$(MLX_DIR) -lXext -lX11 -lm -lz #-lpthread
 
 #Includes
-INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR)
+INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR) -I$(HPC)include
 
 ifeq ($(UNAME),Darwin)
 	MLX_DIR		= minilibx_opengl
@@ -77,7 +78,7 @@ SRC_FILES		= main.c \
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
-B_SRC_FILES		= main_bonus.c \
+B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
 				move_player_bonus.c move_mouse_bonus.c \
 				put_board_bonus.c \
 				put_whole_column_bonus.c \
@@ -118,13 +119,17 @@ show_bonus:
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
 
-test: main.c $(OBJS)
-	@echo "${BOLD}compiling $@...${RESET}"
-	@$(CC) $(CFLAGS) main.c $(OBJS_DIR)/* $(LINKS) $(INKS) -o $@ \
-	&& echo "${LIGHT_GREEN}DONE${RESET}"
+#$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
+#	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
+	@if echo $< | grep -q "bonus"; then \
+		echo "Compiling BONUS: $<"; \
+		$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS -c $< -o $@; \
+	else \
+		echo "Compiling: $<"; \
+		$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@; \
+	fi
 
 $(MLX_DIR):
 	@echo "${BOLD}creating $(MLX_DIR)...${RESET}"
@@ -139,16 +144,20 @@ $(LIBFT)libft.a:
 	@echo "${BOLD}compiling libft...${RESET}"
 	@$(MAKE) all -C $(LIBFT) --quiet
 
+$(HPC)hpc.a:
+	@echo "${BOLD}compiling hpc...${RESET}"
+	@$(MAKE) all -C $(HPC) --quiet
+
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o));
 	@echo "${BOLD}compiling $(NAME)...${RESET}"
 	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
-$(NAME_BONUS): $(LIBFT)libft.a $(MLX) $(B_OBJS)
+$(NAME_BONUS): $(LIBFT)libft.a $(HPC)hpc.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o));
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
-	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
+	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 bonus: $(NAME_BONUS)
@@ -160,9 +169,12 @@ tar:
 clean:
 	@rm -f $(OBJS_DIR)*
 	@$(MAKE) clean -C $(LIBFT) --quiet
+	@$(MAKE) clean -C $(HPC) --quiet
+
 fclean: clean
 	@rm -rf $(OBJS_DIR) $(NAME) $(NAME)_bonus
 	@$(MAKE) fclean -C $(LIBFT) --quiet
+	@$(MAKE) fclean -C $(HPC) --quiet
 
 lre: clean all
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:58:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 02:23:17 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,6 @@
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_CHAR ": invalid character in map"
-
-# ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
-# endif
-# ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1000
-# endif
-
-# include <X11/X.h>
-# include <X11/keysym.h>
-# include <stdio.h>
 
 # ifdef __APPLE__
 #  define UP 126
@@ -76,11 +65,29 @@
 #  define ESC_KEY 65367
 # endif 
 
-# include "libft.h"
+# ifndef MLX_WIN_X
+#  define MLX_WIN_X 1000
+# endif
+# ifndef MLX_WIN_Y
+#  define MLX_WIN_Y 1000
+# endif
+
+// graphic libs
 # include "mlx.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
+
+// online
+# ifdef BONUS
+#  include "lbb.h"
+# endif
+
+// basic libs
+# include "libft.h"
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 // basic sprite data
 typedef struct s_sprite
@@ -102,10 +109,9 @@ typedef struct s_local
 	float		tspeed[2];	// top speed (x,y), z
 	float		jground;	// were the jump will end...
 	int			friction;	// divider of the x_diff and y_diff
-	t_sprite	sprite[4];		// front, back, left, right
-	// t_sprite	back;
-	// t_sprite	left;
-	// t_sprite	right;
+# ifdef BONUS
+	t_sprite	sprite[4];	// front, back, left, right
+# endif
 }				t_local;
 
 // keys pressed
@@ -156,14 +162,16 @@ typedef struct s_mlx
 	t_map			map;
 	t_local			player;
 	t_keys			keys;
-	// int				key_up_dw[2];
-	// int				key_lx_rx[2];
-	// int				key_jump_slide[2];
-	// int				mouse[2];
 	char			on_window;
 	int				frames;
 	int				fps;
 	t_ray			ray;
+# ifdef BONUS
+	t_player		*lobby;
+	int				*index;
+	int				*socket;
+	void			*thread;
+# endif
 }				t_mlx;
 
 /* ============ GAME ============= */
