@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 02:23:17 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:27:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,6 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-// online
-# ifdef BONUS
-#  include "lbb.h"
-# endif
 
 // basic libs
 # include "libft.h"
@@ -109,9 +105,7 @@ typedef struct s_local
 	float		tspeed[2];	// top speed (x,y), z
 	float		jground;	// were the jump will end...
 	int			friction;	// divider of the x_diff and y_diff
-# ifdef BONUS
 	t_sprite	sprite[4];	// front, back, left, right
-# endif
 }				t_local;
 
 // keys pressed
@@ -151,7 +145,9 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-//mlx big struct
+// mlx big struct
+# ifndef BONUS
+
 typedef struct s_mlx
 {
 	void			*mlx;
@@ -160,19 +156,60 @@ typedef struct s_mlx
 	int				win_y;
 	t_img			img;
 	t_map			map;
-	t_local			player;
 	t_keys			keys;
 	char			on_window;
 	int				frames;
 	int				fps;
 	t_ray			ray;
-# ifdef BONUS
-	t_player		*lobby;
+	t_local			player;
+
+}				t_mlx;
+# else
+
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*win;
+	int				win_x;
+	int				win_y;
+	t_img			img;
+	t_map			map;
+	t_keys			keys;
+	char			on_window;
+	int				frames;
+	int				fps;
+	t_ray			ray;
+	t_local			player;
+	// t_player		*lobby;
 	int				*index;
 	int				*socket;
 	void			*thread;
-# endif
 }				t_mlx;
+
+# endif
+
+// //mlx big struct
+// typedef struct s_mlx
+// {
+// 	void			*mlx;
+// 	void			*win;
+// 	int				win_x;
+// 	int				win_y;
+// 	t_img			img;
+// 	t_map			map;
+// 	t_keys			keys;
+// 	char			on_window;
+// 	int				frames;
+// 	int				fps;
+// 	t_ray			ray;
+// 	t_local			player;
+// # ifdef BONUS
+// 	// t_player		*lobby;
+// 	int				*index;
+// 	int				*socket;
+// 	void			*thread;
+// # endif
+// }				t_mlx;
 
 /* ============ GAME ============= */
 

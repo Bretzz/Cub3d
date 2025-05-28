@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 01:47:18 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:18:01 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	clean_exit(t_mlx *mlx)
 	//freeing mlx resources 
 	if (mlx->mlx)
 	{
-		// mlx_destroy_display(mlx->mlx);	// macOS issues
+		mlx_destroy_display(mlx->mlx);	// macOS issues
 		//free_mtx((void **)mlx->map.mtx);
 		if (mlx->map.mtx)
 			free_mtx((void **)mlx->map.mtx);

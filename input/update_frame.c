@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:17:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int update_frame(void *arg)
 	t_mlx *const mlx = (t_mlx *)arg;
 	static unsigned int	frame;
 
+	// ft_printf("frames %d\n", mlx->frames);
 	if (frame++ % mlx->frames == 0)
 	{
 		move_player(mlx);

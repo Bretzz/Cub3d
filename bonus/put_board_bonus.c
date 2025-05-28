@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 00:00:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:30:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	put_board(t_mlx *mlx)
 	put_sprite_on_map(mlx, 5, 10, mlx->player.sprite[0]);
 
 	float	pos[2] = {10 , 10};
-	put_player(mlx, pos, 0);
+	float	dir[2] = {0 , 90};
+	put_player(mlx, pos, dir);
 	// ft_printf("sprite out\n");
 	// cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
 	// put2d_ray(mlx, 0xa0b000);

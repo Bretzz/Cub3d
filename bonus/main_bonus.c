@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 02:53:31 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:23:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	load_player_sprites(t_mlx *mlx)
 	mlx->player.sprite[0].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_front.xpm", &mlx->player.sprite[0].width, &mlx->player.sprite[0].heigth);
 	if (mlx->player.sprite[0].image == NULL)
 		return (1);
+	ft_printf("front OK\n");
 	mlx->player.sprite[0].scale = 1;
 	mlx->player.sprite[1].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_back.xpm", &mlx->player.sprite[1].width, &mlx->player.sprite[1].heigth);
 	if (mlx->player.sprite[1].image == NULL)
@@ -67,8 +68,6 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 		exit(1);
 	}
 	ft_memset(mlx, 0, sizeof(t_mlx));
-	if (juice_the_pc(mlx))
-		return (1);
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
@@ -88,11 +87,11 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
 	mlx->frames = 21;	// do not insert a multiple of 10
-
+	// ft_printf("init frames %d\n", mlx->frames);
 	// ugly sprite loading
-	if (load_player_sprites(mlx))
+	if (juice_the_pc(mlx) || load_player_sprites(mlx))
 		return (1);
-	
+	ft_printf("pc juiced\n");
 	return (0);	
 }
 
@@ -117,10 +116,12 @@ static int cub3d(int argc, char *argv[])
 	// red cross
 	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &clean_exit, &mlx);
 
+	// ft_printf("frames after init %d\n", mlx.frames);
+
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
-	ft_printf("TO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
+	ft_printf("! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
 
 	mlx_loop(mlx.mlx);
     return (0);
@@ -131,25 +132,25 @@ int main(int argc, char *argv[], char *envp[])
 	// t_player	*lobby;
 
 	(void)argc; (void)argv; (void)envp;
-	if (argc > 4)
-	{
-		error_msg(ERR_ARGS);
-		return (1);
-	}
-	if (argc > 2)
-	{
-		if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
-		{
-			ft_printf("wrong IP\n");
-			return (1);
-		}
-		make_him_host(argv[2], envp);
-		if (argc < 3)
-			set_my_name("b4llbre4k3r", envp);
-		else
-			set_my_name(argv[3], envp);
-	}
-	ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
+	// if (argc > 4)
+	// {
+	// 	error_msg(ERR_ARGS);
+	// 	return (1);
+	// }
+	// if (argc > 2)
+	// {
+	// 	if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
+	// 	{
+	// 		ft_printf("wrong IP\n");
+	// 		return (1);
+	// 	}
+	// 	make_him_host(argv[2], envp);
+	// 	if (argc < 3)
+	// 		set_my_name("b4llbre4k3r", envp);
+	// 	else
+	// 		set_my_name(argv[3], envp);
+	// }
+	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
     cub3d(2, argv);
     return (0);
 }

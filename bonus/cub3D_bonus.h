@@ -13,11 +13,11 @@
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H
 
+# define BONUS
+
 # include "cub3D.h"
-# include "hpc.h"
-# include <pthread.h>
 
 int	    put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite);
-int     put_player(t_mlx *mlx, float *pos, float dir);
+int     put_player(t_mlx *mlx, float *pos, float *dir);
 
 #endif
