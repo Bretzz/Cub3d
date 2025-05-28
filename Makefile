@@ -80,6 +80,7 @@ SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 #B_SRCS_DIR		= bonus/
 B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
 				move_player_bonus.c move_mouse_bonus.c \
+				handle_mouse_bonus.c \
 				put_board_bonus.c update_frame_bonus.c \
 				put_whole_column_bonus.c \
 				put_sprite_on_map.c put_player.c
@@ -165,7 +166,7 @@ run.sh:
 		LOCAL_IP=$$(ipconfig getifaddr en0); \
 	fi \
 	\
-	./cub3D_bonus $$1 $$2 $$3 $$LOCAL_IP'
+	./cub3D_bonus $$1 $$2 $$3'
 	@sed -i 's/\\//g' $@
 	@chmod +x $@
 

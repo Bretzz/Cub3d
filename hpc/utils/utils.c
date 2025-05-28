@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 21:10:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:05:10 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/28 20:18:47 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/28 20:19:47 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+/* close()s the fd if it's greater than 2 */
+void safeclose(int fd)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)(s1[i]) - (unsigned char)(s2[i]));
+    if (fd > 2)
+        close(fd);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char s1[] = "fricky";
-// 	char s2[] = "frick2";
-
-// 	printf("%d\n", ft_strcmp(s1, s2));
-// 	return (0);
-// }
-

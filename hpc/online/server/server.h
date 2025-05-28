@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 21:10:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:05:10 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/06 23:35:15 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/09 12:35:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef SERVER_H
+# define SERVER_H
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
+/* WARNING: we need to catch the 'we are dead' signal from the 'game' so
+that every thread can exit cleanly. */
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)(s1[i]) - (unsigned char)(s2[i]));
-}
+# include "../online.h"
 
-// #include <stdio.h>
+/* EXTERNAL USE */
 
-// int	main(void)
-// {
-// 	char s1[] = "fricky";
-// 	char s2[] = "frick2";
+int server_sender(int socket, char *buffer, void *addr, char flag);
+int	server_routine(pthread_t *tid, char *envp[]);
 
-// 	printf("%d\n", ft_strcmp(s1, s2));
-// 	return (0);
-// }
+/* INTERNAL USE */
 
+int	server_reciever(pthread_t *tid, int socket);
+
+#endif

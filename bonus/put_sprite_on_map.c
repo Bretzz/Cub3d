@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_sprite_on_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 02:06:25 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/28 22:10:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-int		put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite);
+int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
 
 /* adds the sprite to the mlx->img
 starting from x_screen and y_screen and scaled
@@ -68,11 +68,11 @@ static float	dir_diff(float dir1, float dir2)
 /* (x,y) position of the sprite in the map,
 'len' is the distance from the sprite
 'dir' is the angle (degrees) we are looking the sprite from */
-int	put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite)
+int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 {
 	const int	mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
 	const float	*my_pos = mlx->player.pos;
-	const float	sprite_dir = atan2((my_pos[1] - y), (my_pos[0] - x)) * 180 / M_PI;
+	const float	sprite_dir = atan2((my_pos[1] - pos[1]), (my_pos[0] - pos[0])) * 180 / M_PI;
 	float		my_dist;
 	int			x_screen;
 
@@ -86,7 +86,7 @@ int	put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite)
 	// ft_printf("sprite in\n");
 	cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
 	// ft_printf("sprite out\n");
-	my_dist = sqrt(pow(x - my_pos[0], 2) + pow(y - my_pos[1], 2));
+	my_dist = sqrt(pow(pos[0] - my_pos[0], 2) + pow(pos[1] - my_pos[1], 2));
 	// ft_printf("check\n");
 	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
 	{
@@ -96,7 +96,7 @@ int	put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite)
 	// putting sprite
 
 	int floor = (mlx->win_x) / my_dist;
-	floor -= floor / (mlx->player.pos[2] + 1);
+	floor -= floor / ((/* 1 /  */mlx->player.pos[2] / pos[2]) + 1);
 	x_screen = (mlx->win_x / 2) + dir_diff(sprite_dir, mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
 	// ft_printf("before\n");
 	// ft_printf("spriting (%d, %d)\n", x_screen, mid_line + floor);

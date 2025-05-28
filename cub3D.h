@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:45:07 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_CHAR "	invalid character in map"
 # define ERR_ENVP " missing env variable(s)"
+# define ERR_ONLINE "online setup failed"
 
 # ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
+#  define MLX_WIN_X 500
 # endif
 # ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1000
+#  define MLX_WIN_Y 500
 # endif
 
 # include <X11/X.h>

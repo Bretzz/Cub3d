@@ -17,9 +17,10 @@
 
 # include "cub3D.h"
 # include "hpc.h"
+# include <X11/Xlib.h>
 # include <pthread.h>
 
-int	    put_sprite_on_map(t_mlx *mlx, float x, float y, t_sprite sprite);
+int	    put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
 int     put_player(t_mlx *mlx, float *pos, float *dir);
 
 void    send_all(t_mlx *mlx, char *msg, size_t size, char flag);

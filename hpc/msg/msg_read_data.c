@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   msg_read_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 21:10:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:05:10 by topiana-         ###   ########.fr       */
+/*   Created: 2025/03/21 13:11:06 by topiana-          #+#    #+#             */
+/*   Updated: 2025/03/21 13:16:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "msg.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	has_pos(const char *msg);
+int	has_tar(const char *msg);
+
+int	has_pos(const char *msg)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)(s1[i]) - (unsigned char)(s2[i]));
+	if (msg[str_skip(msg, 2, ':')] != '\0')
+		return (1);
+	return (0);
 }
 
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char s1[] = "fricky";
-// 	char s2[] = "frick2";
-
-// 	printf("%d\n", ft_strcmp(s1, s2));
-// 	return (0);
-// }
-
+int	has_tar(const char *msg)
+{
+	if (msg[str_skip(msg, 3, ':')] != '\0')
+		return (1);
+	return (0);
+}

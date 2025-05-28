@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:57:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 11:54:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 22:12:46 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	move_mouse(t_mlx *mlx)
 		if ((y_diff > 0 && mlx->player.dir[1] + y_diff <= 180)
 			|| (y_diff < 0 && mlx->player.dir[1] + y_diff >= 0))
 			mlx->player.dir[1] += y_diff;
-		ft_printf("got dir[%f, %f] %f\n", mlx->player.dir[0], mlx->player.dir[1]);
+		// ft_printf("got dir[%f, %f] %f\n", mlx->player.dir[0], mlx->player.dir[1]);
 	}
 	mlx_mouse_move(mlx->mlx, mlx->win, mlx->win_x / 2, mlx->win_y / 2);	// macOS issues
 	return (0);
