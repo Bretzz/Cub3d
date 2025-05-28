@@ -16,10 +16,15 @@ char	*trim_back_nl(char *str)
 {
 	size_t	i;
 
+	if (str[0] == '\n')
+		str[0] = '\0';
+	if (str[0] == '\0')
+		return (str);
 	i = ft_strlen(str) - 1;
 	while (str[i] == '\n')
 		i--;
-	str[++i] = '\0';
+	if (str[i + 1] == '\n')
+		str[++i] = '\0';
 	return (str);
 }
 

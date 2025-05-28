@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:01:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:39:14 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 		exit(1);
 	}
 	ft_memset(mlx, 0, sizeof(t_mlx));
-	if (juice_the_pc(mlx))
-		return (1);
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.dir[1] = 90;
@@ -51,7 +49,11 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
 	mlx->player.friction = 1;
-	mlx->map.mtx = parsing(argv[1], mlx);
+	mlx->map.no_wall = NULL;
+	mlx->map.so_wall = NULL;
+	mlx->map.we_wall = NULL;
+	mlx->map.ea_wall = NULL;
+	mlx->map.mtx = parsing(argv[1], mlx, mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);

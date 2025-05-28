@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:27:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:38:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,18 @@
 # define ERR_FORMAT "	incorrect file format"
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
-# define ERR_CHAR ": invalid character in map"
+# define ERR_CHAR "	invalid character in map"
+
+# ifndef MLX_WIN_X
+#  define MLX_WIN_X 1000
+# endif
+# ifndef MLX_WIN_Y
+#  define MLX_WIN_Y 1000
+# endif
+
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <stdio.h>
 
 # ifdef __APPLE__
 #  define UP 126
@@ -125,6 +136,10 @@ typedef struct s_map
 	int				stats[3];	// max X, Y, side
 	unsigned int	sky;
 	unsigned int	floor;
+	char			*no_wall;
+	char			*so_wall;
+	char			*we_wall;
+	char			*ea_wall;
 }				t_map;
 
 // ray data
@@ -252,6 +267,7 @@ char			**parsing(const char *path, t_mlx *mlx);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
+void			check_texture(t_mlx *mlx, char	*line, char *wall);
 
 /* ============ UTILS ============= */
 
