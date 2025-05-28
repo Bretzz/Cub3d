@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:43:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:59:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static char	**get_map_from_path(const char *path)
 	{
 		error_msg(ERR_EMPTY_OR_FOLDER);
 		return (close(fd), free(map), NULL);
+	}
+	// va fino alla linea della mappa (molto abbozzato)
+	while (line != NULL && !ft_strchr(line, '1'))
+	{
+		free(line);
+		line = get_next_line(fd);
 	}
 	while (line != NULL)
 	{

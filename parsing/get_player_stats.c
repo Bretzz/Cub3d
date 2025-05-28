@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:52:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:43:14 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int	get_player_stats(char **map, float *pos, float *dir)
 	pos[1] = i + 0.5f;
 	pos[2] = 1;
 	dir[0] = get_dir(map[i][j]);
+	dir[1] = 90;
 	return (0);
 }

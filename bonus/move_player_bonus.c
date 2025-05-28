@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:55:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:07:49 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,10 @@ int	move_player(t_mlx *mlx)
 	// /* ft_ */printf("diff[%f, %f, %f, %f]\n", diff[0], diff[1], diff[2], diff[3]);
 	move_and_slide(&mlx->player, mlx->map);
 	// other_forces(mlx, diff);
+	if (mlx->player.speed[0]
+		|| mlx->player.speed[1]
+		|| mlx->player.speed[2])
+		return (1);
 	return (0);
 }
 

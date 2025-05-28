@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:38:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:06:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,6 @@ typedef struct s_sprite
 	void	*image;
 }				t_sprite;
 
-// player data
-typedef struct s_local
-{
-	float		pos[3];		// pointer to the lobby's pos
-	int			fov[2];		// xvof, yfov
-	float		dir[2];		// 0/360 = west (x), front (y)
-	int			speed[3];	// speed oriented on the map's axis
-	int			o_speed[3];	// speed oriented on his axis (dir)
-	float		tspeed[2];	// top speed (x,y), z
-	float		jground;	// were the jump will end...
-	int			friction;	// divider of the x_diff and y_diff
-	t_sprite	sprite[4];	// front, back, left, right
-}				t_local;
-
 // keys pressed
 typedef struct s_keys
 {
@@ -160,8 +146,21 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-// mlx big struct
-# ifndef BONUS
+// player data
+typedef struct s_local
+{
+	float		*pos;		// pointer to the lobby's pos
+	float		*dir;		// 0/360 = west (x), front (y)
+	int			fov[2];		// xvof, yfov
+	int			speed[3];	// speed oriented on the map's axis
+	int			o_speed[3];	// speed oriented on his axis (dir)
+	float		tspeed[2];	// top speed (x,y), z
+	float		jground;	// were the jump will end...
+	int			friction;	// divider of the x_diff and y_diff
+	t_sprite	sprite[4];	// front, back, left, right
+}				t_local;
+
+# include "hpc.h"
 
 typedef struct s_mlx
 {
@@ -177,33 +176,15 @@ typedef struct s_mlx
 	int				fps;
 	t_ray			ray;
 	t_local			player;
-
-}				t_mlx;
-# else
-
-typedef struct s_mlx
-{
-	void			*mlx;
-	void			*win;
-	int				win_x;
-	int				win_y;
-	t_img			img;
-	t_map			map;
-	t_keys			keys;
-	char			on_window;
-	int				frames;
-	int				fps;
-	t_ray			ray;
-	t_local			player;
-	// t_player		*lobby;
+	t_player		*lobby;
 	int				*index;
 	int				*socket;
 	void			*thread;
 }				t_mlx;
 
-# endif
+// mlx big struct
+// # ifndef BONUS
 
-// //mlx big struct
 // typedef struct s_mlx
 // {
 // 	void			*mlx;
@@ -218,13 +199,34 @@ typedef struct s_mlx
 // 	int				fps;
 // 	t_ray			ray;
 // 	t_local			player;
-// # ifdef BONUS
-// 	// t_player		*lobby;
+
+// }				t_mlx;
+// # else
+
+// # include "hpc.h"
+
+
+// typedef struct s_mlx
+// {
+// 	void			*mlx;
+// 	void			*win;
+// 	int				win_x;
+// 	int				win_y;
+// 	t_img			img;
+// 	t_map			map;
+// 	t_keys			keys;
+// 	char			on_window;
+// 	int				frames;
+// 	int				fps;
+// 	t_ray			ray;
+// 	t_local			player;
+// 	t_player		*lobby;
 // 	int				*index;
 // 	int				*socket;
 // 	void			*thread;
-// # endif
 // }				t_mlx;
+
+// # endif
 
 /* ============ GAME ============= */
 

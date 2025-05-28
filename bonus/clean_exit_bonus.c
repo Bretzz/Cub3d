@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:17:56 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:14:26 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	clean_exit(t_mlx *mlx)
 			free_mtx((void **)mlx->map.mtx);
 		free(mlx->mlx);
 	}
+	hpc_free(mlx->socket, mlx->index, mlx->thread);
 	//finally exit
 	exit(EXIT_SUCCESS);
 	return (0);

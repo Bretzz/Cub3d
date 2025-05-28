@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:42:50 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:56:39 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
-	mlx->player.dir[1] = 90;
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
@@ -60,6 +59,9 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	if (juice_the_pc(mlx))
 		return (1);
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
+	// check return
+	mlx->player.pos = ft_calloc(3, sizeof(float));
+	mlx->player.dir = ft_calloc(3, sizeof(float));
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;

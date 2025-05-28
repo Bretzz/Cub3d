@@ -6,11 +6,109 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:23:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:17:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+/* send messages trough the mlx->socket */
+void    send_all(t_mlx *mlx, char *msg, size_t size, char flag)
+{
+	if (flag == -1)
+	{
+		if (*mlx->index == HOST)
+			server_sender(*mlx->socket, msg, NULL, flag);   //destroy mutex
+		else
+			client_sender(flag, msg, size);                                 // destroy mutex
+	}
+	else
+	{
+		if (*mlx->index == HOST)
+			server_sender(*mlx->socket, msg, NULL, 0);
+		else
+			client_sender(*mlx->socket, msg, size);
+	}
+}
+
+
+/* 0 it killed us, 1 it didn't */
+// int     shoot_laser(t_mlx *mlx, int *pos, float dir, int *my_pos)
+// {
+//         const float delta_angle = (mlx->player.fov[0] * M_PI / 180) / mlx->win_x;       // 0 = left, pi/2 = up
+//         const float kill_angle = normalize_angle(atan2((pos[1] - my_pos[1]), (pos[0] - my_pos[0])));
+//         const float     my_dist = sqrt(pow(pos[0] - my_pos[0], 2) + pow(pos[1] - my_pos[1], 2));
+//         if (dir < kill_angle - 10 * delta_angle
+//                 || dir > kill_angle + 10 * delta_angle)
+//         {
+//                 ft_printf("DIRECTION OUT\n");
+//                 return (1);
+//         }
+//         // mlx->player.fov[1] = 1;
+//         const int       ray     = cast_ray(mlx, pos, dir);
+//         // mlx->player.fov[1] = 0;
+//         ft_printf("my dist %d, ray %d\n", my_dist, ray);
+//         if (ray > 0 && ray < my_dist)
+//         {
+//                 ft_printf("OBSTACLE OUT\n");
+//                 return (1);
+//         }
+//         return (0);
+// }
+
+/* puts all the player info, position and target (with line for shot).
+if we got hit by a line (even ours) we exit. */
+// /* static  */int        handle_player(t_player *lobby, int index, t_mlx *mlx)
+// {
+// 		unsigned int    color;
+
+// 		if (!lbb_is_alive(lobby[index]))
+// 				return (0);
+// 		if (index == HOST)
+// 				color = 0x4F2B4E;
+// 		else
+// 				color = 0xed80e9;
+// 		if (index != *mlx->index)
+// 				put_player(mlx, mlx->player.pos, mlx->lobby[index].pos, color);
+// 		// put_square(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], 10, color);
+// 		// my_pixel_put(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], color);
+// 		if (index != *mlx->index && lobby[index].tar[0])
+// 		{
+// 				if (shoot_laser(mlx, lobby[index].pos, lobby[index].tar[0] * M_PI / 180, mlx->player.pos) == 0)
+// 				{
+// 						if (*mlx->index == HOST)
+// 						{
+// 								char    buffer[1024];
+// 								buffer_player_action(mlx->lobby[index], "host", buffer);
+// 								send_all(mlx, buffer, ft_strlen(buffer), 0);
+// 						}
+// 						clean_exit(mlx);
+// 				}
+// 		}
+// 		ft_memset(lobby[index].tar, 0, 3 * sizeof(int));
+// 		return (1);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* yoooo :) */
 static int	load_player_sprites(t_mlx *mlx)
@@ -59,18 +157,12 @@ static int	juice_the_pc(t_mlx *mlx)
 	return (0);
 }
 
-int	data_init(t_mlx *mlx, int argc, char *argv[])
+static int	data_init(t_mlx *mlx, char *path)
 {
 	/* (void)argc;(void)argv; */
-	if (argc != 2)
-	{
-		error_msg(ERR_ARGS);
-		exit(1);
-	}
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
-	mlx->player.dir[1] = 90;
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
@@ -78,12 +170,11 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
 	mlx->player.friction = 1;
-	mlx->map.mtx = parsing(argv[1], mlx);
+	mlx->map.mtx = parsing(path, mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
-	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
 	mlx->frames = 21;	// do not insert a multiple of 10
@@ -95,12 +186,33 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	return (0);	
 }
 
-static int cub3d(int argc, char *argv[])
+static int cub3d_bonus(int *index, int *socket, void *thread, char *path)
 {
 	t_mlx	mlx;
 
-	if (data_init(&mlx, argc, argv))
+	if (data_init(&mlx, path))
 		clean_exit(&mlx);
+	
+	// float	pos[3] = { 0 };
+	// float	dir[3] = { 0 };
+
+	/* ONLINE INIT */
+	mlx.index = index;
+	mlx.socket = socket;
+	mlx.thread = thread;
+
+	/* LOBBY INIT */
+	mlx.lobby = lbb_get_ptr(NULL);
+	mlx.player.pos = (float *)mlx.lobby[*mlx.index].pos;
+	mlx.player.dir = (float *)mlx.lobby[*mlx.index].tar;
+	// mlx.player.pos = ft_calloc(3, sizeof(float));
+	// mlx.player.dir = ft_calloc(3, sizeof(float));
+	get_player_stats(mlx.map.mtx, mlx.player.pos, mlx.player.dir);
+	
+	printf("pos %p, dir %p\n", mlx.player.pos, mlx.player.dir);
+	printf("player [%f, %f, %f] looking [%f, %f]\n", mlx.player.pos[0], mlx.player.pos[1], mlx.player.pos[2], mlx.player.dir[0], mlx.player.dir[1]);
+	// print_lobby(lbb_get_ptr(NULL));
+	ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n", &mlx, *mlx.index, *mlx.socket, RESET);
 
 	// key hooks
 	mlx_hook(mlx.win, KeyPress, KeyPressMask, &handle_key_press, &mlx);
@@ -124,15 +236,54 @@ static int cub3d(int argc, char *argv[])
 	ft_printf("! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
 
 	mlx_loop(mlx.mlx);
-    return (0);
+	return (0);
+}
+
+/* initialize an env with NAME, SERVER_IP, LOCAL_IP.
+if 'real_env' isn't null, copies the whole matrix. */
+char	**fake_env_init(char **real_env)
+{
+	char			**fake_env;
+	size_t			real_len;
+	unsigned int	i;
+
+	real_len = 0;
+	if (real_env != NULL)
+		real_len = ft_mtxlen((void **)real_env);
+	fake_env = (char **)ft_calloc((real_len + 4), sizeof(char *));
+	if (fake_env == NULL)
+		return (NULL);
+	i = 0;
+	while (i < real_len)
+	{
+		fake_env[i] = real_env[i];
+		i++;
+	}
+	fake_env[i++] = ft_strdup("NAME=really-long-name-that-isnt-set-in-any-mean");
+	fake_env[i++] = ft_strdup("LOCAL_IP=ip-not-set");
+	fake_env[i++] = ft_strdup("SERVER_IP=ip-not-set");
+	if (fake_env[real_len] == NULL
+		|| fake_env[real_len + 1] == NULL
+		|| fake_env[real_len + 2] == NULL)
+	{
+		free(fake_env[real_len]);
+		free(fake_env[real_len + 1]);
+		free(fake_env[real_len + 2]);
+		free(fake_env);
+		return (NULL);
+	}
+	return (fake_env);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-	// t_player	*lobby;
-
 	(void)argc; (void)argv; (void)envp;
-	// if (argc > 4)
+	// char **const	fake_env = fake_env_init(envp);
+	// // t_player	*lobby;
+
+	// ft_printf("got argc %d\nargv[1] %s\nargv[2] %s\nargv[3] %s\nargv[4] %s\n", argc, argv[1], argv[2], argv[3], argv[4]);
+
+	// if (argc < 2 || argc > 5)
 	// {
 	// 	error_msg(ERR_ARGS);
 	// 	return (1);
@@ -144,13 +295,38 @@ int main(int argc, char *argv[], char *envp[])
 	// 		ft_printf("wrong IP\n");
 	// 		return (1);
 	// 	}
-	// 	make_him_host(argv[2], envp);
-	// 	if (argc < 3)
-	// 		set_my_name("b4llbre4k3r", envp);
+	// 	make_him_host(argv[2], fake_env);
+	// 	if (argc > 3)
+	// 		set_my_name(argv[3], fake_env);
 	// 	else
-	// 		set_my_name(argv[3], envp);
+	// 		set_my_name("b4llbre4k3r", fake_env);
+	// 	if (argc > 4)
+	// 		set_my_ip(argv[4], fake_env);
+	// 	else
+	// 		set_my_ip("127.0.0.1", fake_env);	// redirect everyone on the local LOL
 	// }
-	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
-    cub3d(2, argv);
-    return (0);
+	// int	i = 55;
+	// ft_printf("\n[54] ...\n");
+	// while (fake_env[i] != NULL)
+	// {
+	// 	ft_printf("[%i] %s\n", i, fake_env[i]);
+	// 	i++;
+	// }
+	// ft_printf("\n");
+
+	/* ONLINE */
+
+	if (lbb_init() == NULL)
+		return (1);
+
+	int			index = 0;
+	int			socket = 0;
+	pthread_t	thread = 0;
+
+	// thread = get_me_online(&index, &socket, fake_env);
+	usleep(1000);
+	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(fake_env), get_my_name(envp));
+	ft_printf(ERROR"get_me_online couses the invalid read and the map to vanish!%s\n", RESET);
+	cub3d_bonus(&index, &socket, &thread, argv[1]);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 18:06:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:12:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	direction_oriented_movement(t_mlx *mlx)
 {
 	int *const	o_speed = mlx->player.o_speed;
 	int *const	speed = mlx->player.speed;
+
 	if (mlx->keys.lx_rx[0] == 1)
 		o_speed[0] -= 50;
 	if (mlx->keys.lx_rx[1] == 1)
