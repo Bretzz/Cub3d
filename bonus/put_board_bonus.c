@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:33:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:53:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 /* 0 it killed us, 1 it didn't */
-static int     shoot_laser(t_mlx *mlx, float *pos, float dir, float *my_pos)
+static int     shoot_laser(t_mlx *mlx, float *pos, float *dir, float *my_pos)
 {
 	const float	delta_angle = (float)mlx->player.fov[0] / mlx->win_x;       // 0 = left, pi/2 = up
 	const float	kill_angle = atan2((pos[1] - my_pos[1]), (pos[0] - my_pos[0])) * 180 / M_PI;
@@ -22,18 +22,25 @@ static int     shoot_laser(t_mlx *mlx, float *pos, float dir, float *my_pos)
 	float		ray;
 
 	// printf("dir %f, kill_angle %f, delta_angle %f\n", dir, kill_angle, delta_angle);
-	if (dir < kill_angle - 10 * delta_angle
-		|| dir > kill_angle + 10 * delta_angle)
+	if (dir[0] < kill_angle - 10 * delta_angle
+		|| dir[0] > kill_angle + 10 * delta_angle)
 	{
 		ft_printf("DIRECTION OUT\n");
 		return (1);
 	}
 	my_dist = sqrt(pow(pos[0] - my_pos[0], 2) + pow(pos[1] - my_pos[1], 2));
-	ray = cast_ray(mlx, pos[0], pos[1], dir);
-	ft_printf("my dist %d, ray %d\n", my_dist, ray);
+	ray = cast_ray(mlx, pos[0], pos[1], dir[0]);
+	// ft_printf("my dist %f, ray %f\n", my_dist, ray);
 	if (ray > 0 && ray < my_dist)
 	{
 		ft_printf("OBSTACLE OUT\n");
+		return (1);
+	}
+	float heigth = (my_dist / sinf(dir[1] * M_PI / 180)) * cos(dir[1] * M_PI / 180);
+	printf("heigth %f\n", heigth);
+	if (heigth > 4)
+	{
+		ft_printf("HEIGTH OUT\n");
 		return (1);
 	}
 	return (0);
@@ -52,7 +59,7 @@ if we got hit by a line (even ours) we exit. */
 	// my_pixel_put(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], color);
 	if (index != *mlx->index && lobby[index].shoot == 1)
 	{
-		if (shoot_laser(mlx, (float *)lobby[index].pos, *(float *)&lobby[index].tar[0], (float *)mlx->player.pos) == 0)
+		if (shoot_laser(mlx, (float *)lobby[index].pos, (float *)&lobby[index].tar[0], (float *)mlx->player.pos) == 0)
 		{
 			if (*mlx->index == HOST)
 			{

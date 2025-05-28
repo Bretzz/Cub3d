@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:36:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:46:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,31 @@ NOTE: future implementation: passing the sprite pointer and the
 dimensions of the sprite. */
 static int	put_sprite(t_mlx *mlx, int x_screen, int y_screen, t_sprite sprite)
 {
-	const int	new_width = (sprite.width * sprite.scale);
-	const int	new_heigth = (sprite.heigth * sprite.scale);
-	int			y;
-	int			x;
+	const int		new_width = (sprite.width * sprite.scale);
+	const int		new_heigth = (sprite.heigth * sprite.scale);
+	int				win_x_y[2];
+	int				src_x_y[2];
+	unsigned int	color;
 
-	y = 0;
-	while (y < new_heigth && y + (y_screen - (new_heigth / 2)) < mlx->win_y)
+	win_x_y[1] = 0;
+	while (win_x_y[1] < new_heigth && win_x_y[1] + (y_screen - (new_heigth / 2)) < mlx->win_y)
 	{
-		x = 0;
-		while (x < new_width && x + (x_screen - (new_width / 2)) < mlx->win_x)
+		win_x_y[0] = 0;
+		while (win_x_y[0] < new_width && win_x_y[0] + (x_screen - (new_width / 2)) < mlx->win_x)
 		{
-			int src_x = x * sprite.width / new_width;
-			int src_y = y * sprite.heigth / new_heigth;
-			int color = get_pixel_color(sprite.image, src_x, src_y);
+			src_x_y[0] = win_x_y[0] * sprite.width / new_width;
+			src_x_y[1] = win_x_y[1] * sprite.heigth / new_heigth;
+			color = get_pixel_color(sprite.image, src_x_y[0], src_x_y[1]);
 			if ((unsigned int)color < 100000000)	// do not plot black
 			{
 				my_pixel_put(mlx,
-					x + (x_screen - (new_width / 2)),
-					y + (y_screen - (new_heigth / 2)),
+					win_x_y[0] + (x_screen - (new_width / 2)),
+					win_x_y[1] + (y_screen - (new_heigth / 2)),
 					color);
 			}
-			x++;
+			win_x_y[0]++;
 		}
-		y++;
+		win_x_y[1]++;
 	}
 	return (0);
 }
