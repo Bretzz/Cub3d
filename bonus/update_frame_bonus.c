@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:51:56 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:16:04 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ int update_frame(void *arg)
 	{
 		mlx->player.pos = (float *)mlx->lobby[*mlx->index].pos;
 		mlx->player.dir = (float *)mlx->lobby[*mlx->index].tar;
-		if (move_player(mlx) != 0)
+		if (move_player(mlx) + move_mouse(mlx))
 		{
 			buffer_player_action(mlx->lobby[*mlx->index], "update", buffer);
-			// ft_printf("send_all(%p, %s, %u)\n", mlx, buffer, ft_strlen(buffer));
 			send_all(mlx, buffer, ft_strlen(buffer), 0);
 		}
-		move_mouse(mlx);
+		// move_mouse(mlx);
 		put_board(mlx);
 	}
 	else

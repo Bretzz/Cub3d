@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:10:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:36:07 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ static int	put_sprite(t_mlx *mlx, int x_screen, int y_screen, t_sprite sprite)
 		{
 			int src_x = x * sprite.width / new_width;
 			int src_y = y * sprite.heigth / new_heigth;
-			my_pixel_put(mlx,
-				x + (x_screen - (new_width / 2)),
-				y + (y_screen - (new_heigth / 2)),
-				get_pixel_color(sprite.image, src_x, src_y));
+			int color = get_pixel_color(sprite.image, src_x, src_y);
+			if ((unsigned int)color < 100000000)	// do not plot black
+			{
+				my_pixel_put(mlx,
+					x + (x_screen - (new_width / 2)),
+					y + (y_screen - (new_heigth / 2)),
+					color);
+			}
 			x++;
 		}
 		y++;

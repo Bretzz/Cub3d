@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:15:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 00:21:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ static int	data_init(t_mlx *mlx, char *path)
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
-	mlx->player.tspeed[0] = 300.0f;
+	mlx->player.tspeed[0] = 36.0f;
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
-	mlx->player.friction = 1;
+	mlx->player.friction = 7;
 	mlx->map.mtx = parsing(path, mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
@@ -97,7 +97,7 @@ static int	data_init(t_mlx *mlx, char *path)
 	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
-	mlx->frames = 21;	// do not insert a multiple of 10
+	mlx->frames = 1;	// do not insert a multiple of 10
 	// ft_printf("init frames %d\n", mlx->frames);
 	// ugly sprite loading
 	if (juice_the_pc(mlx) || load_player_sprites(mlx))
