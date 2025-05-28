@@ -24,4 +24,6 @@ int     put_player(t_mlx *mlx, float *pos, float *dir);
 
 void    send_all(t_mlx *mlx, char *msg, size_t size, char flag);
 
+void	free_fake_env(char **fake_env);
+
 #endif

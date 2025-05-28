@@ -157,6 +157,8 @@ run.sh:
 	@> $@ echo '\
 	\#!/bin/bash \
 	\
+	export NAME= SERVER_IP= LOCAL_IP= \
+	\
 	if [ "$$(uname)" = "Linux" ]; then \
 		LOCAL_IP=$$(hostname -i); \
 	else \

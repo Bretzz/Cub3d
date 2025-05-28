@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 16:14:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:17:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	clean_exit(t_mlx *mlx)
 			mlx_destroy_image(mlx->mlx, mlx->player.sprite[i].image);
 		i++;
 	}
-	if (mlx->win)
-		mlx_destroy_window(mlx->mlx, mlx->win);
 	//freeing mlx resources 
 	if (mlx->mlx)
 	{
+		if (mlx->win)
+			mlx_destroy_window(mlx->mlx, mlx->win);
+			//free_mtx((void **)mlx->map.mtx);
 		mlx_destroy_display(mlx->mlx);	// macOS issues
-		//free_mtx((void **)mlx->map.mtx);
 		if (mlx->map.mtx)
 			free_mtx((void **)mlx->map.mtx);
 		free(mlx->mlx);

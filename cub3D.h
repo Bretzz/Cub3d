@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 16:06:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:40:04 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_CHAR "	invalid character in map"
+# define ERR_ENVP " missing env variable(s)"
 
 # ifndef MLX_WIN_X
 #  define MLX_WIN_X 1000

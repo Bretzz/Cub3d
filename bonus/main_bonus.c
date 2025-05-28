@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 16:17:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:42:02 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,80 +239,74 @@ static int cub3d_bonus(int *index, int *socket, void *thread, char *path)
 	return (0);
 }
 
-/* initialize an env with NAME, SERVER_IP, LOCAL_IP.
-if 'real_env' isn't null, copies the whole matrix. */
-char	**fake_env_init(char **real_env)
+/* checks if the enviroment contains NAME, LOCAL_IP, SERVER_IP */
+static int	env_is_ready(char *envp[])
 {
-	char			**fake_env;
-	size_t			real_len;
+	char			found[3];
 	unsigned int	i;
 
-	real_len = 0;
-	if (real_env != NULL)
-		real_len = ft_mtxlen((void **)real_env);
-	fake_env = (char **)ft_calloc((real_len + 4), sizeof(char *));
-	if (fake_env == NULL)
-		return (NULL);
+	if (envp == NULL)
+		return (0);
+	ft_memset(found, 0, 3 * sizeof(char));
 	i = 0;
-	while (i < real_len)
+	while (envp[i] != NULL)
 	{
-		fake_env[i] = real_env[i];
+		if (!ft_strncmp("NAME=", envp[i], 5))
+			found[0] = 1;
+		else if (!ft_strncmp("SERVER_IP=", envp[i], 10))
+			found[1] = 1;
+		else if (!ft_strncmp("LOCAL_IP=", envp[i], 9))
+			found[2] = 1;
 		i++;
 	}
-	fake_env[i++] = ft_strdup("NAME=really-long-name-that-isnt-set-in-any-mean");
-	fake_env[i++] = ft_strdup("LOCAL_IP=ip-not-set");
-	fake_env[i++] = ft_strdup("SERVER_IP=ip-not-set");
-	if (fake_env[real_len] == NULL
-		|| fake_env[real_len + 1] == NULL
-		|| fake_env[real_len + 2] == NULL)
-	{
-		free(fake_env[real_len]);
-		free(fake_env[real_len + 1]);
-		free(fake_env[real_len + 2]);
-		free(fake_env);
-		return (NULL);
-	}
-	return (fake_env);
+	if (found[0] && found[1] && found[2])
+		return (1);
+	return (0);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-	(void)argc; (void)argv; (void)envp;
 	// char **const	fake_env = fake_env_init(envp);
-	// // t_player	*lobby;
+	// t_player	*lobby;
+	
+	(void)argc; (void)argv; (void)envp;
+	ft_printf("got argc %d\nargv[1] %s\nargv[2] %s\nargv[3] %s\nargv[4] %s\n", argc, argv[1], argv[2], argv[3], argv[4]);
 
-	// ft_printf("got argc %d\nargv[1] %s\nargv[2] %s\nargv[3] %s\nargv[4] %s\n", argc, argv[1], argv[2], argv[3], argv[4]);
-
-	// if (argc < 2 || argc > 5)
-	// {
-	// 	error_msg(ERR_ARGS);
-	// 	return (1);
-	// }
-	// if (argc > 2)
-	// {
-	// 	if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
-	// 	{
-	// 		ft_printf("wrong IP\n");
-	// 		return (1);
-	// 	}
-	// 	make_him_host(argv[2], fake_env);
-	// 	if (argc > 3)
-	// 		set_my_name(argv[3], fake_env);
-	// 	else
-	// 		set_my_name("b4llbre4k3r", fake_env);
-	// 	if (argc > 4)
-	// 		set_my_ip(argv[4], fake_env);
-	// 	else
-	// 		set_my_ip("127.0.0.1", fake_env);	// redirect everyone on the local LOL
-	// }
-	// int	i = 55;
-	// ft_printf("\n[54] ...\n");
-	// while (fake_env[i] != NULL)
-	// {
-	// 	ft_printf("[%i] %s\n", i, fake_env[i]);
-	// 	i++;
-	// }
-	// ft_printf("\n");
+	if (argc < 2 || argc > 5)
+	{
+		error_msg(ERR_ARGS);
+		return (1);
+	}
+	if (!env_is_ready(envp))
+	{
+		error_msg(ERR_ENVP);
+		return (1);
+	}
+	if (argc > 2)
+	{
+		if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
+		{
+			ft_printf("wrong IP\n");
+			return (1);
+		}
+		make_him_host(argv[2], envp);
+		if (argc > 3)
+			set_my_name(argv[3], envp);
+		else
+			set_my_name("b4llbre4k3r", envp);
+		if (argc > 4)
+			set_my_ip(argv[4], envp);
+		else
+			set_my_ip("127.0.0.1", envp);	// redirect everyone on the local LOL
+	}
+	int	i = 55;
+	ft_printf("\n%s[54] ...\n", PURPLE);
+	while (envp[i] != NULL)
+	{
+		ft_printf("[%i] %s\n", i, envp[i]);
+		i++;
+	}
+	ft_printf(RESET"\n");
 
 	/* ONLINE */
 
@@ -323,9 +317,9 @@ int main(int argc, char *argv[], char *envp[])
 	int			socket = 0;
 	pthread_t	thread = 0;
 
-	// thread = get_me_online(&index, &socket, fake_env);
-	usleep(1000);
-	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(fake_env), get_my_name(envp));
+	thread = get_me_online(&index, &socket, envp);
+	// usleep(1000);
+	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
 	ft_printf(ERROR"get_me_online couses the invalid read and the map to vanish!%s\n", RESET);
 	cub3d_bonus(&index, &socket, &thread, argv[1]);
 	return (0);
