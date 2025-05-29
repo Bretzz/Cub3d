@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:53:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:00:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ static int     shoot_laser(t_mlx *mlx, float *pos, float *dir, float *my_pos)
 	float    	my_dist;
 	float		ray;
 
+	// my_dist = sqrt(pow(pos[0] - my_pos[0], 2) + pow(pos[1] - my_pos[1], 2));
+	// float heigth = -(my_dist / cosf((dir[1] - 90) * M_PI / 180)) * sinf((dir[1] - 90) * M_PI / 180) + 1;
+	// printf("heigth %f\n", heigth);
+	
 	// printf("dir %f, kill_angle %f, delta_angle %f\n", dir, kill_angle, delta_angle);
 	if (dir[0] < kill_angle - 10 * delta_angle
 		|| dir[0] > kill_angle + 10 * delta_angle)
 	{
-		ft_printf("DIRECTION OUT\n");
+		ft_printf("DIRECTION OUT ! ! ! REVIEW ! ! !\n");
 		return (1);
 	}
 	my_dist = sqrt(pow(pos[0] - my_pos[0], 2) + pow(pos[1] - my_pos[1], 2));
@@ -36,9 +40,10 @@ static int     shoot_laser(t_mlx *mlx, float *pos, float *dir, float *my_pos)
 		ft_printf("OBSTACLE OUT\n");
 		return (1);
 	}
-	float heigth = (my_dist / sinf(dir[1] * M_PI / 180)) * cos(dir[1] * M_PI / 180);
+	// heigth is wrong :()
+	float heigth = -(my_dist / cosf((dir[1] - 90) * M_PI / 180)) * sinf((dir[1] - 90) * M_PI / 180) + 1;
 	printf("heigth %f\n", heigth);
-	if (heigth > 4)
+	if (heigth < 0.5f || heigth > 1)
 	{
 		ft_printf("HEIGTH OUT\n");
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:21:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:00:40 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static int cub3d_bonus(int *index, int *socket, void *thread, char *path, void *
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
-	ft_printf("! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
+	ft_printf("! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
 
 	mlx_loop(mlx.mlx);
 	return (0);
