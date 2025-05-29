@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:04:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:24:41 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:32:37 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	new_player(const char *msg, t_player *lobby, void *online);
 void	update_player(const char *msg, t_player *lobby, void *online);
 // void	kill_player(const char *msg, t_player *lobby);
 void	host_player(const char *msg, t_player *lobby);
-void	shoot_player(const char *msg, t_player *lobby);
+void	fire_player(const char *msg, t_player *lobby);
+void	hit_player(const char *msg, t_player *lobby);
 
 /* UTILS */
 

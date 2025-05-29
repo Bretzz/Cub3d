@@ -20,11 +20,15 @@
 # include <X11/Xlib.h>
 # include <pthread.h>
 
-int	    put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
-int     put_player(t_mlx *mlx, float *pos, float *dir);
+int	    put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite, int chroma);
+int     put_health_bar(t_mlx *mlx, t_plot plot, int hp);
+int     put_player(t_mlx *mlx, t_player player, int action, int chroma);
+int		put_crosshair(t_mlx *mlx, unsigned int color);
 
-void    send_all(t_mlx *mlx, char *msg, size_t size, char flag);
+void	send_all(t_mlx *mlx, char *msg, size_t size, char flag);
 
-void	free_fake_env(char **fake_env);
+int		handle_player(t_mlx *mlx, t_player *lobby, int index);
+
+float	dir_diff(float dir1, float dir2);
 
 #endif

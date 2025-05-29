@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 11:51:55 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:42:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:40:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@
 # define MAXLINE 2760	/* Max sent/recvd buffer size */
 
 # define MAXPLAYERS 10	/* lbb max number of players */
+# define PLAYER_HP 5
 
 #endif

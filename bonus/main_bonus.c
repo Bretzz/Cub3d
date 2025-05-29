@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 12:00:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:34:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* send messages trough the mlx->socket */
 void    send_all(t_mlx *mlx, char *msg, size_t size, char flag)
 {
+	if (*mlx->socket <= 2)
+		return ;
 	if (flag == -1)
 	{
 		if (*mlx->index == HOST)
@@ -35,28 +37,33 @@ void    send_all(t_mlx *mlx, char *msg, size_t size, char flag)
 static int	load_player_sprites(t_mlx *mlx)
 {
 	// ugly sprite loading
-	mlx->player.sprite[0].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_front.xpm", &mlx->player.sprite[0].width, &mlx->player.sprite[0].heigth);
+	mlx->player.sprite[0].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/sprites/stop_front.xpm", &mlx->player.sprite[0].width, &mlx->player.sprite[0].heigth);
 	if (mlx->player.sprite[0].image == NULL)
 		return (1);
 	ft_printf("front OK\n");
 	mlx->player.sprite[0].scale = 1;
-	mlx->player.sprite[1].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_back.xpm", &mlx->player.sprite[1].width, &mlx->player.sprite[1].heigth);
+	mlx->player.sprite[1].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/sprites/stop_back.xpm", &mlx->player.sprite[1].width, &mlx->player.sprite[1].heigth);
 	if (mlx->player.sprite[1].image == NULL)
 		return (1);
 	mlx->player.sprite[1].scale = 1;
-	mlx->player.sprite[2].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_left.xpm", &mlx->player.sprite[2].width, &mlx->player.sprite[2].heigth);
+	mlx->player.sprite[2].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/sprites/stop_left.xpm", &mlx->player.sprite[2].width, &mlx->player.sprite[2].heigth);
 	if (mlx->player.sprite[2].image == NULL)
 		return (1);
 	mlx->player.sprite[2].scale = 1;
-	mlx->player.sprite[3].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/stop_right.xpm", &mlx->player.sprite[3].width, &mlx->player.sprite[3].heigth);
+	mlx->player.sprite[3].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/sprites/stop_right.xpm", &mlx->player.sprite[3].width, &mlx->player.sprite[3].heigth);
 	if (mlx->player.sprite[3].image == NULL)
 		return (1);
 	mlx->player.sprite[3].scale = 1;
-	ft_printf("got sprite of size:\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n",
+	mlx->player.sprite[4].image = mlx_xpm_file_to_image(mlx->mlx, "./bonus/sprites/shoot_front.xpm", &mlx->player.sprite[4].width, &mlx->player.sprite[4].heigth);
+	if (mlx->player.sprite[4].image == NULL)
+		return (1);
+	mlx->player.sprite[4].scale = 1;
+	ft_printf("got sprite of size:\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n",
 		mlx->player.sprite[0].width, mlx->player.sprite[0].heigth,
 		mlx->player.sprite[1].width, mlx->player.sprite[1].heigth,
 		mlx->player.sprite[2].width, mlx->player.sprite[2].heigth,
-		mlx->player.sprite[3].width, mlx->player.sprite[3].heigth);
+		mlx->player.sprite[3].width, mlx->player.sprite[3].heigth,
+		mlx->player.sprite[4].width, mlx->player.sprite[4].heigth);
 	return (0);
 }
 
@@ -86,10 +93,10 @@ static int	data_init(t_mlx *mlx, char *path)
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
-	mlx->player.tspeed[0] = 36.0f;
+	mlx->player.tspeed[0] = 30.0f;
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
-	mlx->player.friction = 7;
+	mlx->player.friction = 42;
 	mlx->map.mtx = parsing(path, mlx);
 	if (mlx->map.mtx == NULL)
 		//return (1);
@@ -150,7 +157,7 @@ static int cub3d_bonus(int *index, int *socket, void *thread, char *path, void *
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
-	ft_printf("! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
+	ft_printf("\n! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n\t%sADD CHROMAS FOR DIFFERENT PLAYERS%s\n", BOLD, RESET);
 
 	mlx_loop(mlx.mlx);
 	return (0);
@@ -184,22 +191,22 @@ static int	env_has_vars(char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	(void)argc; (void)argv; (void)envp;
-	ft_printf("argc=%d\n", argc);
-	ft_printf("\nargv[1] %s\nargv[2] %s\nargv[3] %s\n", argv[1], argv[2], argv[3]);
+	// (void)argc; (void)argv; (void)envp;
+	// ft_printf("argc=%d\n", argc);
+	// ft_printf("\nargv[1] %s\nargv[2] %s\nargv[3] %s\n", argv[1], argv[2], argv[3]);
 
 	if (argc < 2 || argc > 4)
 	{
 		error_msg(ERR_ARGS);
 		return (1);
 	}
-	if (!env_has_vars(envp))
-	{
-		error_msg(ERR_ENVP);
-		return (1);
-	}
 	if (argc > 2)
 	{
+		if (!env_has_vars(envp))
+		{
+			error_msg(ERR_ENVP);
+			return (1);
+		}
 		XInitThreads();  // Must be called before any X11 functions
 		if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
 		{
@@ -245,9 +252,23 @@ int main(int argc, char *argv[], char *envp[])
 			return (1);
 		}
 	}
+
+	// dummy player
+	// const char msg[] = "dummy:0.0.0.0:1089470464_1085276160_1065353216:1127481344_1119092736_0";
+	// t_player *lobby = lbb_get_ptr(NULL);
+	// ft_strlcpy(lobby[2].name, "dummy", 10);
+	// ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
+	// lobby[2].pos[0] = 1090701466;
+	// lobby[2].pos[1] = 1085620093;
+	// lobby[2].pos[2] = 1065353216;
+	// lobby[2].tar[0] = 1095720131;
+	// lobby[2].tar[0] = 1120141309;
+	// lobby[2].tar[0] = 0;
+	// lobby[2].hp = PLAYER_HP;
+
 	// usleep(1000);
 	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(envp), get_my_name(envp));
-	ft_printf(ERROR"get_me_online couses the invalid read and the map to vanish!%s\n", RESET);
+	// ft_printf(ERROR"get_me_online couses the invalid read and the map to vanish!%s\n", RESET);
 	cub3d_bonus(&index, &socket, &thread, argv[1], mlx_str, mlx_win);
 	return (0);
 }

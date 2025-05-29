@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 21:42:13 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 22:43:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:41:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static void	*reciever(void *arg)
 			break ;
 		}
 		// sending the update to the rest of the lobby
-		if (server_sender(socket, buffer, NULL, 0) < 0)
+		if (server_sender(socket, buffer, &addr, 0) < 0)
 			break ;
 	}
 	return (close(socket), NULL);

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:03:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:40:55 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:47:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	new_player(const char *msg, t_player *lobby, void *online);
 void	update_player(const char *msg, t_player *lobby, void *online);
 // void	kill_player(const char *msg, t_player *lobby);
 void	host_player(const char *msg, t_player *lobby);
-void	shoot_player(const char *msg, t_player *lobby);
+void	fire_player(const char *msg, t_player *lobby);
+void	hit_player(const char *msg, t_player *lobby);
 
 void	new_player(const char *msg, t_player *lobby, void *online)
 {
@@ -28,7 +29,6 @@ void	new_player(const char *msg, t_player *lobby, void *online)
 			lobby[lbb_get_index(msg)].online = online;
 		return ;
 	}
-	ft_printf("....\n");
 	slot = lbb_next_free_slot();
 	if (slot < 0)
 		return ;
@@ -38,6 +38,7 @@ void	new_player(const char *msg, t_player *lobby, void *online)
 	msg_get_tar(msg, lobby[slot].tar);
 	if (online != NULL)
 		lobby[slot].online = online;
+	lobby[slot].hp = PLAYER_HP;
 }
 
 void	update_player(const char *msg, t_player *lobby, void *online)
@@ -75,17 +76,25 @@ void	host_player(const char *msg, t_player *lobby)
 		return ;
 	free(lobby[HOST].online);	// could be done better
 	lbb_move_player(slot, 0);
-	lbb_push_up();
+	// lbb_push_up();			// comment so that color don't change
 }
 
-void	shoot_player(const char *msg, t_player *lobby)
+void	fire_player(const char *msg, t_player *lobby)
 {
 	int	slot;
 
 	slot = lbb_get_index(msg);
 	if (slot < 0)
 		return ;
-	msg_get_pos(msg, lobby[slot].pos);
-	msg_get_tar(msg, lobby[slot].tar);
 	lobby[slot].shoot = 1;
+}
+
+void	hit_player(const char *msg, t_player *lobby)
+{
+	int	slot;
+
+	slot = lbb_get_index(msg);
+	if (slot < 0)
+		return ;
+	lobby[slot].hp--;
 }

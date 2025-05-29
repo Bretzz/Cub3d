@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:40:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:04:09 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	handle_key_press(int keysym, void *arg)
 		// ft_printf("jumping\n");
 	}
 	else if (keysym == 'c' || keysym == 8
-		||keysym == XK_Alt_L || keysym == LALT)
+		/* || keysym == XK_Alt_L || keysym == LALT */)
 		mlx->keys.jump_slide[1] = 1;
 	else if (keysym == XK_Shift_L || keysym == LSHIFT)
 		mlx->keys.shift = 1;
@@ -77,8 +77,8 @@ int	handle_key_release(int keysym, void *arg)
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->keys.jump_slide[0] = 0;
-	else if (keysym == 'c' || keysym == 8 ||
-		keysym == XK_Alt_L || keysym == LALT)
+	else if (keysym == 'c' || keysym == 8
+		/* || keysym == XK_Alt_L || keysym == LALT */)
 	{
 		mlx->keys.jump_slide[1] = 0;
 		// mlx->player.pos[2] += 0.5f;

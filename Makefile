@@ -79,11 +79,13 @@ SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
 B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
+				update_frame_bonus.c \
 				move_player_bonus.c move_mouse_bonus.c \
-				handle_mouse_bonus.c \
-				put_board_bonus.c update_frame_bonus.c \
+				handle_mouse_bonus.c handle_player.c \
+				put_board_bonus.c put_crosshair.c \
 				put_whole_column_bonus.c \
-				put_sprite_on_map.c put_player.c
+				put_sprite_on_map.c put_sprite_health_bar.c \
+				put_player.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
 B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))

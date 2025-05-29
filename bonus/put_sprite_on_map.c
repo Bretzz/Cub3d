@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:46:03 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:48:38 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,38 @@
 
 #include <stdio.h>
 
-int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
+int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite, int chroma);
 
 /* adds the sprite to the mlx->img
 starting from x_screen and y_screen and scaled
 by a factor (scale).
 NOTE: future implementation: passing the sprite pointer and the
 dimensions of the sprite. */
-static int	put_sprite(t_mlx *mlx, int x_screen, int y_screen, t_sprite sprite)
+static int	put_sprite(t_mlx *mlx, t_plot plot, t_sprite sprite, int chroma)
 {
-	const int		new_width = (sprite.width * sprite.scale);
-	const int		new_heigth = (sprite.heigth * sprite.scale);
-	int				win_x_y[2];
-	int				src_x_y[2];
-	unsigned int	color;
+	const unsigned int	c_map[6] = { 0x714333, 0xff00fa, 0xff0000, 0x00ff00, 0x0000ff, 0xa0b0c0};
+	const int			new_width = (sprite.width * sprite.scale);
+	const int			new_heigth = (sprite.heigth * sprite.scale);
+	int					win_x_y[2];
+	int					src_x_y[2];
+	unsigned int		color;
 
 	win_x_y[1] = 0;
-	while (win_x_y[1] < new_heigth && win_x_y[1] + (y_screen - (new_heigth / 2)) < mlx->win_y)
+	while (win_x_y[1] < new_heigth && win_x_y[1] + (plot.y_screen - (new_heigth / 2)) < mlx->win_y)
 	{
 		win_x_y[0] = 0;
-		while (win_x_y[0] < new_width && win_x_y[0] + (x_screen - (new_width / 2)) < mlx->win_x)
+		while (win_x_y[0] < new_width && win_x_y[0] + (plot.x_screen - (new_width / 2)) < mlx->win_x)
 		{
 			src_x_y[0] = win_x_y[0] * sprite.width / new_width;
 			src_x_y[1] = win_x_y[1] * sprite.heigth / new_heigth;
 			color = get_pixel_color(sprite.image, src_x_y[0], src_x_y[1]);
-			if ((unsigned int)color < 100000000)	// do not plot black
+			if ((unsigned int)color < 100000000)	// don't plot black
 			{
+				if (color == 0x714333)
+					color = c_map[chroma % 6];
 				my_pixel_put(mlx,
-					win_x_y[0] + (x_screen - (new_width / 2)),
-					win_x_y[1] + (y_screen - (new_heigth / 2)),
+					win_x_y[0] + (plot.x_screen - (new_width / 2)),
+					win_x_y[1] + (plot.y_screen - (new_heigth / 2)),
 					color);
 			}
 			win_x_y[0]++;
@@ -63,8 +66,9 @@ static float	monoscale_dir(float dir)
 	return (dir);
 }
 
-/* difference in direction after making them comparable. */
-static float	dir_diff(float dir1, float dir2)
+/* difference in direction after making them comparable.
+(used for comparing dirs and atan2() returns) */
+float	dir_diff(float dir1, float dir2)
 {
 	return (monoscale_dir(dir1) - monoscale_dir(dir2));
 }
@@ -72,8 +76,9 @@ static float	dir_diff(float dir1, float dir2)
 
 /* (x,y) position of the sprite in the map,
 'len' is the distance from the sprite
-'dir' is the angle (degrees) we are looking the sprite from */
-int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
+'dir' is the angle (degrees) we are looking the sprite from
+if 'hp' is bigger than 0, the health bar will be shown */
+int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite, int chroma)
 {
 	const int	mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * mlx->win_y) + (mlx->win_y / 2);
 	const float	*my_pos = mlx->player.pos;
@@ -81,6 +86,7 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	float		my_dist;
 	int			x_screen;
 
+	ft_memset(&mlx->player.sprite_data, 0, sizeof(t_plot));
 	// visibility check
 	if (fabsf(dir_diff(sprite_dir, mlx->player.dir[0])) > mlx->player.fov[0] / 2)
 	{
@@ -101,13 +107,20 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	// putting sprite
 
 	int floor = (mlx->win_x) / my_dist;
-	floor -= floor / ((/* 1 /  */mlx->player.pos[2] / pos[2]) + 1);
+	floor -= floor / ((/* 1 /  */mlx->player.pos[2] / (pos[2] + 1)) + 1);
 	x_screen = (mlx->win_x / 2) + dir_diff(sprite_dir, mlx->player.dir[0]) * (mlx->win_x / mlx->player.fov[0]);
 	// ft_printf("before\n");
 	// ft_printf("spriting (%d, %d)\n", x_screen, mid_line + floor);
 	sprite.scale = ((mlx->win_x / 2) / sprite.heigth) / my_dist;
 	// printf("got scale %f\n", sprite.scale);
-	put_sprite(mlx, x_screen, mid_line + floor, sprite);
+	// ft_memset(&mlx->player.sprite_data, 0, sizeof(t_plot));
+	mlx->player.sprite_data.width = sprite.width;
+	mlx->player.sprite_data.heigth = sprite.heigth;
+	mlx->player.sprite_data.scale = sprite.scale;
+	mlx->player.sprite_data.x_screen = x_screen;
+	mlx->player.sprite_data.y_screen = mid_line + floor;
+	mlx->player.sprite_data.dist = my_dist;
 	// ft_printf("after\n");
+	put_sprite(mlx, mlx->player.sprite_data, sprite, chroma);
 	return (0);
 }

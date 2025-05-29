@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 23:44:58 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 22:22:23 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:31:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_player
 	int		tar[3];
 	char	pos_tar[MSG_DATA_LEN * 2];
 	int		shoot;
+	int		hp;
 	void	*online;			// ptr to other stuff
 }				t_player;
 

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:24:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:35:07 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ action to be performed.
 RETURNS:
 	-1: invalid msg,
 	0: action not specified,
-	1: update action,
-	2: kill action,
-	3: host action. */
+	1: new action
+	2: update action,
+	3: kill action,
+	4: host action,
+	5: fire action,
+	6: hit action. */
 int	parse_msg_string(const char *msg)
 {
 	int	action;
@@ -43,8 +46,10 @@ int	parse_msg_string(const char *msg)
 		return (3);
 	if (!ft_strncmp("host", &msg[action], 5))
 		return (4);
-	if (!ft_strncmp("shoot", &msg[action], 6))
+	if (!ft_strncmp("fire", &msg[action], 5))
 		return (5);
+	if (!ft_strncmp("hit", &msg[action], 4))
+		return (6);
 	return (0);
 }
 
@@ -69,7 +74,9 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 	else if (action == 4)
 		host_player(msg, lobby);
 	else if (action == 5)
-		shoot_player(msg, lobby);
+		fire_player(msg, lobby);
+	else if (action == 6)
+		hit_player(msg, lobby);
 	else
 		errno = 1;
 	return (action);	//may be necessary to set manually errno to 0 before

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:12:02 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,10 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 		// mlx->player.fov[1] = 0;
 		if (len > 0)
 			len *= cosf((i * delta_dir) * M_PI / 180);
-		if (i != 0)
-			// (*func)(mlx, mlx->map.stats[2], len, 0xa0b0c0);
-			(*func)(mlx, i + mlx->win_x / 2, len, 0xa0b0c0);
-		else	//central ray
-			(*func)(mlx, i + mlx->win_x / 2, len, 0xa0bff);
+		(*func)(mlx, i + mlx->win_x / 2, len, 0xa0b0c0);
 
-		// /* ft_ */printf("casting pixel %d, with angle %f, got len %f\n", i, dir * M_PI / 180, len);
-		//put_centre_line(mlx, i + mlx->win_x / 2, len, 0xff0000);
-			// (*func)(mlx, mlx->map_dim[2], len, 0xa0b0c0);
+		// 2D raycast
+		// (*func)(mlx, mlx->map.stats[2], len, 0xa0b0c0);
 		i++;
 	}
 	return (0);

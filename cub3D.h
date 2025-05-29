@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:46:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 23:48:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,17 @@ typedef struct s_sprite
 	void	*image;
 }				t_sprite;
 
+// data to help plotting the sprite
+typedef struct s_plot
+{
+	float	scale;
+	int		heigth;
+	int		width;
+	int		x_screen;
+	int		y_screen;
+	float	dist;
+}				t_plot;
+
 // keys pressed
 typedef struct s_keys
 {
@@ -151,15 +162,16 @@ typedef struct s_img
 // player data
 typedef struct s_local
 {
-	float		*pos;		// pointer to the lobby's pos
-	float		*dir;		// 0/360 = west (x), front (y)
-	int			fov[2];		// xvof, yfov
-	int			speed[3];	// speed oriented on the map's axis
-	int			o_speed[3];	// speed oriented on his axis (dir)
-	float		tspeed[2];	// top speed (x,y), z
-	float		jground;	// were the jump will end...
-	int			friction;	// divider of the x_diff and y_diff
-	t_sprite	sprite[4];	// front, back, left, right
+	float		*pos;			// pointer to the lobby's pos
+	float		*dir;			// 0/360 = west (x), front (y)
+	int			fov[2];			// xvof, yfov
+	int			speed[3];		// speed oriented on the map's axis
+	int			o_speed[3];		// speed oriented on his axis (dir)
+	float		tspeed[2];		// top speed (x,y), z
+	float		jground;		// were the jump will end...
+	int			friction;		// divider of the x_diff and y_diff
+	t_sprite	sprite[5];		// front, back, left, right
+	t_plot		sprite_data;	// buffer fro data on the sprite plot
 }				t_local;
 
 # include "hpc.h"

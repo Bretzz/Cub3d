@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:34:21 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:35:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:26:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	my_data_init(t_player *lobby, char *envp[])
 		return (0);
 	ft_strlcpy(lobby[HOST].name, get_my_name(envp), 43);
 	ft_strlcpy(lobby[HOST].ip, get_locl_ip(envp), 16);
+	lobby[HOST].hp = PLAYER_HP;
 	print_lobby(lobby);
 	ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n", lbb_player_count());
 	return (1);

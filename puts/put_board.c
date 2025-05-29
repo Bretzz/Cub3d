@@ -6,15 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:12:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 /* 2D PUTS */
-// put2d_map(mlx, mlx->map_dim[2], 0xff0000);
-// put2d_player(mlx, mlx->map_dim[2], 0x0000FF);
+// put2d_map(mlx, mlx->map.stats[2], 0xff0000);
+// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
 // cast_field(mlx, &put2d_ray);
+
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
 int	put_board(t_mlx *mlx)
 {
@@ -25,7 +26,11 @@ int	put_board(t_mlx *mlx)
 			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
-	
+
+	// put2d_map(mlx, mlx->map.stats[2], 0xff0000);
+	// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
+	// cast_field(mlx, &put2d_ray);
+
 	// plotting the screen
 	cast_field(mlx, &put_whole_column);
 	put2d_minimap(mlx, 10);
