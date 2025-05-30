@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_me_online.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:15:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 21:25:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 03:57:11 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,19 @@ pthread_t	get_me_online(int *index, int *socket, char *envp[])
 
 	set_my_ip(get_my_addr(), envp);
 	if (!env_is_ready(envp))
-		return (0);
+		return ((pthread_t)0);
 	setup = malloc(sizeof(t_setup));
 	if (setup == NULL)
-		return (0);
+		return ((pthread_t)0);
 	setup->index = index;
 	setup->socket = socket;
 	setup->envp = envp;
 	if (!data_init(socket, index, envp))
-		return (free(setup), 0);
+		return (free(setup), (pthread_t)0);
 	if (pthread_create(&tid, NULL, &manager, setup) < 0)
 	{
 		ft_perror(ERROR"thread launch"RESET);
-		return (free(setup), 0);
+		return (free(setup), (pthread_t)0);
 	}
 	while (*socket == 0)
 		usleep(1000);
