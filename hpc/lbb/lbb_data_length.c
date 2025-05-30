@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 23:50:33 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 14:05:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:10:46 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 size_t	lbb_name_length(const char *name);
 size_t	lbb_ip_length(const char *ip);

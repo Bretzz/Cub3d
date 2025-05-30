@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 15:36:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:45:34 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,40 @@
 
 int clean_exit(t_mlx *mlx);
 
+/* LOBBY MUTEX */
+static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	lbb_mutex(1);
+	while (i < MAXPLAYERS)
+	{
+		if (lbb_is_alive(lobby[i]) && lobby[i].extra != NULL)
+		{
+			j = 0;
+			while (j < SPRITE_NUM)
+			{
+				mlx_destroy_image(mlx_ptr, ((t_sprite *)(lobby[i].extra))[j].image);
+				j++;
+			}
+		}
+		i++;
+	}
+	lbb_mutex(2);
+}
+
+/* LOBBY MUTEX */
 int	clean_exit(t_mlx *mlx)
 {
 	char	buffer[MSG_LEN + 6];
-	int		i;
 
 	buffer_player_action(mlx->lobby[*mlx->index], "kill", buffer);
-	send_all(mlx, buffer, ft_strlen(buffer), 0);
+	send_all(mlx, buffer, ft_strlen(buffer));
 
 	// destroying sprites
-	i = 0;
-	while (i < 4)
-	{
-		if (mlx->player.sprite[i].image != NULL)
-			mlx_destroy_image(mlx->mlx, mlx->player.sprite[i].image);
-		i++;
-	}
+	destroy_lobby_sprites(mlx->mlx, mlx->lobby);
 
 	//freeing mlx resources 
 	if (mlx->mlx)

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
+/*   hpc_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 10:56:45 by topiana-         ###   ########.fr       */
+/*   Created: 2025/05/30 14:26:56 by topiana-          #+#    #+#             */
+/*   Updated: 2025/05/30 19:05:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lbb.h"
+#include "hpc_int.h"
 
-/* Clean way to free the whole player array */
-void	lbb_delete_lobby(t_player *lobby)
+/* call this befor get_me_online */
+int	hpc_init(void)
 {
-	const void		*small = lbb_kill_player(NULL);
-	unsigned int	i;
-
-	i = 0;
-	while (i < MAXPLAYERS)
-	{
-		if (lobby[i].online >= small)
-			free(lobby[i].online);
-		if (lobby[i].extra >= small)
-			free(lobby[i].extra);
-		i++;
-	}
-	free(lobby);
+	if (lbb_init() == NULL)
+		return (1);
+	hpc_mutex(0);
+	lbb_mutex(0);
+	return (0);
 }

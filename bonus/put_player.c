@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:59:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 22:53:28 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:38:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* put the player sprite, based on his position and direction */
 /* NOTE: ADD BUFFER FOR PRIORITY DISTANCE */
 /* idle = 0, shooting = 4 */
-int put_player(t_mlx *mlx, t_player player, int action, int chroma)
+int put_player(t_mlx *mlx, t_player player, int action/* , int chroma */)
 {
 	const float	our_dir = atan2((mlx->player.pos[1] - *(float *)&player.pos[1]), (mlx->player.pos[0] - *(float *)&player.pos[0])) * 180 / M_PI;
 	const int   difir = (float)(*(float *)&player.tar[0] + 180.0f) - our_dir;
@@ -38,8 +38,9 @@ int put_player(t_mlx *mlx, t_player player, int action, int chroma)
 	else
 		sprite_index = 1;
 		// put_sprite_on_map(mlx, (float *)player.pos, mlx->player.sprite[1], player.hp);
-	put_sprite_on_map(mlx, (float *)player.pos, mlx->player.sprite[sprite_index], chroma);
-	if (mlx->player.sprite_data.scale != 0)
-		put_health_bar(mlx, mlx->player.sprite_data, player.hp);
+	put_sprite_on_map(mlx, (float *)player.pos, ((t_sprite *)player.extra)[sprite_index]/* , chroma */);
+	if (mlx->player.last_sprite_data.scale != 0)
+		put_health_bar(mlx, mlx->player.last_sprite_data, player.hp);
+	// printf("final dist %f, final scale %f\n", mlx->player.last_sprite_data.dist, mlx->player.last_sprite_data.scale);
 	return (0);
 }

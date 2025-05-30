@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:16:46 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/21 11:57:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:14:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 int		lbb_add_player(const char *msg);
 int		lbb_update_player(const char *msg);
@@ -74,11 +74,13 @@ void	*lbb_kill_player(const char *msg)
 	if (msg == NULL)
 		return (small);
 	if (*msg == 0x7f)
+	{
 		small = (void *)msg;
+		return (small);
+	}
 	index = lbb_get_index(msg);
 	if (index < 0)
 		return (NULL);
-	ft_printf("killing %s\n", lobby[index].name);
 	if (lobby[index].online > small)
 		free(lobby[index].online);
 	ft_memset(&lobby[index], 0, sizeof(t_player));

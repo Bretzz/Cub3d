@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:54:44 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 23:05:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:11:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 int		lbb_get_index(const char *msg);
 int		lbb_next_free_slot(void);
@@ -21,13 +21,15 @@ size_t	lbb_player_count(void);
 
 /* Compares the player passed as parameter with a fully
 zeroed player, if they match, the player passed is dead.
+NOTE: the last two void ptrs are excluded.
 RETURNS: 0 if the player is dead, 1 if it isn't. */
 int	lbb_is_alive(t_player player)
 {
 	t_player	dead_player;
 
 	ft_memset(&dead_player, 0, sizeof(t_player));
-	if (!ft_memcmp(&player, &dead_player, (sizeof(t_player) - sizeof(void *))))
+	if (!ft_memcmp(&player, &dead_player,
+			(sizeof(t_player) - (2 * sizeof(void *)))))
 		return (0);
 	return (1);
 }

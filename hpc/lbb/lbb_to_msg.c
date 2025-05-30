@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:40:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 14:05:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:14:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 /* converts the stat in player into an alloc'd msg-string.
 RETURNS: the alloc'd msg-string pointer. */

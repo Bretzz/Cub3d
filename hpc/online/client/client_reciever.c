@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_reciever.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:33:11 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/21 00:43:47 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:27:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	*reciever(void *arg)
 {
 	t_player *const	lobby = lbb_get_ptr(NULL);
 	char			buffer[MAXLINE + 1];
-	size_t			len;
+	int				len;
 	int				servfd;
 	int				parse;
 
@@ -54,7 +54,7 @@ static void	*reciever(void *arg)
 		// ft_printf(RESET);
 	}
 	close(servfd);
-	return (NULL);
+	return (free(arg), NULL);
 }
 // if (handle_client_players(buffer, recenv) < 0)
 // {
@@ -65,13 +65,18 @@ static void	*reciever(void *arg)
 /* Spawns a thread that listen to the server for updates on the players */
 int	client_reciever(pthread_t *tid, int servfd)
 {
-	if (pthread_create(tid, NULL, &reciever, &servfd) < 0)
+	int	*const my_servfd = malloc(1 * sizeof(int));
+
+	if (my_servfd == NULL)
+		return (-1);
+	// ft_printf("sus2 %p\n", &socket);
+	*my_servfd = servfd;
+	if (pthread_create(tid, NULL, &reciever, my_servfd) < 0)
 	{
 		ft_perror(ERROR"reciever launch failed"RESET);
 		return (-1);
 	}
 	// might need usleep
-	usleep(1000);
 	// if (code != 0)
 	// {
 	// 	ft_printfd(STDERR_FILENO, ERROR"detach failure:%s code %d\n", RESET, code);

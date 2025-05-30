@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:07:12 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 20:34:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:11:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 void	*lbb_init(void);
 void	*lbb_get_ptr(t_player *new_lobby);

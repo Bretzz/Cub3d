@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:52:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 14:43:14 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:33:29 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	get_dir(char player_char)
 	return (0);
 }
 
+/* LOBBY MUTEX */
 int	get_player_stats(char **map, float *pos, float *dir)
 {
 	unsigned int	i;

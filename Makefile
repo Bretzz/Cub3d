@@ -36,7 +36,7 @@ ifeq ($(UNAME),Darwin)
 				&& tar -xf $(MLX_DIR).tgz && rm -f $(MLX_DIR).tgz \
 				&& ls $(MLX_DIR) || mv `ls | grep $(MLX_DIR)` $(MLX_DIR)
 	DEFS		= -D __APPLE__
-	INKS		+= -I/usr/X11/include -I$(MLX_DIR)
+	INKS		+= -I/usr/X11/include
 	LINKS		+= -I/opt/homebrew/include -I/usr/X11/include -L/usr/X11/lib -framework OpenGL -framework AppKit
 else ifeq ($(UNAME),Linux)
 	MLX_DIR		= minilibx-linux
@@ -44,7 +44,7 @@ else ifeq ($(UNAME),Linux)
 	CLONE		= git clone https://github.com/42paris/minilibx-linux.git
 	DEFS		=
 	INKS		+= -I/usr/include
-	LINKS		+= -lmlx_Linux -I$(MLX_DIR)
+	LINKS		+= -lmlx_Linux
 else
 	UNAME = Error
 endif
@@ -58,10 +58,11 @@ SRC_FILES		= main.c \
 				\
 				my_pixel_put.c \
 				get_pixel_color.c \
+				image_pixel_put.c \
 				put_board.c \
 				put_line.c \
 				put_whole_column.c \
-				put2d.c \
+				put2d.c put2d_minimap.c \
 				\
 				parsing.c \
 				get_player_stats.c \
@@ -85,7 +86,7 @@ B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
 				put_board_bonus.c put_crosshair.c \
 				put_whole_column_bonus.c \
 				put_sprite_on_map.c put_sprite_health_bar.c \
-				put_player.c
+				put_player.c put2d_minimap_bonus.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
 B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))

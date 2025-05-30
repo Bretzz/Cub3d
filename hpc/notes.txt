@@ -40,3 +40,4 @@ HOST_PUNCH extras:
 (server.c) socket, bind,  (replaceable): htonl, htons, inet_addr (already replaced ip_to_uns)
 (get_me_online.c) pthread_join
 (get_my_addr.c) getifaddrs, freeifaddrs, inet_ntoa (replaceable)
+(lbb_mutex.c) pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, pthread_mutex_destroy

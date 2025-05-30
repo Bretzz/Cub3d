@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 23:44:58 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/29 15:31:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:09:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,24 @@
 #  define MAXPLAYERS 10	/* lbb max number of players */
 # endif
 
+/* main lobby structure:
+note that the 'online' is used
+for storing addresses, or online puorpuose
+in general.
+the 'extra' pointer is a tool for
+the user to differenciate the players. */
 typedef struct s_player
 {
-	char	name[MSG_NAME_LEN];	// max name length: 42
-	char	ip[MSG_IP_LEN];		//max ip length: 15
+	char	name[MSG_NAME_LEN];
+	char	ip[MSG_IP_LEN];
 	int		pos[3];
 	int		tar[3];
 	char	pos_tar[MSG_DATA_LEN * 2];
 	int		shoot;
 	int		hp;
-	void	*online;			// ptr to other stuff
+	void	*online;
+	void	*extra;
 }				t_player;
-
 
 /* PORTABLE POINTER */
 
@@ -43,6 +49,10 @@ void	*lbb_get_ptr(t_player *new_lobby);
 /* BASICS */
 
 void	*lbb_init(void);
+
+/* MULTI-THREAD */
+
+void	*lbb_mutex(int action);
 
 /* DATA MEASUREMENT */
 

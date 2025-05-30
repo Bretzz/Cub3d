@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 18:26:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:24:44 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ static int set_serv_addr(const char *servip)
 	serveraddr->sin_family = AF_INET;
 	serveraddr->sin_port = htons ( PORT_1 );
 	serveraddr->sin_addr.s_addr = (in_addr_t)inet_addr(servip); //192.168.1.5 //INADDR_ANY // ip_to_uns crash on macOS
+	/* LOBBY MUTEX */
+	lbb_mutex(1);
 	lobby[HOST].online = serveraddr;
+	lbb_mutex(2);
 	return (0);
 }
 
@@ -110,15 +113,18 @@ static int	serv_ack(int servfd, t_player *lobby)
 }
 
 /* writing personal NAME and IP into the lobby database */
+/* LOBBY MUTEX */
 static int	my_data_init(t_player *lobby, char *env[])
 {
 	if (lobby == NULL)
 		return (0);
+	lbb_mutex(1);
 	ft_strlcpy(lobby[PLAYER].ip, get_locl_ip(env), 16);
 	ft_strlcpy(lobby[PLAYER].name, get_my_name(env), 43);
 	lobby[PLAYER].hp = PLAYER_HP;
 	print_lobby(lobby);
 	ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n", lbb_player_count());
+	lbb_mutex(2);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 15:04:09 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:43:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	handle_key_press(int keysym, void *arg)
 		mlx->keys.lx_rx[1] = 1;
 	else
 		ft_printf("Key Pressed: %i\n", keysym);
-	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
-	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
 	// ft_printf("dir[%f, %f]\n", mlx->player.dir[0], mlx->player.dir[1]);
 	return (0);
 }
@@ -77,7 +75,7 @@ int	handle_key_release(int keysym, void *arg)
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->keys.jump_slide[0] = 0;
-	else if (keysym == 'c' || keysym == 8
+	else if (keysym == XK_c ||  keysym == C_KEY || keysym == 8
 		/* || keysym == XK_Alt_L || keysym == LALT */)
 	{
 		mlx->keys.jump_slide[1] = 0;

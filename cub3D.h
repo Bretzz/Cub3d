@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 04:13:32 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:42:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 #  define A_KEY 0
 #  define S_KEY 1
 #  define D_KEY 2
+#  define C_KEY 'c'
 #  define SPACE 49
 #  define LSHIFT 257
 #  define LALT 261
@@ -63,6 +64,7 @@
 #  define A_KEY 'a'
 #  define S_KEY 's'
 #  define D_KEY 'd'
+#  define C_KEY 'c'
 #  define SPACE ' '
 #  define LSHIFT 65505
 #  define LALT 65513
@@ -71,8 +73,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 500
-# define MLX_WIN_Y 500
+# define MLX_WIN_X 1000
+# define MLX_WIN_Y 1000
 
 // graphic libs
 # include "mlx.h"
@@ -90,10 +92,11 @@
 // basic sprite data
 typedef struct s_sprite
 {
-	float	scale;
-	int		heigth;
-	int		width;
-	void	*image;
+	float			scale;
+	int				heigth;
+	int				width;
+	void			*image;
+	unsigned int	chroma;	// difference from the effective xpm file
 }				t_sprite;
 
 // data to help plotting the sprite
@@ -105,6 +108,7 @@ typedef struct s_plot
 	int		x_screen;
 	int		y_screen;
 	float	dist;
+	float	dir;
 }				t_plot;
 
 // keys pressed
@@ -151,63 +155,19 @@ typedef struct s_img
 // player data
 typedef struct s_local
 {
-	float		*pos;			// pointer to the lobby's pos
-	float		*dir;			// 0/360 = west (x), front (y)
-	int			fov[2];			// xvof, yfov
-	int			speed[3];		// speed oriented on the map's axis
-	int			o_speed[3];		// speed oriented on his axis (dir)
-	float		tspeed[2];		// top speed (x,y), z
-	float		jground;		// were the jump will end...
-	int			friction;		// divider of the x_diff and y_diff
-	t_sprite	sprite[5];		// front, back, left, right
-	t_plot		sprite_data;	// buffer fro data on the sprite plot
+	float		pos[3];				// pointer to the lobby's pos
+	float		dir[3];				// 0/360 = west (x), front (y)
+	int			fov[2];				// xvof, yfov
+	int			speed[3];			// speed oriented on the map's axis
+	int			o_speed[3];			// speed oriented on his axis (dir)
+	float		tspeed[2];			// top speed (x,y), z
+	float		jground;			// were the jump will end...
+	int			friction;			// divider of the x_diff and y_diff
+	t_sprite	*sprite;			// front, back, left, right
+	t_plot		last_sprite_data;	// buffer from data on the sprite plot
 }				t_local;
 
-# include "hpc.h"
-
-typedef struct s_mlx
-{
-	void			*mlx;
-	void			*win;
-	int				win_x;
-	int				win_y;
-	t_img			img;
-	t_map			map;
-	t_keys			keys;
-	char			on_window;
-	int				frames;
-	int				fps;
-	t_ray			ray;
-	t_local			player;
-	t_player		*lobby;
-	int				*index;
-	int				*socket;
-	void			*thread;
-}				t_mlx;
-
-// mlx big struct
-// # ifndef BONUS
-
-// typedef struct s_mlx
-// {
-// 	void			*mlx;
-// 	void			*win;
-// 	int				win_x;
-// 	int				win_y;
-// 	t_img			img;
-// 	t_map			map;
-// 	t_keys			keys;
-// 	char			on_window;
-// 	int				frames;
-// 	int				fps;
-// 	t_ray			ray;
-// 	t_local			player;
-
-// }				t_mlx;
-// # else
-
 // # include "hpc.h"
-
 
 // typedef struct s_mlx
 // {
@@ -229,7 +189,47 @@ typedef struct s_mlx
 // 	void			*thread;
 // }				t_mlx;
 
-// # endif
+// mlx big struct
+# ifndef BONUS
+
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*win;
+	t_img			img;
+	t_map			map;
+	t_keys			keys;
+	char			on_window;
+	int				frames;
+	int				fps;
+	t_ray			ray;
+	t_local			player;
+
+}				t_mlx;
+# else
+
+#  include "hpc.h"
+
+// online extension
+typedef struct s_mlx
+{
+	void			*mlx;
+	void			*win;
+	t_img			img;
+	t_map			map;
+	t_keys			keys;
+	char			on_window;
+	int				frames;
+	int				fps;
+	t_ray			ray;
+	t_local			player;
+	t_player		*lobby;		//online stuff here
+	int				*index;
+	int				*socket;
+	void			*thread;
+}				t_mlx;
+
+# endif
 
 /* ============ GAME ============= */
 
@@ -255,6 +255,7 @@ int				cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int));
 
 void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 unsigned int	get_pixel_color(void *sprite, int x, int y);
+void			image_pixel_put(void *image, int x, int y, unsigned int color);
 
 int				put_board(t_mlx *mlx);
 int				put_square(t_mlx *mlx, size_t side, int *origin, unsigned int color);
@@ -262,8 +263,8 @@ int				put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
 int				put_whole_column(void *my_struct, int x, float len, unsigned int color);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
-int				put2d_player(t_mlx *mlx, int side, unsigned int color);
 int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
+int				put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color);
 int				put2d_minimap(t_mlx *mlx, size_t side);
 
 /* =========== PARSING =========== */

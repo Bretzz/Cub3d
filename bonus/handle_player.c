@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 00:07:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:39:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,39 +17,49 @@
 int	handle_player(t_mlx *mlx, t_player *lobby, int index);
 
 /* 0 it killed us, 1 it didn't */
-static int     shoot_laser(t_mlx *mlx, float *pos, float *dir, t_plot plot)
+/* inside plot we have all the data of the sprite that is trying to kill us. */
+/* LOBBY MUTEX */
+static int     shoot_laser(t_mlx * mlx, t_plot plot, float *dir)
 {
-	const float	*my_pos = mlx->player.pos;
-	const float	kill_angle = atan2((pos[1] - my_pos[1]), (pos[0] - my_pos[0])) * 180 / M_PI;
-	const float	diff = fabsf(dir_diff(dir[0], kill_angle)) * M_PI / 180;
+	const float	diff = fabsf(dir_diff(dir[0], plot.dir)) * M_PI / 180;
 	const float	conv_dir = -(dir[1] - 90);
 	float 		heigth;
 
 	if ((plot.dist * sinf(diff)) / cosf(diff) > (M_PI / 26))
 	{
-		ft_printf("DIRECTION OUT ! ! ! REVIEW ! ! !\n");
+		// ft_printf("DIRECTION OUT ! ! ! REVIEW ! ! !\n");
 		return (1);
 	}
-	
+
+	if (cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], plot.dir) < plot.dist)
+		return (1);
+	// ft_printf("plot.dist %f, conv_dir %f\n", plot.dist, conv_dir);
 	heigth = (plot.dist / cosf(conv_dir * M_PI / 180)) * sinf(conv_dir * M_PI / 180) + 0.25f;
 	// printf("heigth %f\n", heigth);
 	if (heigth < 0/* -0.1f */ || heigth > 0.15f)
 	{
-		ft_printf("HEIGTH OUT\n");
+		// ft_printf("HEIGTH OUT\n");
 		return (1);
 	}
 	return (0);
 }
 
 /* death procedure */
+/* LOBBY MUTEX */
 static void	death_by_hand(t_mlx *mlx, int killer)
 {
 	char        buffer[MSG_LEN + 6];
+	int			my_index;
 
+	hpc_mutex(1);
+	my_index = *mlx->index;
+	hpc_mutex(2);
 	if (*mlx->index == HOST)
 	{
+		lbb_mutex(1);
 		buffer_player_action(mlx->lobby[killer], "host", buffer);
-		send_all(mlx, buffer, ft_strlen(buffer), 0);
+		lbb_mutex(2);
+		send_all(mlx, buffer, ft_strlen(buffer));
 	}
 	clean_exit(mlx);
 }
@@ -57,42 +67,54 @@ static void	death_by_hand(t_mlx *mlx, int killer)
 /* puts all the player info, position and target (with line for shot).
 if we got hit by a line (even ours) we exit.
 'lobby' is a pointer to the head of the array. */
+/* LOBBY MUTEX */
 int	handle_player(t_mlx *mlx, t_player *lobby, int index)
 {
 	char        buffer[MSG_LEN + 6];
 	static int  shootframes[MAXPLAYERS];
+	t_player	myself;
 
-	if (!lbb_is_alive(lobby[index]))
-		return (0);
+	hpc_mutex(1);
+	int	my_index = *mlx->index;
+	hpc_mutex(2);
+	lbb_mutex(1);
+	if (!lbb_is_alive(lobby[index]) || lobby[index].extra == NULL)
+		return (lbb_mutex(2), 0);
 	// put_square(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], 10, color);
 	// my_pixel_put(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], color);
-	if (index != *mlx->index)
+	if (index == my_index)
+		return (lbb_mutex(2), 0);
+	if (lobby[index].shoot == 0)
+		put_player(mlx, lobby[index], 0/* , index */);
+	else
 	{
-		if (lobby[index].shoot == 0)
-			put_player(mlx, lobby[index], 0, index);
-		else
+		if (shootframes[index] < SHOT_FRAMES)
 		{
-			if (shootframes[index] < SHOT_FRAMES)
-			{
-				put_player(mlx, lobby[index], 4, index);
-				shootframes[index]++;
-			}
-			if (shootframes[index] == 1 && shoot_laser(mlx, (float *)lobby[index].pos, (float *)lobby[index].tar, mlx->player.sprite_data) == 0)
-			{
-				lobby[*mlx->index].hp--;
-				ft_printf("your current hp %d\n", lobby[*mlx->index].hp);
-				if (lobby[*mlx->index].hp <= 0)
-					death_by_hand(mlx, index);
-				buffer_player_action(lobby[*mlx->index], "hit", buffer);
-				send_all(mlx, buffer, ft_strlen(buffer), 0);
-			}
-			if (shootframes[index] == SHOT_FRAMES)
-			{
-				lobby[index].shoot = 0;
-				shootframes[index] = 0;
-			}
+			put_player(mlx, lobby[index], 4/* , index */);
+			shootframes[index]++;
+		}
+		lbb_mutex(2);
+		if (shootframes[index] == 1 && mlx->player.last_sprite_data.dist != 0
+			&& shoot_laser(mlx, mlx->player.last_sprite_data, (float *)lobby[index].tar) == 0)
+		{
+			lbb_mutex(1);
+			lobby[my_index].hp--;
+			myself = lobby[my_index];
+			lbb_mutex(2);
+			ft_printf("your current hp %d\n", myself.hp);
+			if (myself.hp <= 0)
+				death_by_hand(mlx, index);
+			buffer_player_action(myself, "hit", buffer);
+			send_all(mlx, buffer, ft_strlen(buffer));
+		}
+		lbb_mutex(1);
+		if (shootframes[index] == SHOT_FRAMES)
+		{
+			lobby[index].shoot = 0;
+			shootframes[index] = 0;
 		}
 	}
+	lbb_mutex(2);
 	return (1);
 }
 

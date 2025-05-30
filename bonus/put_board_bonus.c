@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 23:39:50 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:29:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	put_board(t_mlx *mlx)
 	char			*fps;
 
 	// ft_printf("board in\n");
-	mlx->img.img = mlx_new_image(mlx->mlx, mlx->win_x, mlx->win_y);
+	mlx->img.img = mlx_new_image(mlx->mlx, MLX_WIN_X, MLX_WIN_Y);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img
 			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	if (!mlx->img.img || !mlx->img.addr)
@@ -35,8 +35,9 @@ int	put_board(t_mlx *mlx)
 	// ft_printf("field out\n");
 	put2d_minimap(mlx, 10);
 	// ft_printf("minimap out\n");
+	
 	float	pos[3] = {10, 10, 1};
-	put_sprite_on_map(mlx, pos, mlx->player.sprite[1], 0);
+	put_sprite_on_map(mlx, pos, mlx->player.sprite[1]);
 	
 	// float	dir[2] = {0 , 90};
 	// float	pos[2] = {10 , 10};
@@ -44,13 +45,11 @@ int	put_board(t_mlx *mlx)
 	int	i = 0;
 	while (i < MAXPLAYERS)
 	{
-		if (lbb_is_alive(lobby[i]))
-			handle_player(mlx, lobby, i);
-		i++;
+		handle_player(mlx, lobby, i++);
 	}
 
 	float	pos2[3] = {9.1f, 4.1f, 1};
-	put_sprite_on_map(mlx, pos2, mlx->player.sprite[4], 3);
+	put_sprite_on_map(mlx, pos2, mlx->player.sprite[4]);
 
 	put_crosshair(mlx, 0xFF0000);
 	// ft_printf("sprite out\n");
@@ -65,7 +64,7 @@ int	put_board(t_mlx *mlx)
 	fps = ft_itoa(mlx->fps);
 	if (fps == NULL)
 		return (0);
-	mlx_string_put(mlx->mlx, mlx->win, mlx->win_x - 25, 25, 0xff0000, fps);
+	mlx_string_put(mlx->mlx, mlx->win, MLX_WIN_X - 25, 25, 0xff0000, fps);
 	free(fps);
 	// ft_printf("board out\n");
 	return (1);

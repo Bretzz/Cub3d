@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_my_addr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:50:12 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 03:57:53 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/30 11:28:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char *get_my_addr(void)
 		{
 			pAddr = (struct sockaddr_in *)tmp->ifa_addr;
 			// printf("%s: %s\n", tmp->ifa_name, inet_ntoa(pAddr->sin_addr));
-			if (!ft_strncmp("en0", tmp->ifa_name, 4))	// en0 MAC, eno2 42
+			if (!ft_strncmp("en0", tmp->ifa_name, 4)		// 'en0' standard wifi
+				|| !ft_strncmp("eno2", tmp->ifa_name, 5))	// 'eno2' 42
 			{
 				ip = inet_ntoa(pAddr->sin_addr);
 				return (freeifaddrs(addrs), ip);

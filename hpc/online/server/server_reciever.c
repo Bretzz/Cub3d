@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 21:42:13 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/29 14:41:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:26:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ int	who_is_there(int socket, t_player *lobby, struct sockaddr_in *addr, char *bu
 }
 
 /* checks weather the address is already in the lobby */
+/* LOBBY MUTEX */
 int	addr_in_lobby(t_player *lobby, struct sockaddr_in *addr)
 {
 	int	i;
 
+	lbb_mutex(1);
 	i = 1;
 	while (i < MAXPLAYERS)
 	{
@@ -71,10 +73,11 @@ int	addr_in_lobby(t_player *lobby, struct sockaddr_in *addr)
 			&& !ft_memcmp(lobby[i].online, addr,
 					sizeof(struct sockaddr_in)))
 			{
-				return (1);
+				return (lbb_mutex(2), 1);
 			}
 		i++;
 	}
+	lbb_mutex(2);
 	return (0);
 }
 
@@ -124,7 +127,7 @@ static void	*reciever(void *arg)
 		if (server_sender(socket, buffer, &addr, 0) < 0)
 			break ;
 	}
-	return (close(socket), NULL);
+	return (close(socket), free(arg), NULL);
 }
 // if (handle_client_players(buffer, recenv) < 0)
 // {
@@ -136,13 +139,17 @@ static void	*reciever(void *arg)
 and handles new connections. */
 int	server_reciever(pthread_t *tid, int socket)
 {
-	if (pthread_create(tid, NULL, &reciever, &socket) < 0)
+	int	*const my_socket = malloc(1 * sizeof(int));
+	
+	if (my_socket == NULL)
+		return (-1);
+	// ft_printf("sus2 %p\n", &socket);
+	*my_socket = socket;
+	if (pthread_create(tid, NULL, &reciever, my_socket) < 0)
 	{
 		ft_perror(ERROR"reciever launch failed"RESET);
 		return (-1);
 	}
-	// might need usleep
-	usleep(1000);
 	// if (code != 0)
 	// {
 	// 	ft_printfd(STDERR_FILENO, ERROR"detach failure:%s code %d\n", RESET, code);

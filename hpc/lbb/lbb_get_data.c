@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:29:48 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 14:05:23 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:10:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lbb.h"
-# include "libft.h"
-# include "msg.h"
+#include "libft.h"
+#include "msg.h"
 
 char	*lbb_get_full_stats(t_player player, void *buffer);
 

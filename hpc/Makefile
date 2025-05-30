@@ -37,6 +37,7 @@ SRC_FILES		= \
 				lbb_data_length.c \
 				lbb_get_data.c \
 				lbb_init.c \
+				lbb_mutex.c \
 				lbb_read_data.c \
 				lbb_write_data.c \
 				lbb_to_msg.c \
@@ -50,6 +51,8 @@ SRC_FILES		= \
 				\
 				get_me_online.c \
 				hpc_free.c \
+				hpc_init.c \
+				hpc_mutex.c \
 				\
 				client.c \
 				client_reciever.c \

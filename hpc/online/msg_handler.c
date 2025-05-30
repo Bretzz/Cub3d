@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 15:35:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:52:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 	else if (action == 2)
 		update_player(msg, lobby, online);
 	else if (action == 3)
-		lbb_kill_player(msg);
+		kill_player(msg, lobby);
 	else if (action == 4)
 		host_player(msg, lobby);
 	else if (action == 5)

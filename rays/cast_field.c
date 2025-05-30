@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 20:12:02 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:26:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* cast one ray for each degree of the FOV */
 int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 {
-	const float	delta_dir = (float)mlx->player.fov[0] / mlx->win_x;
+	const float	delta_dir = (float)mlx->player.fov[0] / MLX_WIN_X;
 	float		dir;
 	float		len;
 	int			i;
@@ -24,8 +24,8 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 	// if (mlx->player.pos[0] < 0 || mlx->player.pos[0])
 	// /* ft_ */printf("delta_angle %f\n", delta_dir);
 	
-	i = -mlx->win_x / 2;
-	while (i <= mlx->win_x / 2)
+	i = -MLX_WIN_X / 2;
+	while (i <= MLX_WIN_X / 2)
 	{
 		dir = normalize_dir(mlx->player.dir[0] + (i * delta_dir));
 		// ft_printf("casting ray %i\n", i);
@@ -35,7 +35,7 @@ int	cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int))
 		// mlx->player.fov[1] = 0;
 		if (len > 0)
 			len *= cosf((i * delta_dir) * M_PI / 180);
-		(*func)(mlx, i + mlx->win_x / 2, len, 0xa0b0c0);
+		(*func)(mlx, i + MLX_WIN_X / 2, len, 0xa0b0c0);
 
 		// 2D raycast
 		// (*func)(mlx, mlx->map.stats[2], len, 0xa0b0c0);

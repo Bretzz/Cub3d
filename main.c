@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 00:20:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:25:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	juice_the_pc(t_mlx *mlx)
 	mlx->mlx = mlx_init();
 	if (!mlx->mlx)
 		return (1);
-	mlx->win_x = MLX_WIN_X;
-	mlx->win_y = MLX_WIN_Y;
+	// mlx->win_x = MLX_WIN_X;
+	// mlx->win_y = MLX_WIN_Y;
 	mlx->win = mlx_new_window(mlx->mlx, MLX_WIN_X, MLX_WIN_Y, "cub3d");
 	if (!mlx->win)
 	{
@@ -58,10 +58,7 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 		clean_exit(mlx);
 	if (juice_the_pc(mlx))
 		return (1);
-	get_map_stats((const char **)mlx->map.mtx, mlx->win_x, mlx->win_y, mlx->map.stats);
-	// check return
-	mlx->player.pos = ft_calloc(3, sizeof(float));
-	mlx->player.dir = ft_calloc(3, sizeof(float));
+	get_map_stats((const char **)mlx->map.mtx, MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_sender.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:51:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/20 22:57:02 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:02:28 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,38 @@
 static void	staitc_mutex_init(pthread_mutex_t *mutex)
 {
 	pthread_mutex_t	dead;
+	static int		init;
 
 	ft_memset(&dead, 0, sizeof(pthread_mutex_t));
-	if (!ft_memcmp(mutex, &dead, sizeof(pthread_mutex_t)))
+	if (init == 0 && !ft_memcmp(mutex, &dead, sizeof(pthread_mutex_t)))
+	{
 		pthread_mutex_init(mutex, NULL);
+		init = 1;
+	}
 }
 
 /* -1 error, 0 ok */
 /* if servfd = -1, destroy the mutex */
 /* !!! NEED MUTEX !!! */
+/* LOBBY MUTEX */
 int	client_sender(int servfd, void *buffer, size_t size)
 {
 	t_player *const			lobby = lbb_get_ptr(NULL);
 	static pthread_mutex_t	mutex;
 
+	staitc_mutex_init(&mutex);
 	if (servfd < 0)
 	{
 		pthread_mutex_destroy(&mutex);
 		return (0);
 	}
-	staitc_mutex_init(&mutex);
 	ft_printf(YELLOW"sending '%s' to server%s\n", buffer, RESET);
 	pthread_mutex_lock(&mutex);
+	lbb_mutex(1);
 	if (sendto(servfd, buffer, size, 0, lobby[HOST].online, sizeof(struct sockaddr)) < 0)
 	{
 		ft_perror(ERROR"send failure"RESET);
-		return (pthread_mutex_unlock(&mutex), -1);
+		return (lbb_mutex(2), pthread_mutex_unlock(&mutex), -1);
 	}
-	return (pthread_mutex_unlock(&mutex), 0);
+	return (lbb_mutex(2), pthread_mutex_unlock(&mutex), 0);
 }

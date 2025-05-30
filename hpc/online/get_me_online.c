@@ -3,57 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   get_me_online.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:15:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 03:57:11 by totommi          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:49:27 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hpc_int.h"
 #include "online.h"
 
+static void safewrite(int *socket, int *index, int *socket_index)
+{
+	hpc_mutex(1);
+	*socket = socket_index[0];
+	*index = socket_index[1];
+	hpc_mutex(2);
+}
+
+static void saferead(int *socket, int *index, int *socket_index)
+{
+	hpc_mutex(1);
+	socket_index[0] = *socket;
+	socket_index[1] = *index;
+	hpc_mutex(2);
+}
+
 static void	*manager(void *arg)
 {
 	t_player *const	lobby = lbb_get_ptr(NULL);
 	t_setup *const	setup = arg;
-	pthread_t		tid ;
+	pthread_t		tid;
 	int				code;
+	int				socket_index[2];
 
+	// ft_printf("stack:\n%p\n%p\n%p\n%p\n%p\n%p\n%p\n%p\n", &manager, &arg, &lobby, &setup, &tid, &code, &socket_index, &socket_index[1]);
+
+	saferead(setup->socket, setup->index, socket_index);
 	while (!0)
 	{
-		if (*setup->socket > 2)
-			close(*setup->socket);
+		safewrite(setup->socket, setup->index, socket_index);
+		safeclose(socket_index[0]);
 		tid = 0;
-		if (*setup->index == HOST)
+		if (socket_index[1] == HOST)
 		{
 			ft_printf(LOG"===STARTING SERVER===\n"RESET);
-			*setup->socket = server_routine(&tid, setup->envp);
+			socket_index[0] = server_routine(&tid, setup->envp);
 		}
-		else if (*setup->index == PLAYER)
+		else if (socket_index[1] == PLAYER)
 		{
 			usleep(1000);	//needed for the second rerout
 			ft_printf(LOG"===STARTING CLIENT===\n"RESET);
-			*setup->socket = client_routine(&tid, setup->envp);
+			socket_index[0] = client_routine(&tid, setup->envp);
 		}
-		if (tid == 0 || *setup->socket < 0)
+		if (tid == 0 || socket_index[0] < 0)	// signal minigame that online crashed???
 			break ;
+		safewrite(setup->socket, setup->index, socket_index);	// dangerous
 		code = pthread_join(tid, NULL);
 		if (code != 0)
 		{
 			ft_printfd(STDERR_FILENO, ERROR"online join failure:%s code %d\n", RESET, code);
+			hpc_mutex(1);
 			*setup->index = -1;
+			hpc_mutex(2);
 			break ;
 		}
 		ft_printf(LOG">reciever closed%s\n", RESET);
-		if (*setup->index < 0)	// we died (-1 set in minigame)
+		if ((hpc_mutex(1) && *setup->index < 0 && hpc_mutex(2)))	// we died (-1 set in minigame)
 			break ;
+		hpc_mutex(2);
+		/* LOBBY MUTEX */
+		lbb_mutex(1);
 		if (!ft_strcmp(get_locl_ip(setup->envp), lobby[HOST].ip))
-			*setup->index = HOST;
+			socket_index[1] = HOST;
 		else
 			make_him_host(lobby[HOST].ip, setup->envp);	//could break
+		lbb_mutex(2);
 	}
-	return (safeclose(*setup->socket), free(setup), NULL);
+	// ft_printf("manager out\n");
+	return (safeclose(socket_index[0]), free(setup), NULL);
 }
 
 /* initialize variables based on data */
@@ -63,14 +91,15 @@ static int	data_init(int *socket, int *index, char *envp[])
 
 	if (!socket || !index || !envp)
 		return (0);
+	hpc_mutex(1);
 	*socket = 0;
 	if (!ft_strcmp("host", servip))
 		*index = 0;
 	else if (is_ip(servip))
 		*index = 1;
 	else
-		return (0);
-	return (1);
+		return (hpc_mutex(2), 0);
+	return (hpc_mutex(2), 1);
 }
 
 /* Spawns the manager thread for internet connection.
@@ -88,6 +117,8 @@ pthread_t	get_me_online(int *index, int *socket, char *envp[])
 	pthread_t	tid;
 	t_setup		*setup;
 
+	// ft_printf("before stack:\n%p\n%p\n", &tid, &setup);
+
 	set_my_ip(get_my_addr(), envp);
 	if (!env_is_ready(envp))
 		return ((pthread_t)0);
@@ -104,7 +135,7 @@ pthread_t	get_me_online(int *index, int *socket, char *envp[])
 		ft_perror(ERROR"thread launch"RESET);
 		return (free(setup), (pthread_t)0);
 	}
-	while (*socket == 0)
+	while (hpc_mutex(1) && *socket == 0 && hpc_mutex(2))
 		usleep(1000);
-	return (tid);
+	return (hpc_mutex(2), tid);
 }

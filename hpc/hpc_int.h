@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 21:48:05 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:06:23 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 
 int				client_sender(int servfd, void *buffer, size_t size);
 int				server_sender(int socket, char *buffer, void *addr, char flag);
+
+/* MUTEX */
+
+void			*hpc_mutex(int action);
 
 /* UTILS */
 
@@ -48,7 +52,7 @@ int				set_my_ip(char *ip, char **env);
 
 /* UTILS */
 
-int			    is_ip(const char *s);
-void 			safeclose(int fd);
+int				is_ip(const char *s);
+void			safeclose(int fd);
 
 #endif
