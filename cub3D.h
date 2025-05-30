@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/29 23:48:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/30 04:13:32 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@
 # define ERR_CHAR "	invalid character in map"
 # define ERR_ENVP " missing env variable(s)"
 # define ERR_ONLINE "online setup failed"
-
-# ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
-# endif
-# ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1000
-# endif
 
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -78,12 +71,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# ifndef MLX_WIN_X
-#  define MLX_WIN_X 1000
-# endif
-# ifndef MLX_WIN_Y
-#  define MLX_WIN_Y 1000
-# endif
+# define MLX_WIN_X 500
+# define MLX_WIN_Y 500
 
 // graphic libs
 # include "mlx.h"
