@@ -1,0 +1,4 @@
+better check if hpc_mutex is needed
+    >check the host redirection on the client/new-server
+
+the server isn't sending the lobby's position (probabli msg_atoi can't atoi the floats)
