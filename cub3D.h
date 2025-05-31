@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:42:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:37:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 #  define A_KEY 0
 #  define S_KEY 1
 #  define D_KEY 2
-#  define C_KEY 'c'
+#  define C_KEY 8
 #  define SPACE 49
 #  define LSHIFT 257
 #  define LALT 261
@@ -73,8 +73,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 1000
-# define MLX_WIN_Y 1000
+# define MLX_WIN_X 500
+# define MLX_WIN_Y 500
 
 // graphic libs
 # include "mlx.h"
@@ -226,6 +226,9 @@ typedef struct s_mlx
 	t_player		*lobby;		//online stuff here
 	int				*index;
 	int				*socket;
+	t_player		fake_lobby[MAXPLAYERS];
+	int				fake_index;
+	int				fake_socket;
 	void			*thread;
 }				t_mlx;
 

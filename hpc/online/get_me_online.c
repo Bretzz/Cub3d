@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:15:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:49:27 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:23:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void safewrite(int *socket, int *index, int *socket_index)
 
 static void saferead(int *socket, int *index, int *socket_index)
 {
-	hpc_mutex(1);
+	// hpc_mutex(1);
 	socket_index[0] = *socket;
 	socket_index[1] = *index;
-	hpc_mutex(2);
+	// hpc_mutex(2);
 }
 
 static void	*manager(void *arg)
@@ -47,6 +47,7 @@ static void	*manager(void *arg)
 		tid = 0;
 		if (socket_index[1] == HOST)
 		{
+			usleep(1000);	//needed for the second rerout
 			ft_printf(LOG"===STARTING SERVER===\n"RESET);
 			socket_index[0] = server_routine(&tid, setup->envp);
 		}
@@ -69,12 +70,13 @@ static void	*manager(void *arg)
 			break ;
 		}
 		ft_printf(LOG">reciever closed%s\n", RESET);
-		if ((hpc_mutex(1) && *setup->index < 0 && hpc_mutex(2)))	// we died (-1 set in minigame)
+		if (hpc_mutex(1) && *setup->index < 0 && hpc_mutex(2))	// we died (-1 set in minigame)
 			break ;
 		hpc_mutex(2);
 		/* LOBBY MUTEX */
 		lbb_mutex(1);
-		if (!ft_strcmp(get_locl_ip(setup->envp), lobby[HOST].ip))
+		if (!ft_strcmp(get_locl_ip(setup->envp), lobby[HOST].ip)
+			&& !ft_strcmp(get_my_name(setup->envp), lobby[HOST].name))
 			socket_index[1] = HOST;
 		else
 			make_him_host(lobby[HOST].ip, setup->envp);	//could break
@@ -91,15 +93,14 @@ static int	data_init(int *socket, int *index, char *envp[])
 
 	if (!socket || !index || !envp)
 		return (0);
-	hpc_mutex(1);
 	*socket = 0;
 	if (!ft_strcmp("host", servip))
 		*index = 0;
 	else if (is_ip(servip))
 		*index = 1;
 	else
-		return (hpc_mutex(2), 0);
-	return (hpc_mutex(2), 1);
+		return (0);
+	return (1);
 }
 
 /* Spawns the manager thread for internet connection.

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:33:11 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:27:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:14:36 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ static void	*reciever(void *arg)
 			ft_perror(ERROR"recvfrom failed"RESET);
 			break;
 		}
+		else if (len == 0)
+			break ;
 		parse = parse_msg_string(buffer);
 		if (parse <= 0)	// really ugly
 		{
 			ft_printfd(STDERR_FILENO, WARN"corrupted buffer:%s '%s'\n", RESET, buffer);
 			break ;
 		}
-		ft_printf(YELLOW"%d bytes: '%s' from Server\n"RESET, len, buffer);
+		if (parse != 2)
+			ft_printf(YELLOW"%d bytes: '%s' from Server\n"RESET, len, buffer);
 		if (!cycle_player_msgs(buffer, lobby))
 		{
 			ft_perror(ERROR"handler failure"RESET);

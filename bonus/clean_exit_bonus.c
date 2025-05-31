@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:45:34 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:14:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	clean_exit(t_mlx *mlx)
 {
 	char	buffer[MSG_LEN + 6];
 
-	buffer_player_action(mlx->lobby[*mlx->index], "kill", buffer);
+	buffer_player_action(mlx->fake_lobby[*mlx->index], "kill", buffer);
 	send_all(mlx, buffer, ft_strlen(buffer));
 
 	// destroying sprites

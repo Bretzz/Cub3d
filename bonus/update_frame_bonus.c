@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:23:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:03:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,17 +134,16 @@ int update_frame(void *arg)
 	{
 		lbb_mutex(1);
 		update_sprites(mlx->mlx, mlx->lobby);
-		ft_memcpy(mlx->lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
-		ft_memcpy(mlx->lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
+		ft_memcpy(&mlx->fake_lobby, mlx->lobby, MAXPLAYERS * sizeof(t_player));
+		lbb_mutex(2);
+		ft_memcpy(mlx->fake_lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
+		ft_memcpy(mlx->fake_lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
 		// mlx->player.pos = (float *)mlx->lobby[*mlx->index].pos;
 		// mlx->player.dir = (float *)mlx->lobby[*mlx->index].tar;
-		mlx->player.sprite = (t_sprite *)mlx->lobby[*mlx->index].extra;
-		lbb_mutex(2);
+		mlx->player.sprite = (t_sprite *)mlx->fake_lobby[*mlx->index].extra;
 		if (move_player(mlx) + move_mouse(mlx))
 		{
-			lbb_mutex(1);
-			buffer_player_action(mlx->lobby[*mlx->index], "update", buffer);
-			lbb_mutex(2);
+			buffer_player_action(mlx->fake_lobby[*mlx->index], "update", buffer);
 			send_all(mlx, buffer, ft_strlen(buffer));
 		}
 		// move_mouse(mlx);
@@ -156,7 +155,7 @@ int update_frame(void *arg)
 		usleep(1000);
 	if (frame % (75) == 0) 
 		mlx->fps = get_fps(frame / mlx->frames);
-	if (*mlx->socket > 2 && frame % (3000) == 0) 
-		print_lobby(lbb_get_ptr(NULL));
+	// if (*mlx->socket > 2 && frame % (3000) == 0) 
+	// 	print_lobby(mlx->fake_lobby);
 	return (0);
 }

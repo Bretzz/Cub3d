@@ -85,7 +85,7 @@ B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
 				handle_mouse_bonus.c handle_player.c \
 				put_board_bonus.c put_crosshair.c \
 				put_whole_column_bonus.c \
-				put_sprite_on_map.c put_sprite_health_bar.c \
+				put_sprite_on_map.c put_health_bar.c \
 				put_player.c put2d_minimap_bonus.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)

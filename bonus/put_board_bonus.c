@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:29:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:07:04 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
 int	put_board(t_mlx *mlx)
 {
-	t_player *const	lobby = lbb_get_ptr(NULL);
 	char			*fps;
 
 	// ft_printf("board in\n");
@@ -45,7 +44,7 @@ int	put_board(t_mlx *mlx)
 	int	i = 0;
 	while (i < MAXPLAYERS)
 	{
-		handle_player(mlx, lobby, i++);
+		handle_player(mlx, mlx->fake_lobby, i++);
 	}
 
 	float	pos2[3] = {9.1f, 4.1f, 1};

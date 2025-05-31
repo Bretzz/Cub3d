@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:03:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:52:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:05:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	kill_player(const char *msg, t_player *lobby)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	ft_memset(&lobby[slot], 0, sizeof(t_player));
+	free(lobby[slot].extra);
+	lbb_kill_player(msg);
 	lbb_mutex(2);
 }
 

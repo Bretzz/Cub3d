@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:39:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:34:45 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,12 @@ static void	death_by_hand(t_mlx *mlx, int killer)
 	char        buffer[MSG_LEN + 6];
 	int			my_index;
 
-	hpc_mutex(1);
+	// hpc_mutex(1);
 	my_index = *mlx->index;
-	hpc_mutex(2);
+	// hpc_mutex(2);
 	if (*mlx->index == HOST)
 	{
-		lbb_mutex(1);
-		buffer_player_action(mlx->lobby[killer], "host", buffer);
-		lbb_mutex(2);
+		buffer_player_action(mlx->fake_lobby[killer], "host", buffer);
 		send_all(mlx, buffer, ft_strlen(buffer));
 	}
 	clean_exit(mlx);
@@ -68,38 +66,36 @@ static void	death_by_hand(t_mlx *mlx, int killer)
 if we got hit by a line (even ours) we exit.
 'lobby' is a pointer to the head of the array. */
 /* LOBBY MUTEX */
-int	handle_player(t_mlx *mlx, t_player *lobby, int index)
+int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 {
 	char        buffer[MSG_LEN + 6];
 	static int  shootframes[MAXPLAYERS];
 	t_player	myself;
 
-	hpc_mutex(1);
+	// hpc_mutex(1);
 	int	my_index = *mlx->index;
-	hpc_mutex(2);
-	lbb_mutex(1);
-	if (!lbb_is_alive(lobby[index]) || lobby[index].extra == NULL)
-		return (lbb_mutex(2), 0);
+	// hpc_mutex(2);
+	if (!lbb_is_alive(fake_lobby[index]) || fake_lobby[index].extra == NULL)
+		return (0);
 	// put_square(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], 10, color);
 	// my_pixel_put(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], color);
 	if (index == my_index)
-		return (lbb_mutex(2), 0);
-	if (lobby[index].shoot == 0)
-		put_player(mlx, lobby[index], 0/* , index */);
+		return (0);
+	if (fake_lobby[index].shoot == 0)
+		put_player(mlx, fake_lobby[index], 0/* , index */);
 	else
 	{
 		if (shootframes[index] < SHOT_FRAMES)
 		{
-			put_player(mlx, lobby[index], 4/* , index */);
+			put_player(mlx, fake_lobby[index], 4/* , index */);
 			shootframes[index]++;
 		}
-		lbb_mutex(2);
 		if (shootframes[index] == 1 && mlx->player.last_sprite_data.dist != 0
-			&& shoot_laser(mlx, mlx->player.last_sprite_data, (float *)lobby[index].tar) == 0)
+			&& shoot_laser(mlx, mlx->player.last_sprite_data, (float *)fake_lobby[index].tar) == 0)
 		{
 			lbb_mutex(1);
-			lobby[my_index].hp--;
-			myself = lobby[my_index];
+			mlx->lobby[my_index].hp--;
+			myself = mlx->lobby[my_index];
 			lbb_mutex(2);
 			ft_printf("your current hp %d\n", myself.hp);
 			if (myself.hp <= 0)
@@ -107,14 +103,14 @@ int	handle_player(t_mlx *mlx, t_player *lobby, int index)
 			buffer_player_action(myself, "hit", buffer);
 			send_all(mlx, buffer, ft_strlen(buffer));
 		}
-		lbb_mutex(1);
 		if (shootframes[index] == SHOT_FRAMES)
 		{
-			lobby[index].shoot = 0;
+			lbb_mutex(1);
+			mlx->lobby[index].shoot = 0;
+			lbb_mutex(2);
 			shootframes[index] = 0;
 		}
 	}
-	lbb_mutex(2);
 	return (1);
 }
 

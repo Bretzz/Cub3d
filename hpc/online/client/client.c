@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 14:24:44 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:47:27 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	client_routine(pthread_t *tid, char *envp[])
 	ft_printf(LOG">connection approved...%s\n", RESET);
 	if (client_reciever(tid, servfd) < 0)
 		return (close(servfd), -1);
-	usleep(1000);
 	print_lobby(lobby);
 	// ft_printf(LOG">reciever started%s\n", RESET);
 	// ft_printf(LOG">client started on tid: %u%s\n", servtid, RESET);

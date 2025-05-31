@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:34:21 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 17:04:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:49:52 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ int	server_routine(pthread_t *tid, char *envp[])
 	if (!my_data_init(lobby, envp))
 		return (-1);
 	socket = bind_to_port();
-	// ft_printf(LOG">bound socket to %d%s\n", socket, RESET);
 	if (socket < 0)
 		return (-1);
+	// ft_printf(LOG">bound socket to %d%s\n", socket, RESET);
 	if (server_reciever(tid, socket) < 0)
 		return (close(socket), -1);
 	return (socket);

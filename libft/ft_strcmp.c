@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:10:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 23:05:10 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:06:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 // int	main(void)
 // {
 // 	char s1[] = "fricky";
-// 	char s2[] = "frick2";
+// 	char s2[] = "fricky2";
 
 // 	printf("%d\n", ft_strcmp(s1, s2));
 // 	return (0);
 // }
-

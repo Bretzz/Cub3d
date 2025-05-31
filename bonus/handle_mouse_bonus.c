@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:29:54 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 16:21:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:34:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	handle_mouse(int keysym, int x, int y, t_mlx *mlx)
 	{
 		ft_printf("PIU-PIU!!!\n");
 		//player_specs(mlx->player);
-		hpc_mutex(1);
-		buffer_player_action(mlx->lobby[*mlx->index], "fire", buffer);
-		hpc_mutex(2);
+		// hpc_mutex(1);
+		buffer_player_action(mlx->fake_lobby[*mlx->index], "fire", buffer);
+		// hpc_mutex(2);
 		// ft_printf("send_all(%p, %s, %u)\n", mlx, buffer, ft_strlen(buffer));
 		send_all(mlx, buffer, ft_strlen(buffer));
 		// mlx->player.sprite[0].width++;

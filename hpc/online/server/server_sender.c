@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:14:57 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 17:03:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:13:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 static void	staitc_mutex_init(pthread_mutex_t *mutex)
 {
 	pthread_mutex_t	dead;
-	static int		init;
+	static int		shield;
 
 	ft_memset(&dead, 0, sizeof(pthread_mutex_t));
-	if (init == 0 && !ft_memcmp(mutex, &dead, sizeof(pthread_mutex_t)))
+	if (shield == 0 && !ft_memcmp(mutex, &dead, sizeof(pthread_mutex_t)))
 	{
 		pthread_mutex_init(mutex, NULL);
-		init = 1;
+		shield = 1;
 	}
 }
 
@@ -47,7 +47,8 @@ int server_sender(int socket, char *buffer, void *addr, char flag)
 		pthread_mutex_destroy(&mutex);
 		return (0);
 	}
-	ft_printf(YELLOW"sending '%s' on socket %d%s\n", (char *)buffer, socket, RESET);
+	if (parse_msg_string(buffer) != 2)
+		ft_printf(YELLOW"sending '%s' on socket %d%s\n", (char *)buffer, socket, RESET);
 	if (flag == 1)
 	{
 		pthread_mutex_lock(&mutex);

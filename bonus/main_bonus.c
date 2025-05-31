@@ -6,13 +6,14 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:28:52 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:17:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
 /* send messages trough the mlx->socket */
+/* NOTE: no hpc_mutex of lbb_mutex locked going in this */
 void    send_all(t_mlx *mlx, char *msg, size_t size)
 {
 	if (*mlx->socket <= 2)
@@ -85,6 +86,7 @@ static int cub3d_bonus(int *index, int *socket, void *thread, char *path, void *
 
 	/* LOBBY INIT */
 	mlx.lobby = lbb_get_ptr(NULL);
+	ft_memcpy(&mlx.fake_lobby, mlx.lobby, MAXPLAYERS * sizeof(t_player));
 	// update_sprites();
 	// mlx.player.pos = (float *)mlx.lobby[*mlx.index].pos;
 	// mlx.player.dir = (float *)mlx.lobby[*mlx.index].tar;

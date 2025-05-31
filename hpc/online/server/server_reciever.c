@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 21:42:13 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 17:26:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:14:44 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static void	*reciever(void *arg)
 	struct sockaddr_in	addr;
 	socklen_t			len;
 	int					socket;
+	int					parse;
 
 	socket = *(int *)arg;
 	ft_printf(LOG">recieving on socket %d%s\n", socket, RESET);
@@ -108,16 +109,18 @@ static void	*reciever(void *arg)
 			ft_perror(ERROR"recvfrom failed"RESET);
 			break;
 		}
-		if (parse_msg_string(buffer) <= 0)
+		parse = parse_msg_string(buffer);
+		if (parse <= 0)
 		{
 			ft_printfd(STDERR_FILENO, WARN"corrupted buffer:%s '%s'\n", RESET, buffer);
 			continue ;
 		}
-		ft_printf(YELLOW"%d bytes: '%s' from Client\n"RESET, ft_strlen(buffer), buffer);
-		if (ft_strnstr(buffer, ":new", sizeof(buffer))
+		if (parse != 2)
+			ft_printf(YELLOW"%d bytes: '%s' from Client\n"RESET, ft_strlen(buffer), buffer);
+		if (parse == 1
 			&& !addr_in_lobby(lobby, &addr)
 			&& who_is_there(socket, lobby, &addr, buffer))
-			ft_printf(CONNECT"'%z' joined the lobby%s\n", buffer, msg_name_length(buffer), RESET);
+			ft_printf(CONNECT"'%z' joined the game%s\n", buffer, msg_name_length(buffer), RESET);
 		else if (!cycle_player_msgs(buffer, lobby))
 		{
 			ft_perror(ERROR"handler failure"RESET);
