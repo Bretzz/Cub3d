@@ -109,6 +109,38 @@ void	check_texture(t_mlx *mlx, char	*line, char *wall)
 	printf("muro est: %s\n", mlx->map.ea_wall); */
 }
 
+/* check texture walls and color ceiling and floor
+1 = OK, 0 = error */
+int	walls_ceiling(char *line, int fd, t_mlx *mlx)
+{
+	int	i;
+	
+	i = 0;
+	while (line [i] == ' ') //salta gli spazi iniziali
+		i++;
+	
+	while (line [i] == '\n') //forse mettere ft_isspace
+	{
+		free(line);
+		line = get_next_line(fd);
+		i = 0;
+	}
+	
+	if (line == NULL)//empty file
+		return (0);
+	
+	
+	if (ft_strncmp(line, "NO ", 3) == 0)// presa texture pareti
+		check_texture(mlx, line, "NO");
+	/* else if (ft_strncmp(line, "SO ", 3) == 0)
+		check_texture(mlx, line, "SO");
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		check_texture(mlx, line, "WE");
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		check_texture(mlx, line, "EA"); */
+	return (1);
+}
+
 /* char * ok, 0 error */
 char	**parsing(const char *path, t_mlx *mlx)
 {
@@ -131,7 +163,18 @@ char	**parsing(const char *path, t_mlx *mlx)
 	}
 	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
-	while (line [0] == '\n') //forse mettere ft_isspace
+	
+
+
+	if (walls_ceiling(line, fd, mlx) == 0)//empty file
+	{
+		error_msg(ERR_EMPTY_OR_FOLDER);
+		close(fd);
+		return (NULL);
+	}
+
+
+	/* while (line [0] == '\n') //forse mettere ft_isspace
 	{
 		free(line);
 		line = get_next_line(fd);
@@ -144,7 +187,9 @@ char	**parsing(const char *path, t_mlx *mlx)
 		return (NULL);
 	}
 	// presa texture pareti
-
+	i = 0;
+	while (line [i] == ' ') //salta gli spazi iniziali
+		i++;
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		check_texture(mlx, line, "NO");
 	/* else if (ft_strncmp(line, "SO ", 3) == 0)
@@ -153,18 +198,21 @@ char	**parsing(const char *path, t_mlx *mlx)
 		check_texture(mlx, line, "WE");
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 		check_texture(mlx, line, "EA"); */
+
+	
 	free(line);
 	map = get_map_from_path(path);
 	if (map == NULL)
 		return (NULL);
-	i = 0;
+	//controllo caratteri mappa, commentato perche' interferisce con parsing altri parametri
+	/* i = 0;
 	while (map[i] && !ft_mapchr(map[i], "01NSEW \n"))
 		i++;
 	if (map[i] != NULL)
 	{
 		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW \n"));
 		return (free_mtx((void **)map), clean_exit(mlx), NULL);
-	}
+	} */
 	print_map(map);
 	close(fd);
 	return (map);
