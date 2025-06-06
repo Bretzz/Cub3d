@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:14:57 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/31 17:13:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:21:40 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int server_sender(int socket, char *buffer, void *addr, char flag)
 		pthread_mutex_destroy(&mutex);
 		return (0);
 	}
-	if (parse_msg_string(buffer) != 2)
-		ft_printf(YELLOW"sending '%s' on socket %d%s\n", (char *)buffer, socket, RESET);
+	// if (parse_msg_string(buffer) != 2)
+	// 	ft_printf(YELLOW"sending '%s' on socket %d%s\n", (char *)buffer, socket, RESET);
 	if (flag == 1)
 	{
 		pthread_mutex_lock(&mutex);

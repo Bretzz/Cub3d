@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 17:03:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:51:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 
-/* static  */int	get_fps(int frame)
+static int	get_fps(int frame)
 {
 	static struct timeval	old_time;
 	static int				old_frame;
@@ -40,33 +40,32 @@
 static int	load_player_sprites(void *mlx_ptr, t_sprite *sprite)
 {
 	// ugly sprite loading
-	/* mlx->player. */sprite[0].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_front.xpm", &/* mlx->player. */sprite[0].width, &/* mlx->player. */sprite[0].heigth);
-	if (/* mlx->player. */sprite[0].image == NULL)
+	sprite[0].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_front.xpm", &sprite[0].width, &sprite[0].heigth);
+	if (sprite[0].image == NULL)
 		return (1);
-	ft_printf("front OK\n");
-	/* mlx->player. */sprite[0].scale = 1;
-	/* mlx->player. */sprite[1].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_back.xpm", &/* mlx->player. */sprite[1].width, &/* mlx->player. */sprite[1].heigth);
-	if (/* mlx->player. */sprite[1].image == NULL)
+	sprite[0].scale = 1;
+	sprite[1].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_back.xpm", &sprite[1].width, &sprite[1].heigth);
+	if (sprite[1].image == NULL)
 		return (1);
-	/* mlx->player. */sprite[1].scale = 1;
-	/* mlx->player. */sprite[2].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_left.xpm", &/* mlx->player. */sprite[2].width, &/* mlx->player. */sprite[2].heigth);
-	if (/* mlx->player. */sprite[2].image == NULL)
+	sprite[1].scale = 1;
+	sprite[2].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_left.xpm", &sprite[2].width, &sprite[2].heigth);
+	if (sprite[2].image == NULL)
 		return (1);
-	/* mlx->player. */sprite[2].scale = 1;
-	/* mlx->player. */sprite[3].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_right.xpm", &/* mlx->player. */sprite[3].width, &/* mlx->player. */sprite[3].heigth);
-	if (/* mlx->player. */sprite[3].image == NULL)
+	sprite[2].scale = 1;
+	sprite[3].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_right.xpm", &sprite[3].width, &sprite[3].heigth);
+	if (sprite[3].image == NULL)
 		return (1);
-	/* mlx->player. */sprite[3].scale = 1;
-	/* mlx->player. */sprite[4].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/shoot_front.xpm", &/* mlx->player. */sprite[4].width, &/* mlx->player. */sprite[4].heigth);
-	if (/* mlx->player. */sprite[4].image == NULL)
+	sprite[3].scale = 1;
+	sprite[4].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/shoot_front.xpm", &sprite[4].width, &sprite[4].heigth);
+	if (sprite[4].image == NULL)
 		return (1);
-	/* mlx->player. */sprite[4].scale = 1;
+	sprite[4].scale = 1;
 	ft_printf("got sprite of size:\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n",
-		/* mlx->player. */sprite[0].width, /* mlx->player. */sprite[0].heigth,
-		/* mlx->player. */sprite[1].width, /* mlx->player. */sprite[1].heigth,
-		/* mlx->player. */sprite[2].width, /* mlx->player. */sprite[2].heigth,
-		/* mlx->player. */sprite[3].width, /* mlx->player. */sprite[3].heigth,
-		/* mlx->player. */sprite[4].width, /* mlx->player. */sprite[4].heigth);
+		sprite[0].width, sprite[0].heigth,
+		sprite[1].width, sprite[1].heigth,
+		sprite[2].width, sprite[2].heigth,
+		sprite[3].width, sprite[3].heigth,
+		sprite[4].width, sprite[4].heigth);
 	return (0);
 }
 
@@ -118,12 +117,17 @@ void	update_sprites(void *mlx_ptr, t_player *lobby)
 		if (lbb_is_alive(lobby[i]) && lobby[i].extra == NULL)
 		{
 			lobby[i].extra = sprite_init(mlx_ptr, i, 0x714333);
-			ft_printf("init sprite %i, chroma %u\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);
+			ft_printf("init sprite N.%i, chroma #%X\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);
 		}
 		i++;
 	}
 }
 
+/* NOTE: fake_lobby isn't modified trought the single frame execution.
+the things that will be modified are:
+	>player.pos/player.dir (cub3D)
+	>lobby[*myself].hp (cub3D)
+	>lobby[others] (online) */
 int update_frame(void *arg)
 {
 	t_mlx *const 		mlx = (t_mlx *)arg;
@@ -134,10 +138,12 @@ int update_frame(void *arg)
 	{
 		lbb_mutex(1);
 		update_sprites(mlx->mlx, mlx->lobby);
+		ft_memcpy(mlx->lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
+		ft_memcpy(mlx->lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
 		ft_memcpy(&mlx->fake_lobby, mlx->lobby, MAXPLAYERS * sizeof(t_player));
 		lbb_mutex(2);
-		ft_memcpy(mlx->fake_lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
-		ft_memcpy(mlx->fake_lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
+		// ft_memcpy(mlx->fake_lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
+		// ft_memcpy(mlx->fake_lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
 		// mlx->player.pos = (float *)mlx->lobby[*mlx->index].pos;
 		// mlx->player.dir = (float *)mlx->lobby[*mlx->index].tar;
 		mlx->player.sprite = (t_sprite *)mlx->fake_lobby[*mlx->index].extra;
@@ -147,9 +153,9 @@ int update_frame(void *arg)
 			send_all(mlx, buffer, ft_strlen(buffer));
 		}
 		// move_mouse(mlx);
-		put_board(mlx);
 		mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 		mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
+		put_board(mlx);
 	}
 	else
 		usleep(1000);

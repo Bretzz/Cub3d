@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:07:43 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:57:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			server_sender(int socket, char *buffer, void *addr, char flag);
 pthread_t	get_me_online(int *index, int *socket, char *envp[]);
 
 int			hpc_init(void);
-int			hpc_free(int *socket, int *index, void *thread);
+int			hpc_free(int *socket, int *index, unsigned long thread);
 void		*hpc_mutex(int action);
 
 /* PRINTERS */
@@ -51,6 +51,9 @@ char		*buffer_lobby_action(t_player *lobby,
 				const char *action, void *buffer);
 
 /* ENV INTERFACE */
+
+char		**fake_env_init(char *real_env[]);
+void		free_fake_env(char **fake_env);
 
 int			make_him_host(char *ip, char **env);
 int			set_my_name(char *name, char **env);

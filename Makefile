@@ -86,7 +86,8 @@ B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
 				put_board_bonus.c put_crosshair.c \
 				put_whole_column_bonus.c \
 				put_sprite_on_map.c put_health_bar.c \
-				put_player.c put2d_minimap_bonus.c
+				put_player.c put2d_minimap_bonus.c \
+				send_all.c
 
 # Get the corresponding non-bonus version of bonus files (e.g., parser_bonus.c -> parser.c)
 B_REPLACED		= $(patsubst %_bonus.c,%.c,$(filter %_bonus.c,$(B_SRC_FILES)))

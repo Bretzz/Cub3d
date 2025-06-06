@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:00:12 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 21:48:02 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:32:23 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ char			*get_my_name(char **env);
 int				make_him_host(char *ip, char **env);
 int				set_my_name(char *name, char **env);
 int				set_my_ip(char *ip, char **env);
+
+char		    **fake_env_init(char *real_env[]);
+void		    free_fake_env(char **fake_env);
 
 void 			safeclose(int fd);
 

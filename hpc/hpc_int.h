@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:06:23 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:37:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void			print_lobby(t_player *lobby);
 void			print_quick_lobby(t_player *lobby);
 
 /* ENV INTERFACE */
+
+char	    	**fake_env_init(char *real_env[]);
+void	    	free_fake_env(char **fake_env);
 
 int				env_is_ready(char *envp[]);
 char			*get_locl_ip(char **env);

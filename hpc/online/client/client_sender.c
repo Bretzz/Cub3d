@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:51:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 17:12:58 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:21:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	client_sender(int servfd, void *buffer, size_t size)
 		pthread_mutex_destroy(&mutex);
 		return (0);
 	}
-	if (parse_msg_string(buffer) != 2)
-		ft_printf(YELLOW"sending '%s' to server%s\n", buffer, RESET);
+	// if (parse_msg_string(buffer) != 2)
+	// 	ft_printf(YELLOW"sending '%s' to server%s\n", buffer, RESET);
 	pthread_mutex_lock(&mutex);
 	lbb_mutex(1);
 	if (sendto(servfd, buffer, size, 0, lobby[HOST].online, sizeof(struct sockaddr)) < 0)

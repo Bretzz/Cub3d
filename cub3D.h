@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 16:37:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:56:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define ERR_CHAR "	invalid character in map"
 # define ERR_ENVP " missing env variable(s)"
 # define ERR_ONLINE "online setup failed"
+# define ERR_IP_FORMAT "wrong IP format"
+# define ERR_MALLOC "malloc failure"
 
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -227,9 +229,9 @@ typedef struct s_mlx
 	int				*index;
 	int				*socket;
 	t_player		fake_lobby[MAXPLAYERS];
-	int				fake_index;
-	int				fake_socket;
-	void			*thread;
+	// int				fake_index;
+	// int				fake_socket;
+	unsigned long	thread;
 }				t_mlx;
 
 # endif

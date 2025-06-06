@@ -66,7 +66,8 @@ SRC_FILES		= \
 				msg_handler.c \
 				\
 				convert_stuff.c \
-				ft_perror.c search_env.c \
+				ft_perror.c \
+				fake_env.c search_env.c \
 				utils.c get_my_addr.c \
 				\
 				printers.c

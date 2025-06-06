@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:43:12 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:08:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	handle_key_press(int keysym, void *arg)
 	{
 		clean_exit(mlx);
 	}
-	else if (keysym == XK_KP_Space || keysym == SPACE)
+	else if (keysym == XK_0)
 	{
-		mlx->keys.jump_slide[0] = 1;
-		// ft_printf("jumping\n");
+		ft_printf("pos[%d, %d, %d]\n", mlx->player.pos[0], mlx->player.pos[1], mlx->player.pos[2]);
 	}
-	else if (keysym == 'c' || keysym == 8
-		/* || keysym == XK_Alt_L || keysym == LALT */)
+	else if (keysym == XK_KP_Space || keysym == SPACE)
+		mlx->keys.jump_slide[0] = 1;
+	else if (keysym == 'c' || keysym == 8)
 		mlx->keys.jump_slide[1] = 1;
 	else if (keysym == XK_Shift_L || keysym == LSHIFT)
 		mlx->keys.shift = 1;
@@ -75,14 +75,8 @@ int	handle_key_release(int keysym, void *arg)
 
 	if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->keys.jump_slide[0] = 0;
-	else if (keysym == XK_c ||  keysym == C_KEY || keysym == 8
-		/* || keysym == XK_Alt_L || keysym == LALT */)
-	{
+	else if (keysym == XK_c ||  keysym == C_KEY || keysym == 8)
 		mlx->keys.jump_slide[1] = 0;
-		// mlx->player.pos[2] += 0.5f;
-		// mlx->player.jheigth = 17;
-		// mlx->player.jspeed += 35;
-	}
 	else if (keysym == XK_Shift_L || keysym == LSHIFT)
 		mlx->keys.shift = 0;
 	else if (keysym == XK_w || keysym == W_KEY)

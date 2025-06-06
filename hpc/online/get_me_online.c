@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:15:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 17:23:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:06:59 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	*manager(void *arg)
 		lbb_mutex(2);
 	}
 	// ft_printf("manager out\n");
-	return (safeclose(socket_index[0]), free(setup), NULL);
+	return (safeclose(socket_index[0]), free_fake_env(setup->envp), free(setup), NULL);
 }
 
 /* initialize variables based on data */
@@ -112,7 +112,10 @@ RETURNS: the thread to join before shutting down  */
 	1. reads the index,
 	2. starts the routine & sets the socket
 	3. (something changes)
-		3.1 we died? return : go to 1 */
+		3.1 we died? return : go to 1
+NOTE: the 'envp' will be free'd as a custom matrix pointer,
+meaning evey single 'sring' will be individually free'd, before
+freeint the 'envp' pointer itself. */
 pthread_t	get_me_online(int *index, int *socket, char *envp[])
 {
 	pthread_t	tid;

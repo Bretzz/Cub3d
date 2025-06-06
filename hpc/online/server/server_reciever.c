@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 21:42:13 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/31 17:14:44 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:19:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ int	who_is_there(int socket, t_player *lobby, struct sockaddr_in *addr, char *bu
 		ft_printfd(STDERR_FILENO, ERROR"ack failed:%s currupted message\n", RESET);
 		return (0);
 	}
-	
+
+	// print_lobby(lobby);
+
 	// changing addr port and sending it to the new player
 	buffer_lobby_action(lobby, "new", bluffer);
 	// addr->sin_port = htons ( PORT_2 );
 
-	ft_printf(PURPLE);
 	if (server_sender(socket, bluffer, addr, 1) < 0)
 		return (0);
-	ft_printf(RESET);
 
 	// storing addr in dynamic sockaddr
 	personal = malloc(sizeof(struct sockaddr_in));

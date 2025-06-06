@@ -21,6 +21,18 @@
 # include <X11/Xlib.h>
 # include <pthread.h>
 
+/* data needed for the 'cub3D' thread
+to talk with the 'online' thread. */
+typedef struct s_multi_data
+{
+	char			*path;
+	int				index;
+	int				socket;
+	unsigned long	thread;
+	void			*mlx_ptr;
+	void			*win_ptr;
+}               t_multi_data;
+
 int		put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite/* , int chroma */);
 int		put_health_bar(t_mlx *mlx, t_plot plot, int hp);
 int		put_player(t_mlx *mlx, t_player player, int action/* , int chroma */);

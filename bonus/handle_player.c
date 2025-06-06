@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 16:34:45 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:53:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static int     shoot_laser(t_mlx * mlx, t_plot plot, float *dir)
 static void	death_by_hand(t_mlx *mlx, int killer)
 {
 	char        buffer[MSG_LEN + 6];
-	int			my_index;
+	// int			my_index;
 
 	// hpc_mutex(1);
-	my_index = *mlx->index;
+	// my_index = *mlx->index;
 	// hpc_mutex(2);
 	if (*mlx->index == HOST)
 	{

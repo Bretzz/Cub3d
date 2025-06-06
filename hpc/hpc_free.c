@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:29:08 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 17:46:47 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:57:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <pthread.h>
 #include <sys/socket.h>
 
-int	hpc_free(int *socket, int *index, void *thread);
+int	hpc_free(int *socket, int *index, unsigned long thread);
 
 static void safewrite(int *target, int value)
 {
@@ -25,14 +25,9 @@ static void safewrite(int *target, int value)
 
 /* takes the socket pointer and the index pointers.
 Performs all the closure routines. */
-int	hpc_free(int *socket, int *index, void *thread)
+int	hpc_free(int *socket, int *index, unsigned long thread)
 {
-	pthread_t	tid;
-
-	if (thread != NULL)
-		tid = *(pthread_t *)thread;
-	else
-		tid = 0;
+	const pthread_t	tid = (pthread_t)thread;
 
 	// shutting down the 'online' thread
 	if (index != NULL)
