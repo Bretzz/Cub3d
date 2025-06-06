@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 18:38:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:39:34 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,6 @@ int	online_setup(t_multi_data *data, int argc, char *argv[], char *envp[])
 		i++;
 	}
 	ft_printf(RESET"\n");
-	
-	// if (lbb_init() == NULL)
-	// 	return (1);
-	// lbb_mutex(0);	// mutex init
 
 	XInitThreads();  // Must be called before any X11 functions
 	data->mlx_ptr = mlx_init();
@@ -213,74 +209,6 @@ int main(int argc, char *argv[], char *envp[])
 		if (online_setup(&data, argc, argv, envp) == 1)
 			return (1);
 	}
-	// 	fenv = fake_env_init(envp);
-	// 	if (fenv == NULL)
-	// 	{
-	// 		error_msg(ERR_MALLOC);
-	// 		return (1);
-	// 	}
-	// 	if (!env_has_vars(fenv))
-	// 	{
-	// 		error_msg(ERR_ENVP);
-	// 		return (free_fake_env(fenv), 1);
-	// 	}
-	// 	XInitThreads();  // Must be called before any X11 functions
-	// 	if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
-	// 	{
-	// 		ft_printf("wrong IP\n");
-	// 		return (free_fake_env(fenv), 1);
-	// 	}
-	// 	make_him_host(argv[2], fenv);
-	// 	if (argc > 3)
-	// 		set_my_name(argv[3], fenv);
-	// 	else
-	// 		set_my_name("b4llbre4k3r", fenv);
-	// 	int	i = 0;
-	// 	ft_printf("\n%s[...] ...\n", PURPLE);
-	// 	while (fenv[i] != NULL)
-	// 	{
-	// 		if (!ft_strncmp("NAME=", fenv[i], 5)
-	// 			|| !ft_strncmp("SERVER_IP=", fenv[i], 10)
-	// 			|| !ft_strncmp("LOCAL_IP=", fenv[i], 9))
-	// 			ft_printf("[%i] %s\n", i, fenv[i]);
-	// 		i++;
-	// 	}
-	// 	ft_printf(RESET"\n");
-	// }
-
-	// /* ONLINE */
-
-	// if (argc > 2)
-	// 	hpc_init();
-	// else
-	// 	lbb_init();
-
-	// // if (lbb_init() == NULL)
-	// // 	return (1);
-	// // lbb_mutex(0);	// mutex init
-
-	// void		*mlx_ptr = mlx_init();
-	// void		*mlx_win = mlx_new_window(mlx_ptr, MLX_WIN_X, MLX_WIN_Y, "cub3D");
-	// int			index = 0;
-	// int			socket = 0;
-	// pthread_t	thread = 0;
-
-	// if (argc > 2)
-	// {
-	// 	thread = get_me_online(&index, &socket, fenv);
-	// 	if (thread == 0)
-	// 	{
-	// 		error_msg(ERR_ONLINE);
-	// 		hpc_free(&socket, &index, &thread);
-	// 		free_fake_env(fenv);
-	// 		return (1);
-	// 	}
-	// }
-	// else
-	// {
-	// 	ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].name, "cub3D", 42);
-	// 	ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "local", 15);
-	// }
 
 	// dummy player
 	// const char msg[] = "dummy:0.0.0.0:1089470464_1085276160_1065353216:1127481344_1119092736_0";
