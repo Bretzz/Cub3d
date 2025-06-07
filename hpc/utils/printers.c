@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:31:53 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 22:53:59 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:51:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ void	print_quick_lobby(t_player *lobby);
 
 void	print_player(t_player player)
 {
-	const void	*small = lbb_kill_player(NULL);
+	// const void	*small = lbb_kill_player(NULL);
 	char		buffer[MSG_LEN];
 
 	if (!lbb_is_alive(player))
-		ft_printf("(empty slot) %p\n", player.online);
+		ft_printf("(empty slot) %p %p\n", player.online, player.extra);
 	else
 	{
 		ft_printf("%s ", lbb_get_full_stats(player, buffer));
 		// ft_printf("float [%f, %f, %f] ", *(float *)&player.pos[0], *(float *)&player.pos[1], *(float *)&player.pos[2]);
-		if (player.online >= small)
-			ft_printf("online: %p", player.online);
+		ft_printf("%p %p", player.online, player.extra);
 		ft_printf("\n");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:32:03 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 16:39:09 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	const int	mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * MLX_WIN_Y) + (MLX_WIN_Y / 2);
 	const float	*my_pos = mlx->player.pos;
 	const float	sprite_dir = atan2((my_pos[1] - pos[1]), (my_pos[0] - pos[0])) * 180 / M_PI;
-	const float		my_dist = sqrt((pos[0] - my_pos[0]) * (pos[0] - my_pos[0])
+	const float	my_dist = sqrt((pos[0] - my_pos[0]) * (pos[0] - my_pos[0])
 		+ (pos[1] - my_pos[1]) * (pos[1] - my_pos[1]));
 	int			x_screen;
 
@@ -107,8 +107,8 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	}
 	// putting sprite
 
-	int floor = (MLX_WIN_X) / my_dist;
-	floor -= floor / ((/* 1 /  */mlx->player.pos[2] / (pos[2] + 1)) + 1);
+	int floor = MLX_WIN_X / my_dist;
+	floor -= floor / ((mlx->player.pos[2] / (pos[2] + 1)) + 1);
 	x_screen = (MLX_WIN_X / 2) + dir_diff(sprite_dir, mlx->player.dir[0]) * (MLX_WIN_X / mlx->player.fov[0]);
 	// ft_printf("before\n");
 	// ft_printf("spriting (%d, %d)\n", x_screen, mid_line + floor);

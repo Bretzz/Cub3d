@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:12:37 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:17:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:08:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*buffer_lobby_action(t_player *lobby, const char *action, void *buffer)
 
 	if (buffer == NULL)
 		return (NULL);
-	ft_memset(buffer, 0, ((MSG_LEN + 6 + 1) * MAXPLAYERS) + 1 * sizeof(char));
+	ft_memset(buffer, 0, (((MSG_LEN + 6 + 1) * MAXPLAYERS) + 1) * sizeof(char));
 	buffer_c = (unsigned char *)buffer;
 	lbb_mutex(1);
 	player_count = lbb_player_count();

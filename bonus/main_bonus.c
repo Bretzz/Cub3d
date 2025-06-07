@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 18:39:34 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 16:43:34 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,13 @@ static int online_data_init(t_mlx *mlx, int *index, int *socket, unsigned long t
 	mlx->socket = socket;
 	mlx->thread = thread;
 	/* LOBBY INIT */
-	mlx->lobby = lbb_get_ptr(NULL);\
+	mlx->lobby = lbb_get_ptr(NULL);
+	hpc_mutex(1);
+	lbb_mutex(1);
+	mlx->lobby[*mlx->index].extra = sprite_init(mlx->mlx, *mlx->index, 0x714333);
+	mlx->player.sprite = mlx->lobby[*mlx->index].extra;
+	lbb_mutex(2);
+	hpc_mutex(2);
 	return (1);
 }
 
@@ -104,59 +110,22 @@ static int cub3d_bonus(t_multi_data *data)
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 
-	ft_printf("\n! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n\t%sADD CHROMAS FOR DIFFERENT PLAYERS%s\n", BOLD, RESET);
+	ft_printf("\n! ! ! CRASHED THE MINIMAP ON HOST CHANGE ! ! !\n! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n\t%sADD CHROMAS FOR DIFFERENT PLAYERS%s\n", BOLD, RESET);
 
 	mlx_loop(mlx.mlx);
 	return (0);
 }
 
 /* 0 ok, 1 error */
-int	online_setup(t_multi_data *data, int argc, char *argv[], char *envp[])
+int	online_setup(t_multi_data *data, int argc, char *argv[]/* , char *envp[] */)
 {
-	char	**fenv;
-
-	if (!is_ip(argv[2]) && ft_strcmp("host", argv[2]))
-	{
-		error_msg(ERR_IP_FORMAT);
-		return (1);
-	}
-	fenv = fake_env_init(envp);
-	if (fenv == NULL)
-	{
-		error_msg(ERR_MALLOC);
-		return (1);
-	}
-	/* DATA SETUP */
-	make_him_host(argv[2], fenv);
-	if (argc > 3)
-		set_my_name(argv[3], fenv);
-	else
-		set_my_name("b4llbre4k3r", fenv);
-
-	/* DATA CHECK */
-	int	i = 0;
-	ft_printf("\n%s[...] ...\n", PURPLE);
-	while (fenv[i] != NULL)
-	{
-		if (!ft_strncmp("NAME=", fenv[i], 5)
-			|| !ft_strncmp("SERVER_IP=", fenv[i], 10)
-			|| !ft_strncmp("LOCAL_IP=", fenv[i], 9))
-			ft_printf("[%i] %s\n", i, fenv[i]);
-		i++;
-	}
-	ft_printf(RESET"\n");
-
 	XInitThreads();  // Must be called before any X11 functions
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
-		return (free_fake_env(fenv), 1);
+		return (1);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, MLX_WIN_X, MLX_WIN_Y, "cub3D");
 	if (data->win_ptr == NULL)
-		return (mlx_destroy_display(data->mlx_ptr), free_fake_env(fenv), 1);
-	data->index = 0;
-	data->socket = 0;
-	data->thread = 0;
-	data->path = argv[1];
+		return (mlx_destroy_display(data->mlx_ptr), free(data->mlx_ptr), 1);
 	
 	/* ONLINE */
 	if (hpc_init() == 1)
@@ -164,11 +133,12 @@ int	online_setup(t_multi_data *data, int argc, char *argv[], char *envp[])
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		mlx_destroy_display(data->mlx_ptr);	// macOS issues
 		free(data->mlx_ptr);
-		free_fake_env(fenv);
 		return (1);
 	}
-	
-	data->thread = get_me_online(&data->index, &data->socket, fenv);
+	if (argc == 2)
+		data->thread = get_me_online(&data->index, &data->socket, argv[2], "b4llbre4k3r");
+	else
+		data->thread = get_me_online(&data->index, &data->socket, argv[2], argv[3]);
 	if (data->thread == 0)
 	{
 		error_msg(ERR_ONLINE);
@@ -176,13 +146,12 @@ int	online_setup(t_multi_data *data, int argc, char *argv[], char *envp[])
 		mlx_destroy_display(data->mlx_ptr);	// macOS issues
 		free(data->mlx_ptr);
 		hpc_free(&data->socket, &data->index, data->thread);
-		free_fake_env(fenv);
 		return (1);
 	}
 	return (0);
 }
 
-int main(int argc, char *argv[], char *envp[])
+int main(int argc, char *argv[]/* , char *envp[] */)
 {
 	t_multi_data	data;
 
@@ -196,9 +165,9 @@ int main(int argc, char *argv[], char *envp[])
 		return (1);
 	}
 	ft_memset(&data, 0, sizeof(t_multi_data));
+	data.path = argv[1];
 	if (argc == 2)
 	{
-		data.path = argv[1];
 		if (lbb_init() == NULL)
 			return (1);
 		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].name, "cub3D", 42);
@@ -206,22 +175,21 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	if (argc > 2)
 	{
-		if (online_setup(&data, argc, argv, envp) == 1)
+		if (online_setup(&data, argc, argv/* , envp */) == 1)
 			return (1);
 	}
 
 	// dummy player
-	// const char msg[] = "dummy:0.0.0.0:1089470464_1085276160_1065353216:1127481344_1119092736_0";
-	t_player *lobby = lbb_get_ptr(NULL);
-	ft_strlcpy(lobby[2].name, "dummy", 10);
-	ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
-	lobby[2].pos[0] = 1090701466;
-	lobby[2].pos[1] = 1085620093;
-	lobby[2].pos[2] = 1065353216;
-	lobby[2].tar[0] = 1095720131;
-	lobby[2].tar[0] = 1120141309;
-	lobby[2].tar[0] = 0;
-	lobby[2].hp = PLAYER_HP;
+	// t_player *lobby = lbb_get_ptr(NULL);
+	// ft_strlcpy(lobby[2].name, "dummy", 10);
+	// ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
+	// lobby[2].pos[0] = 1091968148;
+	// lobby[2].pos[1] = 1094417599;
+	// lobby[2].pos[2] = 1065353216;
+	// lobby[2].tar[0] = 1095720131;
+	// lobby[2].tar[0] = 1120141309;
+	// lobby[2].tar[0] = 0;
+	// lobby[2].hp = PLAYER_HP;
 
 	// usleep(1000);
 	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(fenv), get_my_name(fenv));

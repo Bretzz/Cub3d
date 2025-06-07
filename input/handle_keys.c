@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 18:08:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 10:09:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	handle_key_press(int keysym, void *arg)
 	}
 	else if (keysym == XK_0)
 	{
-		ft_printf("pos[%d, %d, %d]\n", mlx->player.pos[0], mlx->player.pos[1], mlx->player.pos[2]);
+		ft_printf("pos[%d, %d, %d]\n", *(int *)&mlx->player.pos[0], *(int *)&mlx->player.pos[1], *(int *)&mlx->player.pos[2]);
 	}
 	else if (keysym == XK_KP_Space || keysym == SPACE)
 		mlx->keys.jump_slide[0] = 1;

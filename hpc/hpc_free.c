@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:29:08 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/06 17:57:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 10:21:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	hpc_free(int *socket, int *index, unsigned long thread);
 
-static void safewrite(int *target, int value)
+static void	safewrite(int *target, int value)
 {
 	hpc_mutex(1);
 	*target = value;
@@ -24,28 +24,30 @@ static void safewrite(int *target, int value)
 }
 
 /* takes the socket pointer and the index pointers.
-Performs all the closure routines. */
+Performs all the closure routines:
+	>shutting down and closing the socket (rough)
+	>joins the online thread
+	>destroys all mutexed (lbb, hpc, server_sender, client_sender)
+	>delets the lobby. */
 int	hpc_free(int *socket, int *index, unsigned long thread)
 {
 	const pthread_t	tid = (pthread_t)thread;
 
-	// shutting down the 'online' thread
 	if (index != NULL)
 		safewrite(index, -1);
 	if (socket != NULL)
 	{
 		hpc_mutex(1);
-		shutdown(*socket, SHUT_RDWR);	// add for cleaner resoult(?)
-		close(*socket);					// gets the threads out of the syscall
+		shutdown(*socket, SHUT_RDWR);
+		close(*socket);
 		hpc_mutex(2);
 	}
-	// waits the thread
-	
-	if (tid && pthread_join(tid, NULL) != 0) { /* throw error */ }
-	server_sender(-1, NULL, NULL, 0);	// destroying mutexes
-	client_sender(-1, NULL, 0);			// destroying mutexes
-	lbb_mutex(3);						// destroying mutexes
-	hpc_mutex(3);						// destroying mutexes
+	if (tid && pthread_join(tid, NULL) != 0)
+		ft_printfd(2, "Error: join online thread\n");
+	server_sender(-1, NULL, NULL, 0);
+	client_sender(-1, NULL, 0);
+	lbb_mutex(3);
+	hpc_mutex(3);
 	lbb_delete_lobby((lbb_get_ptr(NULL)));
 	return (0);
 }

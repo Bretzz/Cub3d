@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:41:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 16:04:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 16:34:26 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int put_health_bar(t_mlx *mlx, t_plot plot, int hp);
 static void put_health_border(t_mlx *mlx, t_plot plot)
 {
     const int   new_width = (PLAYER_HP * 5) * plot.scale;
-    const int   new_heigth = ((PLAYER_HP * 5) / 5) * plot.scale;
+    const int   new_heigth = (PLAYER_HP) * plot.scale;
     int         pixel[2];
 
     /* DOWN BORDER */
@@ -70,7 +70,7 @@ static void put_health_fill(t_mlx *mlx, t_plot plot, int hp)
 {
     const int   full = (PLAYER_HP * 5) * plot.scale;
     const int   hp_width = (hp * 5) * plot.scale;
-    const int   new_heigth = ((PLAYER_HP * 5) / 5) * plot.scale;
+    const int   new_heigth = (PLAYER_HP) * plot.scale;
     int         pixel[2];
 
     /* HP BAR */

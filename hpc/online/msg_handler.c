@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 17:16:56 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 11:02:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 {
 	const int	action = parse_msg_string(msg);
 
-	if (action != 2) {ft_printf(LOG"action value %d%s\n", action, RESET);}
 	if (action <= 0)
 		errno = 256;
 	else if (lobby == NULL)
@@ -79,9 +78,11 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 		hit_player(msg, lobby);
 	else
 		errno = 1;
-	return (action);	//may be necessary to set manually errno to 0 before
+	return (action);
 }
 
+/* executes each action recieved
+NOTE: no mutexes must be locked going in here */
 int	cycle_player_msgs(char *msg, t_player *lobby)
 {
 	unsigned int	i;
@@ -104,4 +105,3 @@ int	cycle_player_msgs(char *msg, t_player *lobby)
 		return (0);
 	return (1);
 }
-	

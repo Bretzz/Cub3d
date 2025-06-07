@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 17:56:03 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 11:24:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ typedef struct s_mlx
 	int				*index;
 	int				*socket;
 	t_player		fake_lobby[MAXPLAYERS];
-	// int				fake_index;
+	int				fake_index;
 	// int				fake_socket;
 	unsigned long	thread;
 }				t_mlx;

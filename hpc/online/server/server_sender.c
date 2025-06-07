@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:14:57 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/06 15:21:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 10:04:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int server_sender(int socket, char *buffer, void *addr, char flag)
 	lbb_mutex(1);
 	while (i < MAXPLAYERS)
 	{
-		if (lbb_is_alive(lobby[i]) && (!addr || ft_memcmp(lobby[i].online, addr, sizeof(struct sockaddr_in)))
+		if (lbb_is_alive(lobby[i]) && lobby[i].online != NULL && (!addr || ft_memcmp(lobby[i].online, addr, sizeof(struct sockaddr_in)))
 			/* && ft_printf("sending to %s\n", lobby[i].name) */
 			&& sendto(socket, buffer, ft_strlen(buffer), 0, lobby[i].online, sizeof(struct sockaddr)) < 0)
 		{

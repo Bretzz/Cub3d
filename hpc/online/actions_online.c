@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   actions_online.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:03:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 17:05:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 19:20:52 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	new_player(const char *msg, t_player *lobby, void *online);
 void	update_player(const char *msg, t_player *lobby, void *online);
 void	kill_player(const char *msg, t_player *lobby);
 void	host_player(const char *msg, t_player *lobby);
-void	fire_player(const char *msg, t_player *lobby);
-void	hit_player(const char *msg, t_player *lobby);
 
 /* LOBBY MUTEX */
+/* adds the new player to the lobby or updates the 'online'
+parameter */
 void	new_player(const char *msg, t_player *lobby, void *online)
 {
 	int	slot;
@@ -46,6 +46,7 @@ void	new_player(const char *msg, t_player *lobby, void *online)
 }
 
 /* LOBBY MUTEX */
+/* updates pos, tar and occasionally online */
 void	update_player(const char *msg, t_player *lobby, void *online)
 {
 	int	slot;
@@ -54,31 +55,17 @@ void	update_player(const char *msg, t_player *lobby, void *online)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	// ft_printf("updating %d\n", slot);
 	msg_get_pos(msg, lobby[slot].pos);
 	msg_get_tar(msg, lobby[slot].tar);
-	// msg_get_pos_tar(msg, lobby[slot].pos_tar);
 	if (online != NULL)
 		lobby[slot].online = online;
 	lbb_mutex(2);
 }
 
 /* LOBBY MUTEX */
+/* kills the player, freeing resources and bzeroing
+all the struct */
 void	kill_player(const char *msg, t_player *lobby)
-{
-	int	slot;
-
-	lbb_mutex(1);
-	slot = lbb_get_index(msg);
-	if (slot < 0 && lbb_mutex(2))
-		return ;
-	free(lobby[slot].extra);
-	lbb_kill_player(msg);
-	lbb_mutex(2);
-}
-
-/* LOBBY MUTEX */
-void	host_player(const char *msg, t_player *lobby)
 {
 	int	slot;
 
@@ -87,14 +74,14 @@ void	host_player(const char *msg, t_player *lobby)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	free(lobby[HOST].online);	// could be done better
-	lbb_move_player(slot, 0);
-	// lbb_push_up();			// comment so that color don't change
+	lbb_kill_player(msg);
 	lbb_mutex(2);
 }
 
 /* LOBBY MUTEX */
-void	fire_player(const char *msg, t_player *lobby)
+/* moves the player at the top of the lobby.
+old behaviour: lbb_push_up() after moving the host. */
+void	host_player(const char *msg, t_player *lobby)
 {
 	int	slot;
 
@@ -102,19 +89,9 @@ void	fire_player(const char *msg, t_player *lobby)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	lobby[slot].shoot = 1;
-	lbb_mutex(2);
-}
-
-/* LOBBY MUTEX */
-void	hit_player(const char *msg, t_player *lobby)
-{
-	int	slot;
-
-	lbb_mutex(1);
-	slot = lbb_get_index(msg);
-	if (slot < 0 && lbb_mutex(2))
-		return ;
-	lobby[slot].hp--;
+	if (lobby[HOST].online >= lbb_kill_player(NULL))
+		free(lobby[HOST].online);
+	ft_memset(&lobby[HOST], 0, sizeof(t_player) - sizeof(void *));
+	lbb_swap_player(slot, HOST);
 	lbb_mutex(2);
 }

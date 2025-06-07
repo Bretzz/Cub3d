@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 15:47:27 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 11:05:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,16 @@ static int bind_to_world(void)
 /* Acknowledgment procedure with the server.
 	1. send signature + new to server
 	2. recieve lobby stats */
+/* LOBBY MUTEX */
 static int	serv_ack(int servfd, t_player *lobby)
 {
 	char	buffer[MAXLINE + 1];
 
 	ft_memset(buffer, 0, sizeof(buffer));
 	//player signature name:ip
+	lbb_mutex(1);
 	buffer_player_action(lobby[PLAYER], "new", buffer);
-
+	lbb_mutex(2);
 	ft_printf(PURPLE"[test] sending '%s' to server%s\n", buffer, RESET);
 
 	//send test
@@ -154,7 +156,7 @@ int	client_routine(pthread_t *tid, char *envp[])
 	ft_printf(LOG">connection approved...%s\n", RESET);
 	if (client_reciever(tid, servfd) < 0)
 		return (close(servfd), -1);
-	print_lobby(lobby);
+	// print_lobby(lobby);
 	// ft_printf(LOG">reciever started%s\n", RESET);
 	// ft_printf(LOG">client started on tid: %u%s\n", servtid, RESET);
 	return (servfd);

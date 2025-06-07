@@ -44,4 +44,8 @@ int		handle_player(t_mlx *mlx, t_player *lobby, int index);
 
 float	dir_diff(float dir1, float dir2);
 
+int		safe_hpc_read(int *ptr);
+
+t_sprite *sprite_init(void *mlx_ptr, int i, unsigned int subst);
+
 #endif

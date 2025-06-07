@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 15:51:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 18:49:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,88 +36,33 @@ static int	get_fps(int frame)
 	return (fps);
 }
 
-/* yoooo :) */
-static int	load_player_sprites(void *mlx_ptr, t_sprite *sprite)
-{
-	// ugly sprite loading
-	sprite[0].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_front.xpm", &sprite[0].width, &sprite[0].heigth);
-	if (sprite[0].image == NULL)
-		return (1);
-	sprite[0].scale = 1;
-	sprite[1].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_back.xpm", &sprite[1].width, &sprite[1].heigth);
-	if (sprite[1].image == NULL)
-		return (1);
-	sprite[1].scale = 1;
-	sprite[2].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_left.xpm", &sprite[2].width, &sprite[2].heigth);
-	if (sprite[2].image == NULL)
-		return (1);
-	sprite[2].scale = 1;
-	sprite[3].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/stop_right.xpm", &sprite[3].width, &sprite[3].heigth);
-	if (sprite[3].image == NULL)
-		return (1);
-	sprite[3].scale = 1;
-	sprite[4].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/sprites/shoot_front.xpm", &sprite[4].width, &sprite[4].heigth);
-	if (sprite[4].image == NULL)
-		return (1);
-	sprite[4].scale = 1;
-	ft_printf("got sprite of size:\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n\t[%d,%d]\n",
-		sprite[0].width, sprite[0].heigth,
-		sprite[1].width, sprite[1].heigth,
-		sprite[2].width, sprite[2].heigth,
-		sprite[3].width, sprite[3].heigth,
-		sprite[4].width, sprite[4].heigth);
-	return (0);
-}
-
-/* allocates the array of sprites changing
-the color based on the index */
-static t_sprite *sprite_init(void *mlx_ptr, int i, unsigned int subst)
-{
-	const unsigned int	c_map[6] = { 0x714333, 0xff00fa, 0xff0000, 0x00ff00, 0x0000ff, 0xa0b0c0};
-	t_sprite 			*sprite;
-	int					pixel[2];
-	int					j;
-
-	sprite = (t_sprite *)malloc(SPRITE_NUM * sizeof(t_sprite));
-	if (sprite == NULL)
-		return (NULL);
-	ft_memset(sprite, 0, SPRITE_NUM * sizeof(t_sprite));
-	load_player_sprites(mlx_ptr, sprite);
-	j = 0;
-	while (j < SPRITE_NUM)
-	{
-		pixel[0] = 0;
-		while (pixel[0] < sprite[j].width)
-		{
-			pixel[1] = 0;
-			while (pixel[1] < sprite[j].heigth)
-			{
-				if (get_pixel_color(sprite[j].image, pixel[0], pixel[1]) == subst)
-					image_pixel_put(sprite[j].image, pixel[0], pixel[1], c_map[i % 6]);
-				pixel[1]++;
-			}
-			pixel[0]++;
-		}
-		sprite[j].chroma = c_map[i % 6];
-		j++;
-	}
-	return (sprite);
-}
-
 /* if a new player arrived (or the sprite was deleted)
 a new sprite is provided */
 /* LOBBY MUTEX */
 void	update_sprites(void *mlx_ptr, t_player *lobby)
 {
 	unsigned int	i;
+	unsigned int	j;
+	t_sprite		*extra;
 
 	i = 0;
 	while (i < MAXPLAYERS)
 	{
+		extra = lbb_extra_leftovers(lobby[i]);
 		if (lbb_is_alive(lobby[i]) && lobby[i].extra == NULL)
 		{
 			lobby[i].extra = sprite_init(mlx_ptr, i, 0x714333);
 			ft_printf("init sprite N.%i, chroma #%X\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);
+		}
+		else if (extra != NULL)
+		{
+			// ft_printf("freeing leftover image %p\n", extra);
+			j = 0;
+			while (j < SPRITE_NUM)
+				mlx_destroy_image(mlx_ptr, extra[j++].image);
+			// print_lobby(lobby);
+			free(extra);
+			lobby[i].extra = NULL;
 		}
 		i++;
 	}
@@ -125,8 +70,8 @@ void	update_sprites(void *mlx_ptr, t_player *lobby)
 
 /* NOTE: fake_lobby isn't modified trought the single frame execution.
 the things that will be modified are:
-	>player.pos/player.dir (cub3D)
-	>lobby[*myself].hp (cub3D)
+	>player.pos/player.dir (cub3D/update_frame)
+	>lobby[*myself].hp (cub3D/handle_player)
 	>lobby[others] (online) */
 int update_frame(void *arg)
 {
@@ -136,20 +81,27 @@ int update_frame(void *arg)
 
 	if (frame++ % mlx->frames == 0)
 	{
+		hpc_mutex(1);
+		mlx->fake_index = *mlx->index;
 		lbb_mutex(1);
 		update_sprites(mlx->mlx, mlx->lobby);
-		ft_memcpy(mlx->lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
-		ft_memcpy(mlx->lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
+		// copy stuff
+		if (lbb_is_alive(mlx->lobby[*mlx->index]))
+		{
+			ft_memcpy(mlx->lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
+			ft_memcpy(mlx->lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
+		}
 		ft_memcpy(&mlx->fake_lobby, mlx->lobby, MAXPLAYERS * sizeof(t_player));
+		// mlx->player.sprite = (t_sprite *)mlx->fake_lobby[mlx->fake_index].extra;
 		lbb_mutex(2);
-		// ft_memcpy(mlx->fake_lobby[*mlx->index].pos, mlx->player.pos, 3 * sizeof(int));
-		// ft_memcpy(mlx->fake_lobby[*mlx->index].tar, mlx->player.dir, 3 * sizeof(int));
-		// mlx->player.pos = (float *)mlx->lobby[*mlx->index].pos;
-		// mlx->player.dir = (float *)mlx->lobby[*mlx->index].tar;
-		mlx->player.sprite = (t_sprite *)mlx->fake_lobby[*mlx->index].extra;
+		hpc_mutex(2);
+		// ft_memcpy(mlx->fake_lobby[mlx->fake_index].pos, mlx->player.pos, 3 * sizeof(int));
+		// ft_memcpy(mlx->fake_lobby[mlx->fake_index].tar, mlx->player.dir, 3 * sizeof(int));
+		// mlx->player.pos = (float *)mlx->lobby[mlx->fake_index].pos;
+		// mlx->player.dir = (float *)mlx->lobby[mlx->fake_index].tar;
 		if (move_player(mlx) + move_mouse(mlx))
 		{
-			buffer_player_action(mlx->fake_lobby[*mlx->index], "update", buffer);
+			buffer_player_action(mlx->fake_lobby[mlx->fake_index], "update", buffer);
 			send_all(mlx, buffer, ft_strlen(buffer));
 		}
 		// move_mouse(mlx);

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 14:37:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 10:22:41 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void			print_quick_lobby(t_player *lobby);
 
 /* ENV INTERFACE */
 
-char	    	**fake_env_init(char *real_env[]);
-void	    	free_fake_env(char **fake_env);
+char			**fake_env_init(char *real_env[]);
+void			free_fake_env(char **fake_env);
 
 int				env_is_ready(char *envp[]);
 char			*get_locl_ip(char **env);
@@ -52,6 +52,7 @@ char			*get_serv_ip(char **env);
 char			*get_my_name(char **env);
 int				make_him_host(char *ip, char **env);
 int				set_my_ip(char *ip, char **env);
+int				set_my_name(char *name, char **env);
 
 /* UTILS */
 

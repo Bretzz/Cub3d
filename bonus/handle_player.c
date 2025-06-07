@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 14:53:57 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 11:49:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ static int     shoot_laser(t_mlx * mlx, t_plot plot, float *dir)
 static void	death_by_hand(t_mlx *mlx, int killer)
 {
 	char        buffer[MSG_LEN + 6];
-	// int			my_index;
 
-	// hpc_mutex(1);
-	// my_index = *mlx->index;
-	// hpc_mutex(2);
-	if (*mlx->index == HOST)
+	if (mlx->fake_index == HOST)
 	{
 		buffer_player_action(mlx->fake_lobby[killer], "host", buffer);
 		send_all(mlx, buffer, ft_strlen(buffer));
@@ -72,16 +68,13 @@ int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 	static int  shootframes[MAXPLAYERS];
 	t_player	myself;
 
-	// hpc_mutex(1);
-	int	my_index = *mlx->index;
-	// hpc_mutex(2);
 	if (!lbb_is_alive(fake_lobby[index]) || fake_lobby[index].extra == NULL)
 		return (0);
 	// put_square(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], 10, color);
 	// my_pixel_put(mlx, lobby[index].pos[0], lobby[index].pos[1], lobby[index].pos[2], color);
-	if (index == my_index)
+	if (index == mlx->fake_index)
 		return (0);
-	if (fake_lobby[index].shoot == 0)
+	if (fake_lobby[index].action == 0)
 		put_player(mlx, fake_lobby[index], 0/* , index */);
 	else
 	{
@@ -93,10 +86,12 @@ int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 		if (shootframes[index] == 1 && mlx->player.last_sprite_data.dist != 0
 			&& shoot_laser(mlx, mlx->player.last_sprite_data, (float *)fake_lobby[index].tar) == 0)
 		{
+			hpc_mutex(1);
 			lbb_mutex(1);
-			mlx->lobby[my_index].hp--;
-			myself = mlx->lobby[my_index];
+			mlx->lobby[*mlx->index].hp--;
+			myself = mlx->lobby[*mlx->index];
 			lbb_mutex(2);
+			hpc_mutex(2);
 			ft_printf("your current hp %d\n", myself.hp);
 			if (myself.hp <= 0)
 				death_by_hand(mlx, index);
@@ -106,7 +101,7 @@ int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 		if (shootframes[index] == SHOT_FRAMES)
 		{
 			lbb_mutex(1);
-			mlx->lobby[index].shoot = 0;
+			mlx->lobby[index].action = 0;
 			lbb_mutex(2);
 			shootframes[index] = 0;
 		}

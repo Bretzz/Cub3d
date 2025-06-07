@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
+/*   sprite_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/07 17:38:59 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/07 18:33:27 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/07 18:35:04 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lbb.h"
+#include "cub3D_bonus.h"
 
-/* Clean way to free the whole player array */
-void	lbb_delete_lobby(t_player *lobby)
-{
-	const void		*small = lbb_kill_player(NULL);
-	unsigned int	i;
+/* destroys all the sprite initialized */
+// void    sprite_destroy(t_sprite sprite)
+// {
+//     int i;
 
-	i = 0;
-	while (i < MAXPLAYERS)
-	{
-		if (lobby[i].online >= small)
-			free(lobby[i].online);
-		// if (lobby[i].extra >= small)
-		// 	free(lobby[i].extra);
-		i++;
-	}
-	free(lobby);
-}
+//     i = 0;
+//     while (i < SPRITE_NUM)
+//     {
+//         if ()
+//     }
+// }

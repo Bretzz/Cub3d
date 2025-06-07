@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 23:44:58 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 19:09:55 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 18:50:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ note that the 'online' is used
 for storing addresses, or online puorpuose
 in general.
 the 'extra' pointer is a tool for
-the user to differenciate the players. */
+the user to differenciate the players.
+NOTE: the 'extra' pointer is never assigned, modified
+or free'd inside the lbb library. */
 typedef struct s_player
 {
 	char	name[MSG_NAME_LEN];
@@ -36,7 +38,7 @@ typedef struct s_player
 	int		pos[3];
 	int		tar[3];
 	char	pos_tar[MSG_DATA_LEN * 2];
-	int		shoot;
+	int		action;
 	int		hp;
 	void	*online;
 	void	*extra;
@@ -65,6 +67,7 @@ int		lbb_get_index(const char *msg);
 int		lbb_next_free_slot(void);
 int		lbb_is_alive(t_player player);
 size_t	lbb_player_count(void);
+void	*lbb_extra_leftovers(t_player player);
 
 /* WRITE DATA */ /* writing data into the database */
 
@@ -72,6 +75,7 @@ int		lbb_add_player(const char *msg);
 int		lbb_update_player(const char *msg);
 void	*lbb_kill_player(const char *msg);
 void	*lbb_move_player(int src, int dest);
+void	*lbb_swap_player(int src, int dest);
 void	lbb_push_up(void);
 
 /* GET DATA */ /* writing data from the database into a buffer */

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 12:18:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:36:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	enter_notify_handler(t_mlx *mlx);
 int	leave_notify_handler(t_mlx *mlx)
 {
 	mlx->on_window = 0;
-	mlx_mouse_show(mlx->mlx, mlx->win);
+	// mlx_mouse_show(mlx->mlx, mlx->win);
 	return (0);
 }
 
@@ -27,6 +27,6 @@ int	leave_notify_handler(t_mlx *mlx)
 int	enter_notify_handler(t_mlx *mlx)
 {
 	mlx->on_window = 1;
-	mlx_mouse_hide(mlx->mlx, mlx->win);
+	// mlx_mouse_hide(mlx->mlx, mlx->win);
 	return (0);
 }

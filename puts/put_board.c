@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:49:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	put_board(t_mlx *mlx)
 	// freeing resources
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
+	ft_memset(&mlx->img, 0, sizeof(t_img));
 
 	// plotting the FPS
 	fps = ft_itoa(mlx->fps);

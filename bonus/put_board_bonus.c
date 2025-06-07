@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 16:07:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:48:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ int	put_board(t_mlx *mlx)
 	put2d_minimap(mlx, 10);
 	// ft_printf("minimap out\n");
 	
-	float	pos[3] = {10, 10, 1};
-	put_sprite_on_map(mlx, pos, mlx->player.sprite[1]);
-	
 	// float	dir[2] = {0 , 90};
 	// float	pos[2] = {10 , 10};
 	// put_player(mlx, pos, dir);
@@ -47,8 +44,24 @@ int	put_board(t_mlx *mlx)
 		handle_player(mlx, mlx->fake_lobby, i++);
 	}
 
-	float	pos2[3] = {9.1f, 4.1f, 1};
+	float	pos[3] = {10, 10, 1};
+	put_sprite_on_map(mlx, pos, mlx->player.sprite[1]);
+
+	float	pos2[3] = {7.5f, 2.5f, 1};
 	put_sprite_on_map(mlx, pos2, mlx->player.sprite[4]);
+
+	float	pos3[3] = {7.5f, 3.0f, 1};
+	put_sprite_on_map(mlx, pos3, mlx->player.sprite[0]);
+
+	float	pos4[3] = {7.5f, 3.5f, 1};
+	put_sprite_on_map(mlx, pos4, mlx->player.sprite[1]);
+
+	float	pos5[3] = {7.5f, 4.0f, 1};
+	put_sprite_on_map(mlx, pos5, mlx->player.sprite[2]);
+
+	float	pos6[3] = {7.5f, 4.5f, 1};
+	put_sprite_on_map(mlx, pos6, mlx->player.sprite[3]);
+
 
 	put_crosshair(mlx, 0xFF0000);
 	// ft_printf("sprite out\n");
@@ -58,7 +71,7 @@ int	put_board(t_mlx *mlx)
 
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
-	
+	ft_memset(&mlx->img, 0, sizeof(t_img));
 	// fps counter
 	fps = ft_itoa(mlx->fps);
 	if (fps == NULL)

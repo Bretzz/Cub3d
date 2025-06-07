@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:16:46 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/30 19:14:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 18:16:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		lbb_add_player(const char *msg);
 int		lbb_update_player(const char *msg);
 void	*lbb_kill_player(const char *msg);
 void	*lbb_move_player(int src, int dest);
+void	*lbb_swap_player(int src, int dest);
 void	lbb_push_up(void);
 
 /* takes a msg-string as parameter.
@@ -64,7 +65,9 @@ int	lbb_update_player(const char *msg)
 /* clears the struct's bytes.
 You can pass a pointer to an escape (0x7f) char
 to set the treshold of the smallest to free.
-ALSO returns said pointer if NULL is passed. */
+ALSO returns said pointer if NULL is passed.
+NOTE: the 'extra' pointer isn't bzeroed.
+needs to free(3) it manually. */
 void	*lbb_kill_player(const char *msg)
 {
 	t_player *const	lobby = lbb_get_ptr(NULL);
@@ -83,12 +86,13 @@ void	*lbb_kill_player(const char *msg)
 		return (NULL);
 	if (lobby[index].online > small)
 		free(lobby[index].online);
-	ft_memset(&lobby[index], 0, sizeof(t_player));
+	ft_memset(&lobby[index], 0, sizeof(t_player) - sizeof(void *));
 	return (NULL);
 }
 
 /* moves the player at the index 'src' to the index 'dest'.
-After that bzeros the player 'src'.
+After that bzeros the player 'src' (not anymore).
+! ! ! DEPRECATED ! ! ! (online and extra pointer losts)
 RETURNS: a ptr to the new player 'src' index (dest), NULL if player is null. */
 void	*lbb_move_player(int src, int dest)
 {
@@ -104,6 +108,26 @@ void	*lbb_move_player(int src, int dest)
 		return (NULL);
 	ft_memmove(&lobby[dest], &lobby[src], sizeof(t_player));
 	ft_memset(&lobby[src], 0, sizeof(t_player));
+	return (&lobby[dest]);
+}
+
+/* like lbb_move_player but just swaps them */
+void	*lbb_swap_player(int src, int dest)
+{
+	t_player *const	lobby = lbb_get_ptr(NULL);
+	t_player		temp;
+
+	if (lobby == NULL)
+		return (NULL);
+	if (src < 0 || src >= MAXPLAYERS)
+		return (NULL);
+	if (dest < 0 || dest >= MAXPLAYERS)
+		return (NULL);
+	if (dest == src)
+		return (NULL);
+	ft_memmove(&temp, &lobby[dest], sizeof(t_player));
+	ft_memmove(&lobby[dest], &lobby[src], sizeof(t_player));
+	ft_memmove(&lobby[src], &temp, sizeof(t_player));
 	return (&lobby[dest]);
 }
 

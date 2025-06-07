@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
+/*   tiny_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/07 17:38:59 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/07 10:49:49 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/07 11:00:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lbb.h"
+#include "cub3D_bonus.h"
 
-/* Clean way to free the whole player array */
-void	lbb_delete_lobby(t_player *lobby)
+int safe_hpc_read(int *ptr)
 {
-	const void		*small = lbb_kill_player(NULL);
-	unsigned int	i;
+    int ret;
 
-	i = 0;
-	while (i < MAXPLAYERS)
-	{
-		if (lobby[i].online >= small)
-			free(lobby[i].online);
-		// if (lobby[i].extra >= small)
-		// 	free(lobby[i].extra);
-		i++;
-	}
-	free(lobby);
+    hpc_mutex(1);
+    ret = *ptr;
+    hpc_mutex(2);
+    return (ret);
 }

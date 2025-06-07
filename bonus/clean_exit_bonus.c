@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 17:58:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 18:28:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
 	unsigned int	j;
 
 	i = 0;
-	lbb_mutex(1);
+	// lbb_mutex(1);
 	while (i < MAXPLAYERS)
 	{
-		if (lbb_is_alive(lobby[i]) && lobby[i].extra != NULL)
+		if (lobby[i].extra != NULL)
 		{
 			j = 0;
 			while (j < SPRITE_NUM)
@@ -33,10 +33,11 @@ static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
 				mlx_destroy_image(mlx_ptr, ((t_sprite *)(lobby[i].extra))[j].image);
 				j++;
 			}
+			free(lobby[i].extra);
 		}
 		i++;
 	}
-	lbb_mutex(2);
+	// lbb_mutex(2);
 }
 
 /* LOBBY MUTEX */
@@ -44,15 +45,23 @@ int	clean_exit(t_mlx *mlx)
 {
 	char	buffer[MSG_LEN + 6];
 
-	buffer_player_action(mlx->fake_lobby[*mlx->index], "kill", buffer);
+	ft_printf(BOLD"CLEAN_EXIT%s\n", RESET);
+
+	lbb_mutex(1);
+	print_lobby(mlx->lobby);
+	lbb_mutex(2);
+
+	buffer_player_action(mlx->fake_lobby[mlx->fake_index], "kill", buffer);
 	send_all(mlx, buffer, ft_strlen(buffer));
 
 	// destroying sprites
-	destroy_lobby_sprites(mlx->mlx, mlx->lobby);
+	destroy_lobby_sprites(mlx->mlx, mlx->fake_lobby);
 
 	//freeing mlx resources 
 	if (mlx->mlx)
 	{
+		if(mlx->img.img)
+			mlx_destroy_image(mlx->mlx, mlx->img.img);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);
 			//free_mtx((void **)mlx->map.mtx);

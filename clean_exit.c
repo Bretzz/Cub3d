@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 14:40:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/07 17:48:43 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	clean_exit(t_mlx *mlx)
 	//freeing mlx resources 
 	if (mlx->mlx)
 	{
+		if(mlx->img.img)
+			mlx_destroy_image(mlx->mlx, mlx->img.img);
 		//free_mtx((void **)mlx->map.mtx);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);

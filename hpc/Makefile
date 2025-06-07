@@ -50,6 +50,7 @@ SRC_FILES		= \
 				msg_utils.c \
 				\
 				get_me_online.c \
+				get_me_manager.c \
 				hpc_free.c \
 				hpc_init.c \
 				hpc_mutex.c \
@@ -62,7 +63,8 @@ SRC_FILES		= \
 				server_reciever.c \
 				server_sender.c \
 				\
-				actions.c buffer_actions.c \
+				actions_game.c actions_online.c \
+				buffer_actions.c \
 				msg_handler.c \
 				\
 				convert_stuff.c \
