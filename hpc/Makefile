@@ -37,6 +37,7 @@ SRC_FILES		= \
 				lbb_data_length.c \
 				lbb_get_data.c \
 				lbb_init.c \
+				lbb_move_player.c \
 				lbb_mutex.c \
 				lbb_read_data.c \
 				lbb_write_data.c \
@@ -51,6 +52,7 @@ SRC_FILES		= \
 				\
 				get_me_online.c \
 				get_me_manager.c \
+				get_my_addr.c \
 				hpc_free.c \
 				hpc_init.c \
 				hpc_mutex.c \
@@ -59,7 +61,7 @@ SRC_FILES		= \
 				client_reciever.c \
 				client_sender.c \
 				\
-				server.c\
+				server.c \
 				server_reciever.c \
 				server_sender.c \
 				\
@@ -69,8 +71,9 @@ SRC_FILES		= \
 				\
 				convert_stuff.c \
 				ft_perror.c \
-				fake_env.c search_env.c \
-				utils.c get_my_addr.c \
+				fake_env.c \
+				env_get_data.c env_set_data.c \
+				utils.c \
 				\
 				printers.c
 

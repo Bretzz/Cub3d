@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/07 17:38:59 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:30:06 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	lbb_delete_lobby(t_player *lobby)
 	{
 		if (lobby[i].online >= small)
 			free(lobby[i].online);
-		// if (lobby[i].extra >= small)
-		// 	free(lobby[i].extra);
 		i++;
 	}
 	free(lobby);

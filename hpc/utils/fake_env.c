@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fake_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 14:30:43 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 14:46:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:41:38 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,14 @@ char	**fake_env_init(char *real_env[])
 		fake_env[i] = real_env[i];
 		i++;
 	}
-	fake_env[i++] = ft_strdup("NAME=really-long-name-that-isnt-set-in-any-mean");
+	fake_env[i++] = ft_strdup("NAME=really-long-name\
+-that-isnt-set-in-any-mean");
 	fake_env[i++] = ft_strdup("LOCAL_IP=ip-not-set-but-long-enough");
 	fake_env[i++] = ft_strdup("SERVER_IP=ip-not-set-but-long-enough");
 	if (fake_env[real_len] == NULL
 		|| fake_env[real_len + 1] == NULL
 		|| fake_env[real_len + 2] == NULL)
-	{
-		free(fake_env[real_len]);
-		free(fake_env[real_len + 1]);
-		free(fake_env[real_len + 2]);
-		free(fake_env);
-		return (NULL);
-	}
+		return (free(fake_env[real_len]), free(fake_env[real_len + 1]),
+			free(fake_env[real_len + 2]), free(fake_env), NULL);
 	return (fake_env);
 }

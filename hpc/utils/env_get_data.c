@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:35:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 19:35:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:37:59 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int		env_is_ready(char *envp[]);
 char	*get_locl_ip(char **env);
 char	*get_serv_ip(char **env);
 char	*get_my_name(char **env);
-// int		make_me_host(char **env);
-int		make_him_host(char *ip, char **env);
-int		set_my_name(char *name, char **env);
-int		set_my_ip(char *ip, char **env);
 
 /* checks if the enviroment contains NAME, LOCAL_IP, SERVER_IP 
 and they are initialized*/
@@ -97,84 +93,4 @@ char	*get_my_name(char **env)
 		i++;
 	}
 	return ("no-name");
-}
-
-// int	make_me_host(char **env)
-// {
-// 	int	i;
-
-// 	if (env == NULL)
-// 		return (0);
-// 	i = 0;
-// 	while (env[i] != NULL)
-// 	{
-// 		if (!ft_strncmp("SERVER_IP=", env[i], 10) && *(env[i] + 10) != '\0')
-// 		{
-// 			ft_memset(env[i] + 10, 0, ft_strlen(env[i] + 10));
-// 			ft_memmove(env[i] + 10, "host", 4);
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-int	make_him_host(char *ip, char **env)
-{
-	int	i;
-
-	if (ip == NULL || env == NULL)
-		return (0);
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (!ft_strncmp("SERVER_IP=", env[i], 10)/*  && *(env[i] + 10) != '\0' */)
-		{
-			ft_memset(env[i] + 10, 0, ft_strlen(env[i] + 10));
-			ft_memmove(env[i] + 10, ip, ft_strlen(ip) + 1);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	set_my_name(char *name, char **env)
-{
-	int	i;
-
-	if (name == NULL || env == NULL)
-		return (0);
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (!ft_strncmp("NAME=", env[i], 5)/*  && *(env[i] + 5) != '\0' */)
-		{
-			ft_memset(env[i] + 5, 0, ft_strlen(env[i] + 5));
-			ft_memmove(env[i] + 5, name, ft_strlen(name) + 1);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	set_my_ip(char *ip, char **env)
-{
-	int	i;
-
-	if (ip == NULL || env == NULL)
-		return (0);
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (!ft_strncmp("LOCAL_IP=", env[i], 9)/*  && *(env[i] + 9) != '\0' */)
-		{
-			ft_memset(env[i] + 9, 0, ft_strlen(env[i] + 9));
-			ft_memmove(env[i] + 9, ip, ft_strlen(ip) + 1);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
 }

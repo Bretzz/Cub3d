@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 20:18:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 20:19:47 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 00:40:17 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
 /* close()s the fd if it's greater than 2 */
-void safeclose(int fd)
+void	safeclose(int fd)
 {
-    if (fd > 2)
-        close(fd);
+	if (fd > 2)
+		close(fd);
 }
