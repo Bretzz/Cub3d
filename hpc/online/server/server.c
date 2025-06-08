@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:34:21 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/31 15:49:52 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:10:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@ int	bind_to_port(void)
 		return (-1);
 	}
 	ft_memset(&anyaddr, 0, sizeof(anyaddr));
-    anyaddr.sin_family = AF_INET;
-    anyaddr.sin_port = htons( PORT_1 );
-    anyaddr.sin_addr.s_addr = htonl( INADDR_ANY );
+	anyaddr.sin_family = AF_INET;
+	anyaddr.sin_port = htons(PORT_1);
+	anyaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	if (bind(fd, (struct sockaddr *)&anyaddr, sizeof(struct sockaddr)) < 0)
 	{
 		ft_perror(ERROR"bind failure"RESET);
-		return (-1);
+		return (close(fd), -1);
 	}
+	if (DEBUG)
+		ft_printf(LOG">bound socket to %d%s\n", socket, RESET);
 	return (fd);
 }
 
@@ -66,8 +68,12 @@ int	my_data_init(t_player *lobby, char *envp[])
 	ft_strlcpy(lobby[HOST].name, get_my_name(envp), 43);
 	ft_strlcpy(lobby[HOST].ip, get_locl_ip(envp), 16);
 	lobby[HOST].hp = PLAYER_HP;
-	print_lobby(lobby);
-	ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n", lbb_player_count());
+	if (DEBUG)
+	{
+		print_lobby(lobby);
+		ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n",
+			lbb_player_count());
+	}
 	lbb_mutex(2);
 	return (1);
 }
@@ -78,16 +84,12 @@ int	server_routine(pthread_t *tid, char *envp[])
 	t_player *const	lobby = lbb_get_ptr(NULL);
 	int				socket;
 
-	// ft_printf("sus %p, %p\n", &envp, &socket);
 	if (!my_data_init(lobby, envp))
 		return (-1);
 	socket = bind_to_port();
 	if (socket < 0)
 		return (-1);
-	// ft_printf(LOG">bound socket to %d%s\n", socket, RESET);
-	if (server_reciever(tid, socket) < 0)
+	if (server_receiver(tid, socket) < 0)
 		return (close(socket), -1);
 	return (socket);
-	// start server_reciever
-	// define server_sender (only way of sending messages) !!! NEED MUTEX !!!
 }

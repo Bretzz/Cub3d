@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 14:08:48 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/06 17:50:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:24:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	*lbb_mutex(int action)
 
 	if (!shield && action == INIT)
 	{
-		ft_printf(GREEN"lbb_mutex: %p%s\n", &mutex, RESET);
+		if (DEBUG)
+			ft_printf(GREEN"lbb_mutex: %p%s\n", &mutex, RESET);
 		pthread_mutex_init(&mutex, NULL);
 		shield = 1;
 	}

@@ -6,11 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 10:33:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 19:20:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:17:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hpc_int.h"
+#include "actions.h"
 
 void	fire_player(const char *msg, t_player *lobby);
 void	hit_player(const char *msg, t_player *lobby);

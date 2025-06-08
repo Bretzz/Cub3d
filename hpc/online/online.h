@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:04:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 18:57:23 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:43:48 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ char	*buffer_lobby_action(t_player *lobby,
 
 /* DB MANAGEMENT */
 
-void	new_player(const char *msg, t_player *lobby, void *online);
-void	update_player(const char *msg, t_player *lobby, void *online);
-void	kill_player(const char *msg, t_player *lobby);
-void	host_player(const char *msg, t_player *lobby);
-void	fire_player(const char *msg, t_player *lobby);
-void	hit_player(const char *msg, t_player *lobby);
+// void	new_player(const char *msg, t_player *lobby, void *online);
+// void	update_player(const char *msg, t_player *lobby, void *online);
+// void	kill_player(const char *msg, t_player *lobby);
+// void	host_player(const char *msg, t_player *lobby);
+// void	fire_player(const char *msg, t_player *lobby);
+// void	hit_player(const char *msg, t_player *lobby);
 
 /* UTILS */
 

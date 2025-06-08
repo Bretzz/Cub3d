@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:28:39 by totommi           #+#    #+#             */
-/*   Updated: 2025/05/28 14:02:35 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:25:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <strings.h>
 # include <stdlib.h>
 
-/* MSG STRING: "NAME:IP:X_Y_Z:X_Y_Z" */
+/* MSG STRING: "NAME:IP:X_Y_Z:X_Y_Z:ACTION" */
 
 /* DATA LENGTH */
 

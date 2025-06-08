@@ -58,16 +58,18 @@ SRC_FILES		= \
 				hpc_mutex.c \
 				\
 				client.c \
-				client_reciever.c \
+				client_ack.c \
+				client_receiver.c \
 				client_sender.c \
 				\
 				server.c \
-				server_reciever.c \
+				server_ack.c \
+				server_receiver.c \
 				server_sender.c \
 				\
 				actions_game.c actions_online.c \
 				buffer_actions.c \
-				msg_handler.c \
+				cycle_player_msg.c \
 				\
 				convert_stuff.c \
 				ft_perror.c \
@@ -86,7 +88,7 @@ OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 
 VPATH 			= $(MSG) $(LBB) \
 				online/ \
-				online/client/ online/server \
+				online/client/ online/server online/actions \
 				utils/
 
 all: $(NAME)
@@ -94,6 +96,7 @@ all: $(NAME)
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
+#-D DEBUG=1
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
 	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
 

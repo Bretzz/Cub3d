@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 15:00:18 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 19:06:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:23:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	*hpc_mutex(int action)
 
 	if (!shield && action == INIT)
 	{
-		ft_printf(GREEN"hpc_mutex: %p%s\n", &mutex, RESET);
+		if (DEBUG)
+			ft_printf(GREEN"hpc_mutex: %p%s\n", &mutex, RESET);
 		pthread_mutex_init(&mutex, NULL);
 		shield = 1;
 	}

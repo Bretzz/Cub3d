@@ -6,12 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:12:37 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 17:08:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:17:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hpc_int.h"
-#include "online.h"
+#include "actions.h"
 
 /* Fills the buffer with 'name:ip:pos:tar:action'
 EXPECTED: buffer of size >92 */

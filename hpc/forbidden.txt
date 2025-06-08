@@ -32,12 +32,12 @@ HOST_PUNCH extras:
 	> freeifaddrs
 	> inet_ntoa (replaceable)
 
-(client_reciever.c) pthread_create, recvfrom
+(client_receiver.c) pthread_create, recvfrom
 (client_sender.c) pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, pthread_mutex_destroy, sendto
 (client.c) socket, bind, sendto, recvfrom,  (replaceable): htonl, htons, inet_addr (already replaced ip_to_uns)
-(server_reciever.c) pthread_create, recvfrom
+(server_receiver.c) pthread_create, recvfrom
 (server_sender.c) pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, pthread_mutex_destroy, sendto
 (server.c) socket, bind,  (replaceable): htonl, htons, inet_addr (already replaced ip_to_uns)
 (get_me_online.c) pthread_join
 (get_my_addr.c) getifaddrs, freeifaddrs, inet_ntoa (replaceable)
-(lbb_mutex.c) pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, pthread_mutex_destroy
+(lbb_mutex.c / hpc_mutex.c) pthread_mutex_init, pthread_mutex_lock, pthread_mutex_unlock, pthread_mutex_destroy

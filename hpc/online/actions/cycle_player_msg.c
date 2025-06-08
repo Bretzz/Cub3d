@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msg_handler.c                                      :+:      :+:    :+:   */
+/*   cycle_player_msg.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 11:02:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:03:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hpc_int.h"
-#include "online.h"
+#include "actions.h"
 #include <errno.h>
 
 int	parse_msg_string(const char *msg);
@@ -81,7 +81,7 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 	return (action);
 }
 
-/* executes each action recieved
+/* executes each action received
 NOTE: no mutexes must be locked going in here */
 int	cycle_player_msgs(char *msg, t_player *lobby)
 {
