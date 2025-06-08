@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:00:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/19 21:01:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 17:45:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Skips all the blank spaces, then if the number starts with '0x'
 then is treated as an hexadecimal number, if it isn't is treated as
 a decimal number (ft_atoi(3)).
 RETURNS: the number (int) obtained. */
-int		ft_atohexi(const char *nptr)
+int	ft_atohexi(const char *nptr)
 {
 	int			nb;
 	const char	base[] = "0123456789abcdef";

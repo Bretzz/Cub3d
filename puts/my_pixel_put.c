@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:57:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:26:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:49:46 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	my_pixel_put(void *my_struct, int x, int y, unsigned int color)
 	t_mlx *const	mlx = (t_mlx *)my_struct;
 	char			*dst;
 
-	// if (color == 0x000000
-	// 	|| color < 0x000010)	//lame
-	// 	return ;
 	if (my_struct == NULL
 		|| mlx->img.addr == NULL)
 		return ;

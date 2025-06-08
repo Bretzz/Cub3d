@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 18:28:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:49:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ int	clean_exit(t_mlx *mlx)
 {
 	char	buffer[MSG_LEN + 6];
 
-	ft_printf(BOLD"CLEAN_EXIT%s\n", RESET);
+	// ft_printf(BOLD"CLEAN_EXIT%s\n", RESET);
 
-	lbb_mutex(1);
-	print_lobby(mlx->lobby);
-	lbb_mutex(2);
+	// lbb_mutex(1);
+	// print_lobby(mlx->lobby);
+	// lbb_mutex(2);
 
 	buffer_player_action(mlx->fake_lobby[mlx->fake_index], "kill", buffer);
 	send_all(mlx, buffer, ft_strlen(buffer));

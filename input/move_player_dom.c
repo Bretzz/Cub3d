@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 18:06:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/28 16:12:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 17:53:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,10 @@ static int	o_speed_to_speed(int *o_speed, int *speed, float dir)
 	const float	x_axis_normal = cosf((dir * M_PI / 180) - M_PI_2);
 	const float	y_axis_normal = sinf((dir * M_PI / 180) - M_PI_2);
 
-	// printf("o_speed (%d, %d) | axis_normal x: %f, y: %f\n", o_speed[0], o_speed[1], x_axis_normal, y_axis_normal);
-	speed[0] = (float)o_speed[0] * /* DELTA_SPEED *  */x_axis_normal;
-	speed[1] = (float)o_speed[0] * /* DELTA_SPEED *  */y_axis_normal;
-	speed[0] += (float)o_speed[1] * /* DELTA_SPEED *  */x_axis_parallel;
-	speed[1] += (float)o_speed[1] * /* DELTA_SPEED *  */y_axis_parallel;
+	speed[0] = (float)o_speed[0] * x_axis_normal;
+	speed[1] = (float)o_speed[0] * y_axis_normal;
+	speed[0] += (float)o_speed[1] * x_axis_parallel;
+	speed[1] += (float)o_speed[1] * y_axis_parallel;
 	return (0);
 }
 
@@ -85,8 +84,6 @@ int	direction_oriented_movement(t_mlx *mlx)
 	o_speed[1] = speed_bound(mlx, o_speed[1]);
 	straigthen_o_speed(mlx->keys.up_dw, &o_speed[1], mlx->player.friction);
 	straigthen_o_speed(mlx->keys.lx_rx, &o_speed[0], mlx->player.friction);
-	// ft_printf("o_speed (%d, %d)\n", o_speed[0], o_speed[1]);
 	o_speed_to_speed(o_speed, speed, mlx->player.dir[0]);
-	// printf("speed (%d, %d)\n", speed[0], speed[1]);
 	return (0);
 }

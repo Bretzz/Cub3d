@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 17:49:12 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:50:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,11 @@ int	put_board(t_mlx *mlx)
 			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
-
-	// put2d_map(mlx, mlx->map.stats[2], 0xff0000);
-	// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
-	// cast_field(mlx, &put2d_ray);
-
-	// plotting the screen
 	cast_field(mlx, &put_whole_column);
 	put2d_minimap(mlx, 10);
-
-	// freeing resources
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	ft_memset(&mlx->img, 0, sizeof(t_img));
-
-	// plotting the FPS
 	fps = ft_itoa(mlx->fps);
 	if (fps == NULL)
 		return (0);

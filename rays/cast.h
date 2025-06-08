@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_hover.c                                     :+:      :+:    :+:   */
+/*   cast.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 12:16:31 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 17:46:01 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/08 17:40:53 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/08 17:45:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#ifndef CAST_H
+# define CAST_H
 
-int	leave_notify_handler(t_mlx *mlx);
-int	enter_notify_handler(t_mlx *mlx);
+# include "cub3D.h"
 
-// make the cursor visible // macOS issues
-// mlx_mouse_show(mlx->mlx, mlx->win);
-int	leave_notify_handler(t_mlx *mlx)
+typedef struct s_cast_vars
 {
-	mlx->on_window = 0;
-	return (0);
-}
+	float	*ray;
+	float	angle;
+	float	incr[2];
+	int		axis[2];
+	int		iter[2];
+}				t_cast_vars;
 
-// hide it again // macOS issues
-// mlx_mouse_hide(mlx->mlx, mlx->win);
-int	enter_notify_handler(t_mlx *mlx)
-{
-	mlx->on_window = 1;
-	return (0);
-}
+float	normalize_dir(float dir);
+
+void	ray_init(t_ray *ray, float x, float y);
+void	vars_init(t_ray *ray, t_cast_vars *cast, float dir);
+int		out_of_bound(t_mlx *mlx, float *ray);
+int		get_next_border(int axis, float start, int i);
+
+#endif

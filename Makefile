@@ -55,6 +55,7 @@ SRC_FILES		= main.c \
 				\
 				cast_ray.c \
 				cast_field.c \
+				cast_utils.c \
 				\
 				my_pixel_put.c \
 				get_pixel_color.c \
