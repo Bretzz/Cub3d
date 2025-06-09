@@ -6,12 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 11:24:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:14:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 //colors
 # define BOLD "\033[1m"
@@ -75,8 +79,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 500
-# define MLX_WIN_Y 500
+# define MLX_WIN_X 1920
+# define MLX_WIN_Y 1080
 
 // graphic libs
 # include "mlx.h"
@@ -243,6 +247,7 @@ int				direction_oriented_movement(t_mlx *mlx);
 int				move_mouse(t_mlx *mlx);
 
 int 			update_frame(void *arg);
+int 			get_fps(int frame);
 
 int				handle_key_press(int keysym, void *arg);
 int				handle_key_release(int keysym, void *arg);
@@ -271,6 +276,8 @@ int				put2d_map(t_mlx *mlx, int side, unsigned int color);
 int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
 int				put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color);
 int				put2d_minimap(t_mlx *mlx, size_t side);
+
+void			put_fps(t_mlx *mlx);
 
 /* =========== PARSING =========== */
 

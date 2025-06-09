@@ -6,18 +6,18 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 10:49:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 11:00:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:24:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-int safe_hpc_read(int *ptr)
+int	safe_hpc_read(int *ptr)
 {
-    int ret;
+	int	ret;
 
-    hpc_mutex(1);
-    ret = *ptr;
-    hpc_mutex(2);
-    return (ret);
+	hpc_mutex(1);
+	ret = *ptr;
+	hpc_mutex(2);
+	return (ret);
 }

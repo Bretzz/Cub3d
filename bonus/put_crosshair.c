@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:12:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:29:43 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:20:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	put_crosshair(t_mlx *mlx, unsigned int color);
 
 int	put_crosshair(t_mlx *mlx, unsigned int color)
 {
-	const int   len[2] = { 10, 10 };
-	int         pixel[2];
+	const int	len[2] = {10, 10};
+	int			pixel[2];
 
 	pixel[1] = MLX_WIN_Y / 2;
 	pixel[0] = (MLX_WIN_X / 2) - len[0];

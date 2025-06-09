@@ -6,158 +6,91 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 16:43:34 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:55:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-
-/* assign the variables, if we are 'online' so mlx is initialized,
-or initializes the mlx struct and window.
-RETURNS: 1 ok, 0 error. */
-static int	juice_the_pc(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
+static void	mini_clean_exit(t_multi_data *data)
 {
-	if (mlx_ptr)
-		mlx->mlx = mlx_ptr;
-	else
-		mlx->mlx = mlx_init();
-	if (mlx->mlx == NULL)
-		return (0);
-	if (win_ptr)
-		mlx->win = win_ptr;
-	else
-		mlx->win = mlx_new_window(mlx->mlx, MLX_WIN_X, MLX_WIN_Y, "cub3D");
-	if (mlx->win == NULL)
-		return (free(mlx->mlx), 0);
-	return (1);
-}
-/* initializes all the struct's data.
-RETURNS: 1 ok, 0 error. */
-static int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr)
-{
-	/* (void)argc;(void)argv; */
-	ft_memset(mlx, 0, sizeof(t_mlx));
-	// map init
-	mlx->map.mtx = parsing(path, mlx);
-	if (mlx->map.mtx == NULL)
-		clean_exit(mlx);
-	get_map_stats((const char **)mlx->map.mtx, MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
-	mlx->map.sky = 0xadd8e6;
-	mlx->map.floor = 0xcaf0d5;
-	// player init
-	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
-	mlx->player.fov[0] = 60;
-	mlx->player.fov[1] = 60;
-	mlx->player.speed[0] = 0;
-	mlx->player.speed[1] = 0;
-	mlx->player.speed[2] = 0;
-	mlx->player.tspeed[0] = 30.0f;
-	mlx->player.tspeed[1] = 300;
-	mlx->player.jground = 1;
-	mlx->player.friction = 42;
-	mlx->frames = 1;	// do not insert a multiple of 10
-	if (!juice_the_pc(mlx, mlx_ptr, win_ptr))
-		return (0);
-	return (1);	
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
 }
 
-static int online_data_init(t_mlx *mlx, int *index, int *socket, unsigned long thread)
-{
-	/* ONLINE INIT */
-	mlx->index = index;
-	mlx->socket = socket;
-	mlx->thread = thread;
-	/* LOBBY INIT */
-	mlx->lobby = lbb_get_ptr(NULL);
-	hpc_mutex(1);
-	lbb_mutex(1);
-	mlx->lobby[*mlx->index].extra = sprite_init(mlx->mlx, *mlx->index, 0x714333);
-	mlx->player.sprite = mlx->lobby[*mlx->index].extra;
-	lbb_mutex(2);
-	hpc_mutex(2);
-	return (1);
-}
-
-static int cub3d_bonus(t_multi_data *data)
+/*
+! ! ! CRASHED THE MINIMAP ON HOST CHANGE ! ! !
+! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !
+! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !
+TO-DO: CHANGE SPEED TO INT (DONE)
+SOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)
+ADD CHROMAS FOR DIFFERENT PLAYERS */
+static int	cub3d_bonus(t_multi_data *data)
 {
 	t_mlx	mlx;
 
 	if (!data_init(&mlx, data->path, data->mlx_ptr, data->win_ptr)
 		|| !online_data_init(&mlx, &data->index, &data->socket, data->thread))
 		clean_exit(&mlx);
-		
-	printf("player [%f, %f, %f] looking [%f, %f]\n", mlx.player.pos[0], mlx.player.pos[1], mlx.player.pos[2], mlx.player.dir[0], mlx.player.dir[1]);
-	// print_lobby(lbb_get_ptr(NULL));
-	ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n", &mlx, *mlx.index, *mlx.socket, RESET);
-
-	// key hooks
+	if (DEBUG)
+		ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n",
+			&mlx, *mlx.index, *mlx.socket, RESET);
 	mlx_hook(mlx.win, KeyPress, KeyPressMask, &handle_key_press, &mlx);
 	mlx_hook(mlx.win, KeyRelease, KeyReleaseMask, &handle_key_release, &mlx);
-
-	// mouse hook
 	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
-
-	// on window hooks
 	mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
 	mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
-
-	// red cross
 	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &clean_exit, &mlx);
-
-	// ft_printf("frames after init %d\n", mlx.frames);
-
-	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
-
-	ft_printf("\n! ! ! CRASHED THE MINIMAP ON HOST CHANGE ! ! !\n! ! ! CHECK WHY IT GET STUCK IN CORNERS SOMETIMES ! ! !\n! ! ! CHECK OUTER CORNERS OF ISOLATED CUB3s SOMETIMES SEE TROUGH ! ! !\nTO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n\t%sADD CHROMAS FOR DIFFERENT PLAYERS%s\n", BOLD, RESET);
-
 	mlx_loop(mlx.mlx);
 	return (0);
 }
 
 /* 0 ok, 1 error */
-int	online_setup(t_multi_data *data, int argc, char *argv[]/* , char *envp[] */)
+int	online_setup(t_multi_data *data, int argc, char *argv[])
 {
-	XInitThreads();  // Must be called before any X11 functions
+	XInitThreads();
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
 		return (1);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, MLX_WIN_X, MLX_WIN_Y, "cub3D");
+	data->win_ptr = mlx_new_window(data->mlx_ptr,
+			MLX_WIN_X, MLX_WIN_Y, "cub3D");
 	if (data->win_ptr == NULL)
-		return (mlx_destroy_display(data->mlx_ptr), free(data->mlx_ptr), 1);
-	
-	/* ONLINE */
+		return (mlx_destroy_display(data->mlx_ptr),
+			free(data->mlx_ptr), 1);
 	if (hpc_init() == 1)
-	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);	// macOS issues
-		free(data->mlx_ptr);
-		return (1);
-	}
-	if (argc == 2)
-		data->thread = get_me_online(&data->index, &data->socket, argv[2], "b4llbre4k3r");
+		return (mini_clean_exit(data), 1);
+	if (argc == 3)
+		data->thread = get_me_online(&data->index,
+				&data->socket, argv[2], "b4llbre4k3r");
 	else
-		data->thread = get_me_online(&data->index, &data->socket, argv[2], argv[3]);
+		data->thread = get_me_online(&data->index,
+				&data->socket, argv[2], argv[3]);
 	if (data->thread == 0)
 	{
-		error_msg(ERR_ONLINE);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);	// macOS issues
-		free(data->mlx_ptr);
+		mini_clean_exit(data);
 		hpc_free(&data->socket, &data->index, data->thread);
-		return (1);
+		return (error_msg(ERR_ONLINE), 1);
 	}
 	return (0);
 }
 
-int main(int argc, char *argv[]/* , char *envp[] */)
+// dummy player
+// t_player *lobby = lbb_get_ptr(NULL);
+// ft_strlcpy(lobby[2].name, "dummy", 10);
+// ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
+// lobby[2].pos[0] = 1091968148;
+// lobby[2].pos[1] = 1094417599;
+// lobby[2].pos[2] = 1065353216;
+// lobby[2].tar[0] = 1095720131;
+// lobby[2].tar[0] = 1120141309;
+// lobby[2].tar[0] = 0;
+// lobby[2].hp = PLAYER_HP;
+
+int	main(int argc, char *argv[])
 {
 	t_multi_data	data;
-
-	// (void)argc; (void)argv; (void)envp;
-	// ft_printf("argc=%d\n", argc);
-	// ft_printf("\nargv[1] %s\nargv[2] %s\nargv[3] %s\n", argv[1], argv[2], argv[3]);
 
 	if (argc < 2 || argc > 4)
 	{
@@ -175,25 +108,9 @@ int main(int argc, char *argv[]/* , char *envp[] */)
 	}
 	if (argc > 2)
 	{
-		if (online_setup(&data, argc, argv/* , envp */) == 1)
+		if (online_setup(&data, argc, argv) == 1)
 			return (1);
 	}
-
-	// dummy player
-	// t_player *lobby = lbb_get_ptr(NULL);
-	// ft_strlcpy(lobby[2].name, "dummy", 10);
-	// ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
-	// lobby[2].pos[0] = 1091968148;
-	// lobby[2].pos[1] = 1094417599;
-	// lobby[2].pos[2] = 1065353216;
-	// lobby[2].tar[0] = 1095720131;
-	// lobby[2].tar[0] = 1120141309;
-	// lobby[2].tar[0] = 0;
-	// lobby[2].hp = PLAYER_HP;
-
-	// usleep(1000);
-	// ft_printf("SERVER_IP=%s, NAME=%s\n", get_serv_ip(fenv), get_my_name(fenv));
-	// ft_printf(ERROR"get_me_online couses the invalid read and the map to vanish!%s\n", RESET);
 	cub3d_bonus(&data);
 	return (0);
 }

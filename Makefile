@@ -64,12 +64,13 @@ SRC_FILES		= main.c \
 				put_line.c \
 				put_whole_column.c \
 				put2d.c put2d_minimap.c \
+				put_fps.c \
 				\
 				parsing.c \
 				get_player_stats.c \
 				get_map_stats.c \
 				\
-				update_frame.c \
+				update_frame.c get_fps.c \
 				move_player.c move_player_dom.c \
 				move_mouse.c \
 				handle_keys.c handle_mouse.c handle_hover.c \
@@ -80,9 +81,11 @@ SRC_FILES		= main.c \
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
-B_SRC_FILES		= main_bonus.c clean_exit_bonus.c \
+B_SRC_FILES		= main_bonus.c main_data_init.c \
+				clean_exit_bonus.c \
 				update_frame_bonus.c \
-				move_player_bonus.c move_mouse_bonus.c \
+				move_player_bonus.c move_and_slide_bonus.c \
+				move_mouse_bonus.c \
 				handle_mouse_bonus.c handle_player.c \
 				put_board_bonus.c put_crosshair.c \
 				put_whole_column_bonus.c \
@@ -126,6 +129,7 @@ show_bonus:
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
+#-D DEBUG=1
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
 	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
 

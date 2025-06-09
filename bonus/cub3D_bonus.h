@@ -31,21 +31,31 @@ typedef struct s_multi_data
 	unsigned long	thread;
 	void			*mlx_ptr;
 	void			*win_ptr;
-}               t_multi_data;
+}				t_multi_data;
 
-int		put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite/* , int chroma */);
-int		put_health_bar(t_mlx *mlx, t_plot plot, int hp);
-int		put_player(t_mlx *mlx, t_player player, int action/* , int chroma */);
-int		put_crosshair(t_mlx *mlx, unsigned int color);
+/* BONUS PUTS */
+int			put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
+int			put_health_bar(t_mlx *mlx, t_plot plot, int hp);
+int			put_player(t_mlx *mlx, t_player player, int action);
+int			put_crosshair(t_mlx *mlx, unsigned int color);
 
-void	send_all(t_mlx *mlx, char *msg, size_t size);
+/* BONUS LOADING */
 
-int		handle_player(t_mlx *mlx, t_player *lobby, int index);
+t_sprite	*sprite_init(void *mlx_ptr, int i, unsigned int subst);
+int			data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
+int			online_data_init(t_mlx *mlx,
+				int *index, int *socket, unsigned long thread);
 
-float	dir_diff(float dir1, float dir2);
+/* BONUS INGAME */
 
-int		safe_hpc_read(int *ptr);
+void		send_all(t_mlx *mlx, char *msg, size_t size);
+int			handle_player(t_mlx *mlx, t_player *lobby, int index);
+int			move_and_slide(t_local *player, t_map map);
 
-t_sprite *sprite_init(void *mlx_ptr, int i, unsigned int subst);
+/* NONUS MATH */
+
+float		dir_diff(float dir1, float dir2);
+
+int			safe_hpc_read(int *ptr);
 
 #endif

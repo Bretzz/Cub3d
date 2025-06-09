@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 18:01:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:12:34 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	handle_key_press(int keysym, void *arg)
 		;
 	else if (handle_frame_keys(keysym, mlx))
 		;
-	else
+	else if (DEBUG)
 		ft_printf("Key Pressed: %i\n", keysym);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:29:54 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 17:47:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:12:45 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_mouse(int keysym, int x, int y, t_mlx *mlx)
 				mlx->player.pos[1],
 				mlx->player.dir[0]);
 	}
-	else
+	else if (DEBUG)
 		ft_printf("Mouse thing N. %d\n", keysym);
 	return (0);
 }

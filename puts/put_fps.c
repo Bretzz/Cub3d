@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_frame.c                                     :+:      :+:    :+:   */
+/*   put_fps.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:43:07 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/09 14:13:41 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/09 14:15:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	update_frame(void *arg)
+/* welp... */
+void	put_fps(t_mlx *mlx)
 {
-	t_mlx *const		mlx = (t_mlx *)arg;
-	static unsigned int	frame;
+	char			*fps;
 
-	if (frame++ % mlx->frames == 0)
-	{
-		move_player(mlx);
-		move_mouse(mlx);
-		put_board(mlx);
-		mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
-		mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
-	}
-	// if (frame % (75) == 0)
-	// 	mlx->fps = get_fps(frame / mlx->frames);
-	return (0);
+	fps = ft_itoa(mlx->fps);
+	if (fps == NULL)
+		return ;
+	mlx_string_put(mlx->mlx, mlx->win, MLX_WIN_X - 25, 25, 0xff0000, fps);
+	free(fps);
 }
