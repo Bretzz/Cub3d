@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:08:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:06:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	cub3d_bonus(t_multi_data *data)
 	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
 	mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
 	mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
-	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &clean_exit, &mlx);
+	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &resign_exit, &mlx);
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);

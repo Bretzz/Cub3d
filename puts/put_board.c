@@ -6,14 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:42:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:45:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "puts.h"
+
 /* 2D PUTS */
 // put2d_map(mlx, mlx->map.stats[2], 0xff0000);
-// put2d_player(mlx, mlx->map.stats[2], 0x0000FF);
+// put2d_player(mlx, mlx->player.pos, mlx->map.stats[2], 0x0000FF);
 // cast_field(mlx, &put2d_ray);
 
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
@@ -24,11 +26,9 @@ int	put_board(t_mlx *mlx)
 			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
-	cast_field(mlx, &put_whole_column);
-	// put2d_minimap(mlx, 10);
+	cast_field(mlx, &put_whole_column, NULL);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	ft_memset(&mlx->img, 0, sizeof(t_img));
-	// put_fps(mlx);
 	return (1);
 }

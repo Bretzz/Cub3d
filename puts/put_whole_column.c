@@ -6,11 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:38:12 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:10:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "puts.h"
 
 int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 {

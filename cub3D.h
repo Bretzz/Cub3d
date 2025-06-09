@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:21:02 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:40:01 by topiana-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -55,6 +55,7 @@
 #  define S_KEY 1
 #  define D_KEY 2
 #  define C_KEY 8
+#  define M_KEY 'm'
 #  define SPACE 49
 #  define LSHIFT 257
 #  define LALT 261
@@ -72,6 +73,7 @@
 #  define S_KEY 's'
 #  define D_KEY 'd'
 #  define C_KEY 'c'
+#  define M_KEY 'm'
 #  define SPACE ' '
 #  define LSHIFT 65505
 #  define LALT 65513
@@ -126,6 +128,7 @@ typedef struct s_keys
 	int	jump_slide[2];
 	int	shift;
 	int	mouse[2];
+	int	minimap;
 }				t_keys;
 
 // data of the map
@@ -133,6 +136,7 @@ typedef struct s_map
 {
 	char			**mtx;
 	int				stats[3];	// max X, Y, side
+	int				mini_side;
 	unsigned int	sky;
 	unsigned int	floor;
 	char			*no_wall;
@@ -235,7 +239,6 @@ typedef struct s_mlx
 	int				*socket;
 	t_player		fake_lobby[MAXPLAYERS];
 	int				fake_index;
-	// int				fake_socket;
 	unsigned long	thread;
 }				t_mlx;
 
@@ -262,8 +265,9 @@ int 			clean_exit(t_mlx *mlx);
 
 float 			normalize_dir(float angle);
 float			cast_ray(t_mlx *mlx, float x, float y, float dir);
-int				cast_field(t_mlx *mlx, int (*func)(void *, int, float, unsigned int));
-
+int				cast_field(t_mlx *mlx,
+					int (*func3d)(void *, int, float, unsigned int),
+					int (*func2d)(void *, int, float, unsigned int));
 void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
 unsigned int	get_pixel_color(void *sprite, int x, int y);
 void			image_pixel_put(void *image, int x, int y, unsigned int color);
@@ -276,7 +280,6 @@ int				put_whole_column(void *my_struct, int x, float len, unsigned int color);
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
 int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
 int				put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color);
-int				put2d_minimap(t_mlx *mlx, size_t side);
 
 void			put_fps(t_mlx *mlx);
 
@@ -294,7 +297,6 @@ void			parsing_map(char	*line, t_mlx *mlx);
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
-
 
 /* ============ DEBUG ============= */
 

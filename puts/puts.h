@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put2d_minimap.c                                    :+:      :+:    :+:   */
+/*   puts.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/30 11:36:25 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 16:50:59 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/09 18:09:11 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/09 19:44:39 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#ifndef PUTS_H
+# define PUTS_H
 
-/* puts the minimap and the single player
-location/direction */
-int	put2d_minimap(t_mlx *mlx, size_t side)
-{
-	put2d_map(mlx, side, 0x0000ff);
-	put2d_player(mlx, mlx->player.pos, side, 0xff0000);
-	cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
-	put2d_ray(mlx, side, 0, 0x00ff00);
-	return (0);
-}
+# include <sys/types.h>
+
+int		*multiply_array(int *array, size_t size, int factor);
+int		*divide_array(int *array, size_t size, int factor);
+int		*operation_array(int *array, size_t size, int number, int operator);
+float	*operation_arrayf(float *array, size_t size,
+			float number, int operator);
+
+#endif

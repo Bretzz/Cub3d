@@ -6,11 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:22:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 23:54:05 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "puts.h"
 
 static int	set_sx(int *p1, int *p2)
 {
@@ -46,6 +47,7 @@ int	put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color)
 
 	ft_memcpy(proj, p1, 2 * sizeof(int));
 	err = dx_sx[0] + dy_sy[0];
+	int len = 0;
 	while (proj[0] != p2[0] || proj[1] != p2[1])
 	{
 		e2 = 2 * err;
@@ -59,7 +61,10 @@ int	put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color)
 			err += dx_sx[0];
 			proj[1] += dy_sy[1];
 		}
+		len++;
 		my_pixel_put(mlx, proj[0], proj[1], color);
 	}
+	if (mlx->player.fov[1] == 61)
+		ft_printf("len %d\n", len);
 	return (1);
 }

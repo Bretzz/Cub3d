@@ -6,11 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 11:39:43 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:30:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "puts.h"
 
 /* put a square in the window, (x, y) are the coordinates
 of the top left corner. */
@@ -38,7 +39,7 @@ color is the color of the walls,
 side is the length of the single square unit in pixel. */
 int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 {
-	unsigned int	pixel[2];
+	int	pixel[2];
 
 	pixel[1] = 0;
 	while (mlx->map.mtx[pixel[1]] != NULL)
@@ -48,11 +49,9 @@ int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 		{
 			if (mlx->map.mtx[pixel[1]][pixel[0]] == '1')
 			{
-				pixel[0] *= side;
-				pixel[1] *= side;
-				put_square(mlx, side, (int *)pixel, color);
-				pixel[0] /= side;
-				pixel[1] /= side;
+				operation_array(pixel, 2, side, '*');
+				put_square(mlx, side, pixel, color);
+				operation_array(pixel, 2, side, '/');
 			}
 			pixel[0]++;
 		}
@@ -64,8 +63,8 @@ int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 /* side is the length of the single square unit in pixel */
 int	put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color)
 {
-	const int	scale_pos[2] = {pos[0] * side,
-		pos[1] * side};
+	const int	scale_pos[2] = {(pos[0] - 0.25f) * side,
+		(pos[1] - 0.25f) * side};
 
 	put_square(mlx, side / 2, (int *)scale_pos, color);
 	return (0);

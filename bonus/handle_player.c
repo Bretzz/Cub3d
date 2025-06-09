@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 13:19:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:01:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,17 @@ int	handle_player(t_mlx *mlx, t_player *lobby, int index);
 
 /* 0 it killed us, 1 it didn't */
 /* inside plot we have all the data of the sprite that is trying to kill us. */
-/* NOTE: height and direction exclusion are approximative calculations :( */
+/* NOTE: height and direction exclusion are approximative calculations :(
+(accurate-ish with the bunny sprite and 1920x1080 window resolution)*/
 static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 {
 	const float	diff = fabsf(dir_diff(dir[0], plot.dir)) * M_PI / 180;
 	const float	conv_dir = -(dir[1] - 90);
+	const float	laser_dir = (plot.dist * sinf(diff)) / cosf(diff);
 	float		heigth;
 
-	if ((plot.dist * sinf(diff)) / cosf(diff) > (M_PI / 26))
+	if ((laser_dir > (M_PI / 20))
+		|| laser_dir < -(M_PI / 20))
 		return (1);
 	if (cast_ray(mlx,
 			mlx->player.pos[0],
@@ -33,8 +36,8 @@ static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 			plot.dir) < plot.dist)
 		return (1);
 	heigth = (plot.dist / cosf(conv_dir * M_PI / 180))
-		* sinf(conv_dir * M_PI / 180) + 0.25f;
-	if (heigth < 0 || heigth > 0.15f)
+		* sinf(conv_dir * M_PI / 180) + 0.5f;
+	if (heigth < 0 || heigth > 0.3f)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:00:04 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:55:09 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,13 @@ int	put_board(t_mlx *mlx)
 			.bits_per_pixel, &mlx->img.line_length, &mlx->img.endian);
 	if (!mlx->img.img || !mlx->img.addr)
 		return (0);
-	cast_field(mlx, &put_whole_column);
-	put2d_minimap(mlx, 10);
+	if (mlx->keys.minimap)
+	{
+		cast_field(mlx, &put_whole_column, &put2d_mini_ray);
+		put2d_minimap(mlx, mlx->map.mini_side);
+	}
+	else
+		cast_field(mlx, &put_whole_column, NULL);
 	i = 0;
 	while (i < MAXPLAYERS)
 		handle_player(mlx, mlx->fake_lobby, i++);
