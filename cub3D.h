@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:14:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:21:02 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -34,6 +34,7 @@
 # define ERR_FORMAT "	incorrect file format"
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
+# define ERR_WALL_REPEAT "	wall is repeated in scene description file"
 # define ERR_CHAR "	invalid character in map"
 # define ERR_ENVP " missing env variable(s)"
 # define ERR_ONLINE "online setup failed"
@@ -285,7 +286,9 @@ char			**parsing(const char *path, t_mlx *mlx);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
-void			check_texture(t_mlx *mlx, char	*line, char *wall);
+int				check_texture(t_mlx *mlx, char	*line, char *wall);
+int				walls_ceiling(char *line, int fd, t_mlx *mlx);
+void			parsing_map(char	*line, t_mlx *mlx);
 
 /* ============ UTILS ============= */
 
