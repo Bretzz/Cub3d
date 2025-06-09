@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:41:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 13:24:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:08:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static void	put_up_down_health_border(t_mlx *mlx, t_plot plot)
 	int			pixel[2];
 
 	pixel[0] = 0;
-	while (pixel[0] < new_width)
+	if (plot.x_screen < 0)
+		pixel[0] = -plot.x_screen;
+	while (pixel[0] < new_width
+		&& pixel[0] + (plot.x_screen - (new_width / 2)) < MLX_WIN_X)
 	{
 		pixel[1] = 0;
 		while (pixel[1] < BORDER)
@@ -49,7 +52,10 @@ static void	put_left_right_health_border(t_mlx *mlx, t_plot plot)
 	int			pixel[2];
 
 	pixel[1] = 0;
-	while (pixel[1] < new_heigth)
+	if (plot.y_screen < 0)
+		pixel[1] = -plot.y_screen;
+	while (pixel[1] < new_heigth
+		&& pixel[1] + (plot.y_screen - (new_heigth)) < MLX_WIN_Y)
 	{
 		pixel[0] = 0;
 		while (pixel[0] < BORDER)
@@ -77,21 +83,21 @@ static void	put_health_fill(t_mlx *mlx, t_plot plot, int hp)
 	int			pixel[2];
 
 	pixel[0] = 0;
-	while (pixel[0] < full)
+	while (pixel[0] < full
+		&& pixel[0] + (plot.x_screen - (full / 2)) < MLX_WIN_X)
 	{
 		pixel[1] = 0;
-		while (pixel[1] < new_heigth)
+		while (pixel[1] < new_heigth
+			&& pixel[1] + (plot.y_screen - (new_heigth)) < MLX_WIN_Y)
 		{
 			if (pixel[0] < hp_width)
 				my_pixel_put(mlx,
 					pixel[0] + (plot.x_screen - (full / 2)),
-					pixel[1] + (plot.y_screen - (new_heigth)),
-					0x00cf00);
+					pixel[1] + (plot.y_screen - (new_heigth)), 0x00cf00);
 			else
 				my_pixel_put(mlx,
 					pixel[0] + (plot.x_screen - (full / 2)),
-					pixel[1] + (plot.y_screen - (new_heigth)),
-					0xcf0000);
+					pixel[1] + (plot.y_screen - (new_heigth)), 0xcf0000);
 			pixel[1]++;
 		}
 		pixel[0]++;

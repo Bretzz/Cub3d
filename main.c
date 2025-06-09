@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:44:10 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:40:01 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	return (0);	
 }
 
+/* TO-DO: CHANGE SPEED TO INT (DONE)
+SOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)
+! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! ! */
 int main(int argc, char *argv[])
 {
 	t_mlx	mlx;
@@ -89,8 +92,6 @@ int main(int argc, char *argv[])
 
 	// frame updater
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
-
-	ft_printf("TO-DO: CHANGE SPEED TO INT (DONE)\nSOMETIMES CRASHES NEAR THE BIG ORIZON (DONE-ish)\n! ! ! COUNTER STRAFINNG ON THE RX EDGE ! ! !\n");
 
 	mlx_loop(mlx.mlx);
 }

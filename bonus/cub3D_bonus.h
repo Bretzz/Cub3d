@@ -42,6 +42,7 @@ int			put_crosshair(t_mlx *mlx, unsigned int color);
 /* BONUS LOADING */
 
 t_sprite	*sprite_init(void *mlx_ptr, int i, unsigned int subst);
+void    	sprite_destroy(void *mlx_ptr, t_sprite *sprite);
 int			data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
 int			online_data_init(t_mlx *mlx,
 				int *index, int *socket, unsigned long thread);

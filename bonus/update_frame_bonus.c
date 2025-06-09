@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 13:11:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:21:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ a new sprite is provided */
 /* LOBBY MUTEX */
 void	update_sprites(void *mlx_ptr, t_player *lobby)
 {
-	unsigned int	i;
-	unsigned int	j;
 	t_sprite		*extra;
+	unsigned int	i;
 
 	i = 0;
 	while (i < MAXPLAYERS)
@@ -34,10 +33,7 @@ chroma #%X\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);
 		}
 		else if (extra != NULL)
 		{
-			j = 0;
-			while (j < SPRITE_NUM)
-				mlx_destroy_image(mlx_ptr, extra[j++].image);
-			free(extra);
+			sprite_destroy(mlx_ptr, extra);
 			lobby[i].extra = NULL;
 		}
 		i++;

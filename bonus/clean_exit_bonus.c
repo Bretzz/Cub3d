@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 12:56:05 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:22:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,13 @@ int	clean_exit(t_mlx *mlx);
 static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
 {
 	unsigned int	i;
-	unsigned int	j;
 
 	i = 0;
 	while (i < MAXPLAYERS)
 	{
 		if (lobby[i].extra != NULL)
 		{
-			j = 0;
-			while (j < SPRITE_NUM)
-			{
-				mlx_destroy_image(mlx_ptr,
-					((t_sprite *)(lobby[i].extra))[j].image);
-				j++;
-			}
-			free(lobby[i].extra);
+			sprite_destroy(mlx_ptr, lobby[i].extra);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/30 18:30:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:39:21 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 	{
 		if (y > MLX_WIN_Y)
 			break ;
-		my_pixel_put(mlx, x, y++, color);
+		my_pixel_put(mlx, x, y++, color * (int)mlx->ray.face);
 	}
 	// ft_printf("floor\n");
 	while (y < MLX_WIN_Y)

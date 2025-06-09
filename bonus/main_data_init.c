@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:41:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:58:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr)
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
-	mlx->player.tspeed[0] = 30.0f;
-	mlx->player.tspeed[1] = 300;
+	mlx->player.tspeed[0] = 70.0f;
+	mlx->player.tspeed[1] = 250;
 	mlx->player.jground = 1;
-	mlx->player.friction = 42;
+	mlx->player.friction = 8;
 	mlx->frames = 1;
 	if (!juice_the_pc(mlx, mlx_ptr, win_ptr))
 		return (0);

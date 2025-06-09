@@ -6,11 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:11:09 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:13:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
+
+#define JUMP_TICKS 9
 
 int	move_player(t_mlx *mlx);
 
@@ -61,7 +63,7 @@ int	jump_and_crouch(t_mlx *mlx)
 			jumped = 0;
 			return (0);
 		}
-		mlx->player.speed[2] -= (mlx->player.tspeed[1] / 17);
+		mlx->player.speed[2] -= (mlx->player.tspeed[1] / JUMP_TICKS);
 	}
 	return (0);
 }
