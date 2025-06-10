@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:19:56 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:00:56 by totommi          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdlib.h>
@@ -26,16 +26,15 @@ int	clean_exit(t_mlx *mlx)
 	//freeing mlx resources 
 	if (mlx->mlx)
 	{
-		if(mlx->img.img)
-			mlx_destroy_image(mlx->mlx, mlx->img.img);
-		//free_mtx((void **)mlx->map.mtx);
+		if(mlx->img->img)
+			mlx_destroy_image(mlx->mlx, mlx->img->img);
 		if (mlx->win)
 		{
 			mlx_destroy_window(mlx->mlx, mlx->win);
 			mlx->win = NULL;
 		}
 			
-		mlx_destroy_display(mlx->mlx);	// macOS issues
+		// mlx_destroy_display(mlx->mlx);	// macOS issues
 		free(mlx->mlx);
 	}
 	if (mlx->map.mtx)

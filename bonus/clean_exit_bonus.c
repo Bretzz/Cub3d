@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 22:49:53 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:02:28 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ int	clean_exit(t_mlx *mlx)
 	destroy_lobby_sprites(mlx->mlx, mlx->fake_lobby);
 	if (mlx->mlx)
 	{
-		if (mlx->img.img)
-			mlx_destroy_image(mlx->mlx, mlx->img.img);
+		if (mlx->img[0].img)
+			mlx_destroy_image(mlx->mlx, mlx->img[0].img);
+		if (mlx->img[1].img)
+			mlx_destroy_image(mlx->mlx, mlx->img[1].img);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);
-		mlx_destroy_display(mlx->mlx);
+		// mlx_destroy_display(mlx->mlx);
 		if (mlx->map.mtx)
 			free_mtx((void **)mlx->map.mtx);
 		free(mlx->mlx);

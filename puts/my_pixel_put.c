@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_pixel_put.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:57:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 23:57:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:31:59 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@ Sets the color of said pixel to the passed color.
 NOTE: out of boundaries pixel are handled */
 void	my_pixel_put(void *my_struct, int x, int y, unsigned int color)
 {
-	t_mlx *const	mlx = (t_mlx *)my_struct;
+	t_img *const	img = (t_img *)my_struct;
 	char			*dst;
 
 	if (my_struct == NULL
-		|| mlx->img.addr == NULL)
+		|| img->addr == NULL)
 		return ;
-	if (x < 0 || y < 0 || x >= MLX_WIN_X || y >= MLX_WIN_Y)
+	if (x < 0 || y < 0 || x >= img->width || y >= img->heigth)
 		return ;
-	dst = mlx->img.addr + (y * mlx->img.line_length
-			+ x * (mlx->img.bits_per_pixel / sizeof(int *)));
+	dst = img->addr + (y * img->line_length
+			+ x * (img->bits_per_pixel / sizeof(int *)));
 	*(unsigned int *)dst = color;
-	if (mlx->player.fov[1] == 61)
-		ft_printf("putted [%d, %d]", x, y);
 }

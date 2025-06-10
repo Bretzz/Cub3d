@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_health_bar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:41:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:08:12 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:49:37 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static void	put_up_down_health_border(t_mlx *mlx, t_plot plot)
 		pixel[1] = 0;
 		while (pixel[1] < BORDER)
 		{
-			my_pixel_put(mlx,
+			my_pixel_put(&mlx->img,
 				pixel[0] + (plot.x_screen - (new_width / 2)),
 				pixel[1] + (plot.y_screen - (new_heigth)),
 				0x000000);
-			my_pixel_put(mlx,
+			my_pixel_put(&mlx->img,
 				pixel[0] + (plot.x_screen - (new_width / 2)),
 				pixel[1] + (plot.y_screen),
 				0x000000);
@@ -60,11 +60,11 @@ static void	put_left_right_health_border(t_mlx *mlx, t_plot plot)
 		pixel[0] = 0;
 		while (pixel[0] < BORDER)
 		{
-			my_pixel_put(mlx,
+			my_pixel_put(&mlx->img,
 				pixel[0] + (plot.x_screen - (new_width / 2)),
 				pixel[1] + (plot.y_screen - (new_heigth)),
 				0x000000);
-			my_pixel_put(mlx,
+			my_pixel_put(&mlx->img,
 				pixel[0] + (plot.x_screen + (new_width / 2)),
 				pixel[1] + (plot.y_screen - (new_heigth)),
 				0x000000);
@@ -91,11 +91,11 @@ static void	put_health_fill(t_mlx *mlx, t_plot plot, int hp)
 			&& pixel[1] + (plot.y_screen - (new_heigth)) < MLX_WIN_Y)
 		{
 			if (pixel[0] < hp_width)
-				my_pixel_put(mlx,
+				my_pixel_put(&mlx->img,
 					pixel[0] + (plot.x_screen - (full / 2)),
 					pixel[1] + (plot.y_screen - (new_heigth)), 0x00cf00);
 			else
-				my_pixel_put(mlx,
+				my_pixel_put(&mlx->img,
 					pixel[0] + (plot.x_screen - (full / 2)),
 					pixel[1] + (plot.y_screen - (new_heigth)), 0xcf0000);
 			pixel[1]++;

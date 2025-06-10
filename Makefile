@@ -105,7 +105,7 @@ BONUS_FILES		= $(filter-out $(B_REPLACED), $(SRC_FILES)) $(B_SRC_FILES)
 # If you want full paths using SRCS_DIR:
 B_SRCS			= $(addprefix $(SRCS_DIR), $(BONUS_FILES))
 
-# Recompile with -D BONUS=1
+# Recompile with -D BONUS
 B_RECOMPILE		= input/handle_key_press.c
 
 # Objects
@@ -166,7 +166,7 @@ $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 $(NAME_BONUS): $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o)) $(B_RECOMPILE:.c=.o);
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS=1 -Ibonus/ -c $(B_RECOMPILE)
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS -D DEBUG=1 -Ibonus/ -c $(B_RECOMPILE)
 	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"

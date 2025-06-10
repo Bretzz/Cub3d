@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put2d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 18:30:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:00:43 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* put a square in the window, (x, y) are the coordinates
 of the top left corner. */
-int	put_square(t_mlx *mlx, size_t side, int *origin, unsigned int color)
+int	put_square(t_img *img, size_t side, int *origin, unsigned int color)
 {
 	int	pixel[2];
 
@@ -25,7 +25,7 @@ int	put_square(t_mlx *mlx, size_t side, int *origin, unsigned int color)
 		pixel[1] = origin[1];
 		while ((size_t)pixel[1] < origin[1] + side)
 		{
-			my_pixel_put(mlx, pixel[0], pixel[1], color);
+			my_pixel_put(img, pixel[0], pixel[1], color);
 			pixel[1]++;
 		}
 		pixel[0]++;
@@ -50,7 +50,7 @@ int	put2d_map(t_mlx *mlx, int side, unsigned int color)
 			if (mlx->map.mtx[pixel[1]][pixel[0]] == '1')
 			{
 				operation_array(pixel, 2, side, '*');
-				put_square(mlx, side, pixel, color);
+				put_square(&mlx->img[0], side, pixel, color);
 				operation_array(pixel, 2, side, '/');
 			}
 			pixel[0]++;
@@ -66,7 +66,7 @@ int	put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color)
 	const int	scale_pos[2] = {(pos[0] - 0.25f) * side,
 		(pos[1] - 0.25f) * side};
 
-	put_square(mlx, side / 2, (int *)scale_pos, color);
+	put_square(&mlx->img[0], side / 2, (int *)scale_pos, color);
 	return (0);
 }
 
@@ -84,7 +84,7 @@ int	put2d_ray(void *my_struct, int side, float null2, unsigned int color)
 		ray[1] = mlx->ray.hit[1] * side;
 		pos[0] = mlx->player.pos[0] * side;
 		pos[1] = mlx->player.pos[1] * side;
-		put_line(mlx, pos, ray, color);
+		put_line(&mlx->img[0], pos, ray, color);
 	}
 	return (0);
 }

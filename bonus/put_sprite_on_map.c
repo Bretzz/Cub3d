@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_sprite_on_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:40:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:49:26 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	put_sprite(t_mlx *mlx, t_plot plot, t_sprite sprite)
 			src_x_y[1] = win_x_y[1] * sprite.heigth / new_heigth;
 			color = get_pixel_color(sprite.image, src_x_y[0], src_x_y[1]);
 			if ((unsigned int)color < 100000000)
-				my_pixel_put(mlx,
+				my_pixel_put(&mlx->img,
 					win_x_y[0] + (plot.x_screen - (new_width / 2)),
 					win_x_y[1] + (plot.y_screen - (new_heigth / 2)), color);
 			win_x_y[0]++;

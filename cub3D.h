@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 19:40:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:59:53 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@
 #  define S_KEY 1
 #  define D_KEY 2
 #  define C_KEY 8
-#  define M_KEY 'm'
+#  define M_KEY 46
 #  define SPACE 49
 #  define LSHIFT 257
 #  define LALT 261
@@ -131,20 +131,6 @@ typedef struct s_keys
 	int	minimap;
 }				t_keys;
 
-// data of the map
-typedef struct s_map
-{
-	char			**mtx;
-	int				stats[3];	// max X, Y, side
-	int				mini_side;
-	unsigned int	sky;
-	unsigned int	floor;
-	char			*no_wall;
-	char			*so_wall;
-	char			*we_wall;
-	char			*ea_wall;
-}				t_map;
-
 // ray data
 typedef struct s_ray
 {
@@ -161,7 +147,23 @@ typedef struct s_img
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		heigth;
 }				t_img;
+
+// data of the map
+typedef struct s_map
+{
+	char			**mtx;
+	int				stats[3];	// max X, Y, side
+	int				mini_side;
+	unsigned int	sky;
+	unsigned int	floor;
+	char			*no_wall;
+	char			*so_wall;
+	char			*we_wall;
+	char			*ea_wall;
+}				t_map;
 
 // player data
 typedef struct s_local
@@ -207,7 +209,7 @@ typedef struct s_mlx
 {
 	void			*mlx;
 	void			*win;
-	t_img			img;
+	t_img			img[2];
 	t_map			map;
 	t_keys			keys;
 	char			on_window;
@@ -226,7 +228,7 @@ typedef struct s_mlx
 {
 	void			*mlx;
 	void			*win;
-	t_img			img;
+	t_img			img[2];
 	t_map			map;
 	t_keys			keys;
 	char			on_window;
@@ -273,8 +275,8 @@ unsigned int	get_pixel_color(void *sprite, int x, int y);
 void			image_pixel_put(void *image, int x, int y, unsigned int color);
 
 int				put_board(t_mlx *mlx);
-int				put_square(t_mlx *mlx, size_t side, int *origin, unsigned int color);
-int				put_line(t_mlx *mlx, int *p1, int *p2, unsigned int color);
+int				put_square(t_img *img, size_t side, int *origin, unsigned int color);
+int				put_line(t_img *img, int *p1, int *p2, unsigned int color);
 int				put_whole_column(void *my_struct, int x, float len, unsigned int color);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
