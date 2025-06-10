@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:21:02 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:25:58 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,6 +35,8 @@
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_WALL_REPEAT "	wall is repeated in scene description file"
+# define ERR_FC_REPEAT "	floor or ceiling is repeated in scene description file"
+# define ERR_FC_FORMAT "	floor or ceiling format (invalid char, too many or too little numbers, no comma...)"
 # define ERR_CHAR "	invalid character in map"
 # define ERR_ENVP " missing env variable(s)"
 # define ERR_ONLINE "online setup failed"
@@ -294,6 +296,7 @@ void			parsing_map(char	*line, t_mlx *mlx);
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
+int				skip_spaces(char	*line, int	count);
 
 
 /* ============ DEBUG ============= */

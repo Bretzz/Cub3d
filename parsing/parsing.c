@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:23:25 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:08:13 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -52,7 +52,7 @@ static char	**get_map_from_path(const char *path)
 	line = get_next_line(fd);
 	if (line == NULL)
 	{
-		error_msg(ERR_EMPTY_OR_FOLDER);
+		error_msg(ERR_EMPTY_OR_FOLDER);//forse mettere errore diverso
 		return (close(fd), free(map), NULL);
 	}
 
@@ -103,52 +103,63 @@ void	parsing_map(char	*line, t_mlx *mlx)
 	printf("trovata mappa\n");
 }
 
-int	check_texture(t_mlx *mlx, char	*line, char *wall)
+/*1 = OK, 0 = error */
+int	check_walls(char	*line, char **wall)
 {
 	int	count;
+	int	i;
 
 	count = 2;
+	i = 0;
 	while (line[count] == ' ')
 		count++;
-	/* printf("wall = %s\n", wall);
-	printf("muro nord prima di controllo = %s\n", mlx->map.no_wall);
-	printf("muro sud prima di controllo = %s\n", mlx->map.so_wall); */
-	if (ft_strcmp(wall, "NO") == 0)
+	if (*wall)
+		return (error_msg(ERR_WALL_REPEAT), 0);
+	else
 	{
-		if (mlx->map.no_wall)
-			return (error_msg(ERR_WALL_REPEAT), 0);
-		else
-		{
-			mlx->map.no_wall = ft_strdup(&line[count]);
-			while (mlx->map.no_wall[count] != '\n')
-				count++;
-			mlx->map.no_wall[count] = '\0';
-			printf("muro nord: %s\n", mlx->map.no_wall);
-		}		
+		*wall = ft_strdup(&line[count]);
+		while ((*wall)[i] && (*wall)[i] != '\n')
+			i++;
+		(*wall)[i] = '\0';
 	}
-	else if (ft_strcmp(wall, "SO") == 0)
-	{
-		if (mlx->map.so_wall)
-			return (error_msg(ERR_WALL_REPEAT), 0);
-		else
-		{
-			mlx->map.so_wall = ft_strdup(&line[count]);
-			while (mlx->map.so_wall[count] != '\n')
-				count++;
-			mlx->map.so_wall[count] = '\0';
-			printf("muro sud: %s\n", mlx->map.so_wall);
-		}		
-	}
-	/* else if (ft_strcmp(wall, "SO") == 0)
-		mlx->map.so_wall = ft_strdup(line[count]);
-	else if (ft_strcmp(wall, "WE") == 0)
-		mlx->map.we_wall = ft_strdup(line[count]);
-	else if (ft_strcmp(wall, "EA") == 0)
-		mlx->map.ea_wall = ft_strdup(line[count]); */
+	return (1);	
+}
+
+/*1 = OK, 0 = error */
+int	check_fc(char	*line, unsigned int	*floor_ceiling)
+{
+	int		count;
+	int		i;
+	/* int		red;
+	int		green;
+	int		blue; */
+	char	*rgb = NULL;
 	
-	/* printf("muro sud: %s\n", mlx->map.so_wall);
-	printf("muro ovest: %s\n", mlx->map.we_wall);
-	printf("muro est: %s\n", mlx->map.ea_wall); */
+
+	count = 1;
+	i = 0;
+	if (*floor_ceiling != 0)
+		return (error_msg(ERR_FC_REPEAT), 0);
+	else
+	{
+		
+		count = skip_spaces(line, count);
+		while (ft_isdigit(line[count]))
+		{
+			count++;
+			i++;
+		}
+		if (i > 3 || i == 0)
+			return (error_msg(ERR_FC_FORMAT), 0);
+		else
+		{
+			ft_strlcpy(rgb, &line[count - i], (i + 1));
+			printf("numero estratto: %s\n", rgb);
+		}
+			
+		
+		
+	}
 	return (1);
 }
 
@@ -156,41 +167,46 @@ int	check_texture(t_mlx *mlx, char	*line, char *wall)
 1 = OK, 0 = error */
 int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 {
-	int	i;
-	int	err;
+	char	*start;
+	int		err;
 
-	i = 0;
 	err = 1;
-	while (line[i])
+	while (line)
 	{		
-		i = 0;
-		if (line[i] == '\0')//empty file or missing map
-			return (free(line), 0);
+		start = line;
+		if (line == NULL || *line == '\0')//empty file or missing map
+			return (free(start), 0);
 		
-		while (line [i] == '\n') //forse mettere ft_isspace
+		while (line && *line == '\n') //forse mettere ft_isspace
 		{
 			free(line);
 			line = get_next_line(fd);
-			i = 0;
 		}
-		
-		while (line[i] == ' ' || line[i] == '\t') //salta gli spazi iniziali
-			i++;
+		if (!line)
+			break; // fine file
 
-		if (ft_strncmp(line, "NO ", 3) == 0)// presa texture pareti
-			err = check_texture(mlx, line, "NO");
+		start = line;
+
+		while (*line == ' ') //salta gli spazi iniziali
+			line++;
+		if (ft_strncmp(line, "NO ", 3) == 0)
+			err = check_walls(line, &mlx->map.no_wall);
 		else if (ft_strncmp(line, "SO ", 3) == 0)
-			err = check_texture(mlx, line, "SO");
-		/* else if (ft_strncmp(line, "WE ", 3) == 0)
-			check_texture(mlx, line, "WE");
+			err = check_walls(line, &mlx->map.so_wall);
+		else if (ft_strncmp(line, "WE ", 3) == 0)
+			err = check_walls(line, &mlx->map.we_wall);
 		else if (ft_strncmp(line, "EA ", 3) == 0)
-			check_texture(mlx, line, "EA"); */
-		else if (line[i] == '1')
-			return (parsing_map(line, mlx), free(line), 1);
+			err = check_walls(line, &mlx->map.ea_wall);
+		else if (ft_strncmp(line, "F ", 2) == 0)//pavimento
+			err = check_fc(line, &mlx->map.floor);
+		else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
+			err = check_fc(line, &mlx->map.sky);
+		else if (*line == '1')
+			return (parsing_map(line, mlx), free(start), 1);
 		else
-			return(free(line), 0);//mappa aperta o carattere non valido in file .cub
+			return(free(start), 0);//mappa aperta o carattere non valido in file .cub
 		//per proseguire dopo aver letto una riga corretta, dopo mettere in funzione separata
-		free(line);
+		free(start);
 		if (err == 0)
 			clean_exit(mlx);
 		line = get_next_line(fd);
@@ -220,8 +236,6 @@ char	**parsing(const char *path, t_mlx *mlx)
 	}
 	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
-	
-
 
 	if (walls_ceiling(line, fd, mlx) == 0)//empty file
 	{
@@ -230,34 +244,6 @@ char	**parsing(const char *path, t_mlx *mlx)
 		return (NULL);
 	}
 
-
-	/* while (line [0] == '\n') //forse mettere ft_isspace
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	
-	if (line == NULL)//empty file
-	{
-		error_msg(ERR_EMPTY_OR_FOLDER);
-		close(fd);
-		return (NULL);
-	}
-	// presa texture pareti
-	i = 0;
-	while (line [i] == ' ') //salta gli spazi iniziali
-		i++;
-	if (ft_strncmp(line, "NO ", 3) == 0)
-		check_texture(mlx, line, "NO");
-	else if (ft_strncmp(line, "SO ", 3) == 0)
-		check_texture(mlx, line, "SO");
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-		check_texture(mlx, line, "WE");
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-		check_texture(mlx, line, "EA"); */
-
-	
-	//free(line);
 	map = get_map_from_path(path);
 	if (map == NULL)
 		return (NULL);
