@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 19:08:13 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:52:02 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -128,37 +128,36 @@ int	check_walls(char	*line, char **wall)
 /*1 = OK, 0 = error */
 int	check_fc(char	*line, unsigned int	*floor_ceiling)
 {
-	int		count;
-	int		i;
-	/* int		red;
-	int		green;
-	int		blue; */
-	char	*rgb = NULL;
-	
+	int		r;
+	int		g;
+	int		b;
+	char	**rgb;
 
-	count = 1;
-	i = 0;
 	if (*floor_ceiling != 0)
 		return (error_msg(ERR_FC_REPEAT), 0);
 	else
 	{
+		rgb = ft_split(&line[1], ',');
+		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+			return (free(rgb), error_msg(ERR_FC_FORMAT), 0);
+		r = ft_atoi(rgb[0]);
+		g = ft_atoi(rgb[1]);
+		b = ft_atoi(rgb[2]);
+		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+			return (free(rgb), error_msg(ERR_FC_BOUNDS), 0);
+
 		
-		count = skip_spaces(line, count);
-		while (ft_isdigit(line[count]))
-		{
-			count++;
-			i++;
-		}
-		if (i > 3 || i == 0)
-			return (error_msg(ERR_FC_FORMAT), 0);
-		else
-		{
-			ft_strlcpy(rgb, &line[count - i], (i + 1));
-			printf("numero estratto: %s\n", rgb);
-		}
-			
+		//floor_ceiling deve ricevere un valore esadecimale
+		*floor_ceiling = (r << 16) | (g << 8) | b;
+		//floor_ceiling deve ricevere un valore esadecimale
+		printf("valore: %u\n", *floor_ceiling);
+		printf("valore esadecimale: 0x%06X\n", *floor_ceiling);
 		
+		//*floor_ceiling = 0xff0000;
+
 		
+		//free()
+		return (1);
 	}
 	return (1);
 }
