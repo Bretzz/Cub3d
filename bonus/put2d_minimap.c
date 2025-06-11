@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put2d_minimap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:37:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 15:44:02 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:12:31 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	put2d_mini_player(t_mlx *mlx, float *pos,
 	const int	scale_pos[2] = {(pos[0] - 0.25f) * side,
 		(pos[1] - 0.25f) * side};
 
-	put_square(&mlx->img[1], side / 2, (int *)scale_pos, color);
+	put_square(&mlx->img[1], side / 1.25f, (int *)scale_pos, color);
 	return (0);
 }
 

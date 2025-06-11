@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_me_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:56:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 02:12:37 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:36:49 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static int	select_routine(pthread_t *tid, int index, char *envp[])
 	*tid = 0;
 	if (index == HOST)
 	{
-		usleep(1000);
+		usleep(5000);
 		if (DEBUG)
 			ft_printf(LOG"===STARTING SERVER===\n"RESET);
 		return (server_routine(tid, envp));
 	}
 	else if (index == PLAYER)
 	{
-		usleep(2000);
+		usleep(10000);
 		if (DEBUG)
 			ft_printf(LOG"===STARTING CLIENT===\n"RESET);
 		return (client_routine(tid, envp));

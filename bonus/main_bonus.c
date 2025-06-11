@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:04:58 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:34:58 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(int argc, char *argv[])
 		if (online_setup(&data, argc, argv) == 1)
 			return (1);
 	}
-	ft_printf("\n! ! ! CHECK LEAKS ON MULTI HOOST SWITCH ! ! !\n\n");
+	ft_printf("\n! ! ! CHECK LEAKS ON MULTI HOOST SWITCH ! ! !\n! ! ! INVALID READ ON OPEN MAP ! ! !\n");
 	cub3d_bonus(&data);
 	return (0);
 }

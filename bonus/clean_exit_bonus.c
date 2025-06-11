@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 12:24:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:28:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ int	resign_exit(t_mlx *mlx)
 		new_host = 1;
 		while (!lbb_is_alive(mlx->fake_lobby[new_host]))
 			new_host++;
-		buffer_player_action(mlx->fake_lobby[new_host], "host", buffer);
-		send_all(mlx, buffer, ft_strlen(buffer));
+		if (new_host < MAXPLAYERS)
+		{
+			buffer_player_action(mlx->fake_lobby[new_host], "host", buffer);
+			send_all(mlx, buffer, ft_strlen(buffer));
+		}
 	}
 	clean_exit(mlx);
 	return (0);

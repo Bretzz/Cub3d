@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:34:21 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 01:56:13 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:47:23 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	bind_to_port(void)
 		return (close(fd), -1);
 	}
 	if (DEBUG)
-		ft_printf(LOG">bound socket to %d%s\n", socket, RESET);
+		ft_printf(LOG">bound socket to %d%s\n", fd, RESET);
 	return (fd);
 }
 
@@ -65,9 +65,12 @@ int	my_data_init(t_player *lobby, char *envp[])
 	if (lobby == NULL)
 		return (0);
 	lbb_mutex(1);
-	ft_strlcpy(lobby[HOST].name, get_my_name(envp), 43);
-	ft_strlcpy(lobby[HOST].ip, get_locl_ip(envp), 16);
-	lobby[HOST].online = get_localhost_addr();
+	if (!lbb_is_alive(lobby[HOST]))
+	{
+		ft_strlcpy(lobby[HOST].name, get_my_name(envp), 43);
+		ft_strlcpy(lobby[HOST].ip, get_locl_ip(envp), 16);
+		lobby[HOST].online = get_localhost_addr();
+	}
 	lobby[HOST].data[1] = PLAYER_HP;
 	if (DEBUG)
 	{
