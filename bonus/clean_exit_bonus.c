@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 12:24:37 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
 /* sends the 'host' msg if we are host */
 int	resign_exit(t_mlx *mlx)
 {
-	if (DEBUG)
-		ft_printf("resigning...\n");
 	char	buffer[MSG_LEN + 9];
 	int		new_host;
 
+	if (DEBUG)
+		ft_printf("resigning...\n");
 	if (mlx->fake_index == HOST)
 	{
 		new_host = 1;
@@ -68,12 +68,11 @@ int	clean_exit(t_mlx *mlx)
 			mlx_destroy_image(mlx->mlx, mlx->img[1].img);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);
-		// mlx_destroy_display(mlx->mlx);
+		mlx_destroy_display(mlx->mlx);
 		if (mlx->map.mtx)
 			free_mtx((void **)mlx->map.mtx);
 		free(mlx->mlx);
 	}
-	// hpc_free(mlx->socket, mlx->index, mlx->thread);
 	exit(EXIT_SUCCESS);
 	return (0);
 }

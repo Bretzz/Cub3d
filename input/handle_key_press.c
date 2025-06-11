@@ -3,33 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   handle_key_press.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 01:38:41 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 12:29:07 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	handle_key_press(int keysym, void *arg);
+#ifdef BONUS
 
-static int	handle_arrow_keys(int keysym, t_mlx *mlx)
+# include "cub3D_bonus.h"
+
+static int	handle_movement_keys(int keysym, t_mlx *mlx);
+static int	handle_arrow_keys(int keysym, t_mlx *mlx);
+static int	handle_frame_keys(int keysym, t_mlx *mlx);
+
+int	handle_key_press(int keysym, void *arg)
 {
-	if ((keysym == XK_Up || keysym == UP)
-		&& mlx->player.dir[1] - 5 >= 0)
-		mlx->player.dir[1] -= 5;
-	else if ((keysym == XK_Down || keysym == DOWN)
-		&& mlx->player.dir[1] + 5 <= 180)
-		mlx->player.dir[1] += 5;
-	else if (keysym == XK_Left || keysym == LEFT)
-		mlx->player.dir[0] -= 5;
-	else if (keysym == XK_Right || keysym == RIGHT)
-		mlx->player.dir[0] += 5;
-	else
-		return (0);
-	return (1);
+	t_mlx *const	mlx = (t_mlx *)arg;
+
+	if (keysym == XK_Escape || keysym == ESC_KEY)
+		resign_exit(mlx);
+	else if (keysym == XK_0 || keysym == 29)
+		ft_printf("pos[%d, %d, %d]\n",
+			*(int *)&mlx->player.pos[0],
+			*(int *)&mlx->player.pos[1],
+			*(int *)&mlx->player.pos[2]);
+	else if (keysym == XK_1 || keysym == 18)
+		print_lobby(mlx->fake_lobby);
+	else if (handle_movement_keys(keysym, mlx))
+		;
+	else if (handle_arrow_keys(keysym, mlx))
+		;
+	else if (handle_frame_keys(keysym, mlx))
+		;
+	else if (DEBUG)
+		ft_printf("Key Pressed: %i\n", keysym);
+	return (0);
 }
+
+#else
+
+static int	handle_movement_keys(int keysym, t_mlx *mlx);
+static int	handle_arrow_keys(int keysym, t_mlx *mlx);
+static int	handle_frame_keys(int keysym, t_mlx *mlx);
+
+int	handle_key_press(int keysym, void *arg)
+{
+	t_mlx *const	mlx = (t_mlx *)arg;
+
+	if (keysym == XK_Escape || keysym == ESC_KEY)
+		clean_exit(mlx);
+	else if (keysym == XK_0)
+		ft_printf("pos[%d, %d, %d]\n",
+			*(int *)&mlx->player.pos[0],
+			*(int *)&mlx->player.pos[1],
+			*(int *)&mlx->player.pos[2]);
+	else if (handle_movement_keys(keysym, mlx))
+		;
+	else if (handle_arrow_keys(keysym, mlx))
+		;
+	else if (handle_frame_keys(keysym, mlx))
+		;
+	else if (DEBUG)
+		ft_printf("Key Pressed: %i\n", keysym);
+	return (0);
+}
+
+#endif
 
 static int	handle_movement_keys(int keysym, t_mlx *mlx)
 {
@@ -47,6 +90,23 @@ static int	handle_movement_keys(int keysym, t_mlx *mlx)
 		mlx->keys.lx_rx[0] = 1;
 	else if (keysym == XK_d || keysym == D_KEY)
 		mlx->keys.lx_rx[1] = 1;
+	else
+		return (0);
+	return (1);
+}
+
+static int	handle_arrow_keys(int keysym, t_mlx *mlx)
+{
+	if ((keysym == XK_Up || keysym == UP)
+		&& mlx->player.dir[1] - 5 >= 0)
+		mlx->player.dir[1] -= 5;
+	else if ((keysym == XK_Down || keysym == DOWN)
+		&& mlx->player.dir[1] + 5 <= 180)
+		mlx->player.dir[1] += 5;
+	else if (keysym == XK_Left || keysym == LEFT)
+		mlx->player.dir[0] -= 5;
+	else if (keysym == XK_Right || keysym == RIGHT)
+		mlx->player.dir[0] += 5;
 	else
 		return (0);
 	return (1);
@@ -73,61 +133,3 @@ static int	handle_frame_keys(int keysym, t_mlx *mlx)
 		return (0);
 	return (1);
 }
-
-#ifndef BONUS
-
-int	handle_key_press(int keysym, void *arg)
-{
-	t_mlx *const	mlx = (t_mlx *)arg;
-
-	if (keysym == XK_Escape || keysym == ESC_KEY)
-		clean_exit(mlx);
-	else if (keysym == XK_0)
-		ft_printf("pos[%d, %d, %d]\n",
-			*(int *)&mlx->player.pos[0],
-			*(int *)&mlx->player.pos[1],
-			*(int *)&mlx->player.pos[2]);
-	else if (handle_movement_keys(keysym, mlx))
-		;
-	else if (handle_arrow_keys(keysym, mlx))
-		;
-	else if (handle_frame_keys(keysym, mlx))
-		;
-	else if (DEBUG)
-		ft_printf("Key Pressed: %i\n", keysym);
-	return (0);
-}
-#else
-
-# include "cub3D_bonus.h"
-
-int	handle_key_press(int keysym, void *arg)
-{
-	t_mlx *const	mlx = (t_mlx *)arg;
-
-	if (keysym == XK_Escape || keysym == ESC_KEY)
-		resign_exit(mlx);
-	else if (keysym == XK_0 || keysym == 29)
-		ft_printf("pos[%d, %d, %d]\n",
-			*(int *)&mlx->player.pos[0],
-			*(int *)&mlx->player.pos[1],
-			*(int *)&mlx->player.pos[2]);
-	else if (/* keysym == XK_1 ||  */keysym == 18)
-	{
-		lbb_mutex(1);
-		print_lobby(mlx->lobby);
-		lbb_mutex(2);
-		print_lobby(mlx->fake_lobby);
-	}
-	else if (handle_movement_keys(keysym, mlx))
-		;
-	else if (handle_arrow_keys(keysym, mlx))
-		;
-	else if (handle_frame_keys(keysym, mlx))
-		;
-	else if (DEBUG)
-		ft_printf("Key Pressed: %i\n", keysym);
-	return (0);
-}
-
-#endif
