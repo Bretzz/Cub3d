@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_game.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 10:33:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 14:17:20 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:50:18 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	fire_player(const char *msg, t_player *lobby)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	lobby[slot].action = 1;
+	lobby[slot].data[0] = 4;
 	lbb_mutex(2);
 }
 
@@ -40,6 +40,6 @@ void	hit_player(const char *msg, t_player *lobby)
 	slot = lbb_get_index(msg);
 	if (slot < 0 && lbb_mutex(2))
 		return ;
-	lobby[slot].hp--;
+	lobby[slot].data[1]--;
 	lbb_mutex(2);
 }

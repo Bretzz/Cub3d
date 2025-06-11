@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_my_addr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:50:12 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 19:20:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:52:28 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include <sys/types.h>
 #include <ifaddrs.h>
 
-char	*get_my_addr(void);
+char	*get_my_ip_addr(void);
 
 // 'en0' standard wifi
 // 'eno2' 42
 // 'wlan0' lore
 /* gets the eno2 addr of the machine */
-char	*get_my_addr(void)
+char	*get_my_ip_addr(void)
 {
 	struct ifaddrs		*addrs;
 	struct ifaddrs		*tmp;

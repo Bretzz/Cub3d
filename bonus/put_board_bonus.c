@@ -6,17 +6,31 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:12:30 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:29:46 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-static void	put_and_clean(t_mlx *mlx, t_img *img, int offset)
+/* puts the image and cleanups the t_img struct */
+static void	img_put_and_clean(t_mlx *mlx, t_img *img, int offset)
 {
 	mlx_put_image_to_window(mlx->mlx, mlx->win, img->img, offset, offset);
 	mlx_destroy_image(mlx->mlx, img->img);
 	ft_memset(img, 0, sizeof(t_img));
+}
+
+/* initialize the t_img struct */
+static int	img_init(void *mlx_ptr, t_img *img, int size_x, int size_y)
+{
+	img->img = mlx_new_image(mlx_ptr, size_x, size_y);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+		&img->line_length, &img->endian);
+	if (!img->img || !img->addr)
+		return (0);
+	img->width = size_x;
+	img->heigth = size_y;
+	return (1);
 }
 
 // float	pos[3] = {10, 10, 1};
@@ -36,15 +50,14 @@ int	put_board(t_mlx *mlx)
 {
 	int				i;
 
-	mlx->img->img = mlx_new_image(mlx->mlx, MLX_WIN_X, MLX_WIN_Y);
-	mlx->img->addr = mlx_get_data_addr(mlx->img->img, &mlx->img
-			->bits_per_pixel, &mlx->img->line_length, &mlx->img->endian);
-	if (!mlx->img->img || !mlx->img->addr)
+	if (!img_init(mlx->mlx, &mlx->img[0], MLX_WIN_X, MLX_WIN_Y))
 		return (0);
-	mlx->img->width = MLX_WIN_X;
-	mlx->img->heigth = MLX_WIN_Y;
 	if (mlx->keys.minimap)
 	{
+		if (!img_init(mlx->mlx, &mlx->img[1],
+			mlx->map.mini_side * mlx->map.stats[0],
+			mlx->map.mini_side * mlx->map.stats[1]))
+			return (0);
 		put2d_minimap(mlx, mlx->map.mini_side);
 		cast_field(mlx, &put_whole_column, &put2d_mini_ray);
 	}
@@ -54,9 +67,9 @@ int	put_board(t_mlx *mlx)
 	while (i < MAXPLAYERS)
 		handle_player(mlx, mlx->fake_lobby, i++);
 	put_crosshair(mlx, 0xFF0000);
-	put_and_clean(mlx, &mlx->img[0], 0);
+	img_put_and_clean(mlx, &mlx->img[0], 0);
 	if (mlx->keys.minimap)
-		put_and_clean(mlx, &mlx->img[1], MINIMAP_OFFSET);
+		img_put_and_clean(mlx, &mlx->img[1], MINIMAP_OFFSET);
 	put_fps(mlx);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_player.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:59:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:16:45 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:51:10 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ int	put_player(t_mlx *mlx, t_player player, int action)
 	put_sprite_on_map(mlx, (float *)player.pos,
 		((t_sprite *)player.extra)[sprite_index]);
 	if (mlx->player.last_sprite_data.scale != 0)
-		put_health_bar(mlx, mlx->player.last_sprite_data, player.hp);
+		put_health_bar(mlx, mlx->player.last_sprite_data, player.data[1]);
 	return (0);
 }

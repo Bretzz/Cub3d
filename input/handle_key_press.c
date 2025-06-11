@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_key_press.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 22:44:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:38:41 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,18 @@ int	handle_key_press(int keysym, void *arg)
 
 	if (keysym == XK_Escape || keysym == ESC_KEY)
 		resign_exit(mlx);
-	else if (keysym == XK_0)
+	else if (keysym == XK_0 || keysym == 29)
 		ft_printf("pos[%d, %d, %d]\n",
 			*(int *)&mlx->player.pos[0],
 			*(int *)&mlx->player.pos[1],
 			*(int *)&mlx->player.pos[2]);
+	else if (/* keysym == XK_1 ||  */keysym == 18)
+	{
+		lbb_mutex(1);
+		print_lobby(mlx->lobby);
+		lbb_mutex(2);
+		print_lobby(mlx->fake_lobby);
+	}
 	else if (handle_movement_keys(keysym, mlx))
 		;
 	else if (handle_arrow_keys(keysym, mlx))

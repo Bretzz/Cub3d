@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   online.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:04:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 14:43:48 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:55:45 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*buffer_lobby_action(t_player *lobby,
 
 /* UTILS */
 
-char	*get_my_addr(void);
+char				*get_my_ip_addr(void);
+struct sockaddr_in	*get_localhost_addr(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:02:28 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	resign_exit(t_mlx *mlx)
 {
 	if (DEBUG)
 		ft_printf("resigning...\n");
-	char	buffer[MSG_LEN + 6];
+	char	buffer[MSG_LEN + 9];
 	int		new_host;
 
 	if (mlx->fake_index == HOST)
@@ -54,10 +54,11 @@ int	resign_exit(t_mlx *mlx)
 /* Bonus exit procedure */
 int	clean_exit(t_mlx *mlx)
 {
-	char	buffer[MSG_LEN + 6];
+	char	buffer[MSG_LEN + 9];
 
 	buffer_player_action(mlx->fake_lobby[mlx->fake_index], "kill", buffer);
 	send_all(mlx, buffer, ft_strlen(buffer));
+	hpc_free(mlx->socket, mlx->index, mlx->thread);
 	destroy_lobby_sprites(mlx->mlx, mlx->fake_lobby);
 	if (mlx->mlx)
 	{
@@ -72,7 +73,7 @@ int	clean_exit(t_mlx *mlx)
 			free_mtx((void **)mlx->map.mtx);
 		free(mlx->mlx);
 	}
-	hpc_free(mlx->socket, mlx->index, mlx->thread);
+	// hpc_free(mlx->socket, mlx->index, mlx->thread);
 	exit(EXIT_SUCCESS);
 	return (0);
 }

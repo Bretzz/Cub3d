@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:17:25 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 02:23:49 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(int argc, char *argv[])
 		if (online_setup(&data, argc, argv) == 1)
 			return (1);
 	}
-	ft_printf("client kills host then duplicates himself...\n");
+	ft_printf("\n! ! ! CHECK LEAKS ON MULTI HOOST SWITCH ! ! !\n\n");
 	cub3d_bonus(&data);
 	return (0);
 }

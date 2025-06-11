@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 15:03:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:56:26 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ static int	my_data_init(t_player *lobby, char *env[])
 	lbb_mutex(1);
 	ft_strlcpy(lobby[PLAYER].ip, get_locl_ip(env), 16);
 	ft_strlcpy(lobby[PLAYER].name, get_my_name(env), 43);
-	lobby[PLAYER].hp = PLAYER_HP;
+	lobby[PLAYER].online = get_localhost_addr();
+	lobby[PLAYER].data[1] = PLAYER_HP;
 	if (DEBUG)
 	{
 		print_lobby(lobby);

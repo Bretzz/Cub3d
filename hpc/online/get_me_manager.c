@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_me_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:56:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 16:44:47 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:12:37 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	select_routine(pthread_t *tid, int index, char *envp[])
 	}
 	else if (index == PLAYER)
 	{
-		usleep(10000);
+		usleep(2000);
 		if (DEBUG)
 			ft_printf(LOG"===STARTING CLIENT===\n"RESET);
 		return (client_routine(tid, envp));
@@ -48,10 +48,10 @@ static void	lobby_update(t_player *lobby, t_setup *setup)
 }
 
 /* writes the error msg, sets the index to -1 and unlocks the mutex */
-static void	error_break(const char *error, int *index)
+static void	error_break(const char *error, int *socket)
 {
-	ft_printfd(STDERR_FILENO, ERROR"%s%s\n", error, RESET);
-	*index = -1;
+	ft_printfd(STDERR_FILENO, ERROR"Error%s: %s\n", RESET, error);
+	*socket = -1;
 	hpc_mutex(2);
 }
 
@@ -63,13 +63,14 @@ static int	single_routine(t_setup *setup, pthread_t *tid)
 	*setup->socket = select_routine(tid, *setup->index, setup->envp);
 	if (*tid == 0 || *setup->socket < 0)
 	{
-		error_break("online routine failure", setup->index);
+		error_break("online routine failure", setup->socket);
 		return (-1);
 	}
 	hpc_mutex(2);
 	if (pthread_join(*tid, NULL) != 0 && hpc_mutex(1))
 	{
-		error_break("online joine failure", setup->index);
+		safeclose(*setup->socket);
+		error_break("online joine failure", setup->socket);
 		return (-1);
 	}
 	hpc_mutex(1);

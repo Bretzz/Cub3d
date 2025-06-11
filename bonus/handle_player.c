@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 20:01:16 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 /* death procedure */
 static void	death_by_hand(t_mlx *mlx, int killer)
 {
-	char	buffer[MSG_LEN + 6];
+	char	buffer[MSG_LEN + 9];
 
 	if (mlx->fake_index == HOST)
 	{
@@ -59,18 +59,18 @@ static void	death_by_hand(t_mlx *mlx, int killer)
 /* LOBBY MUTEX */
 static void	hit_procedure(t_mlx *mlx, int index)
 {
-	char		buffer[MSG_LEN + 6];
+	char		buffer[MSG_LEN + 9];
 	t_player	myself;
 
 	hpc_mutex(1);
 	lbb_mutex(1);
-	mlx->lobby[*mlx->index].hp--;
+	mlx->lobby[*mlx->index].data[1]--;
 	myself = mlx->lobby[*mlx->index];
 	lbb_mutex(2);
 	hpc_mutex(2);
 	if (DEBUG)
-		ft_printf("your current hp %d\n", myself.hp);
-	if (myself.hp <= 0)
+		ft_printf("your current hp %d\n", myself.data[1]);
+	if (myself.data[1] <= 0)
 		death_by_hand(mlx, index);
 	buffer_player_action(myself, "hit", buffer);
 	send_all(mlx, buffer, ft_strlen(buffer));
@@ -88,9 +88,9 @@ int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 		return (0);
 	if (index == mlx->fake_index)
 		return (0);
-	if (fake_lobby[index].action == 0)
+	if (fake_lobby[index].data[0] == 0)
 		put_player(mlx, fake_lobby[index], 0);
-	else
+	else if (fake_lobby[index].data[0] == 4)
 	{
 		if (shootframes[index] < SHOT_FRAMES && ++shootframes[index])
 			put_player(mlx, fake_lobby[index], 4);
@@ -101,7 +101,7 @@ int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
 		if (shootframes[index] == SHOT_FRAMES)
 		{
 			lbb_mutex(1);
-			mlx->lobby[index].action = 0;
+			mlx->lobby[index].data[0] = 0;
 			lbb_mutex(2);
 			shootframes[index] = 0;
 		}

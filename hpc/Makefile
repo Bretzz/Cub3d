@@ -52,7 +52,8 @@ SRC_FILES		= \
 				\
 				get_me_online.c \
 				get_me_manager.c \
-				get_my_addr.c \
+				get_my_ip_addr.c \
+				get_localhost_addr.c \
 				hpc_free.c \
 				hpc_init.c \
 				hpc_mutex.c \

@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:37:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:07:53 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:44:02 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,6 @@ int	put2d_minimap(t_mlx *mlx, size_t side)
 {
 	int	i;
 
-	mlx->img[1].img = mlx_new_image(mlx->mlx, mlx->map.mini_side
-			* mlx->map.stats[0], mlx->map.mini_side * mlx->map.stats[1]);
-	mlx->img[1].addr = mlx_get_data_addr(mlx->img[1].img, &mlx->img[1]
-			.bits_per_pixel, &mlx->img[1].line_length, &mlx->img[1].endian);
-	if (!mlx->img[1].img || !mlx->img[1].addr)
-		return (0);
-	mlx->img[1].width = mlx->map.mini_side * mlx->map.stats[0];
-	mlx->img[1].heigth = mlx->map.mini_side * mlx->map.stats[1];
 	put2d_mini_map(mlx, side, 0x0000ff);
 	put_top_bottom_mini_border(mlx, side);
 	put_left_right_mini_border(mlx, side);

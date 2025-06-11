@@ -139,7 +139,7 @@ $(OBJS_DIR):
 
 #-D DEBUG=1
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D DEBUG=1 -c $< -o $@
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
 
 $(MLX_DIR):
 	@echo "${BOLD}creating $(MLX_DIR)...${RESET}"
@@ -166,7 +166,7 @@ $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 $(NAME_BONUS): $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o)) $(B_RECOMPILE:.c=.o);
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS -D DEBUG=1 -Ibonus/ -c $(B_RECOMPILE)
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS -Ibonus/ -c $(B_RECOMPILE)
 	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
