@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_board_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 15:29:46 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:04:36 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	img_init(void *mlx_ptr, t_img *img, int size_x, int size_y)
 {
 	img->img = mlx_new_image(mlx_ptr, size_x, size_y);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
-		&img->line_length, &img->endian);
+			&img->line_length, &img->endian);
 	if (!img->img || !img->addr)
 		return (0);
 	img->width = size_x;
@@ -55,8 +55,8 @@ int	put_board(t_mlx *mlx)
 	if (mlx->keys.minimap)
 	{
 		if (!img_init(mlx->mlx, &mlx->img[1],
-			mlx->map.mini_side * mlx->map.stats[0],
-			mlx->map.mini_side * mlx->map.stats[1]))
+				mlx->map.mini_side * mlx->map.stats[0],
+				mlx->map.mini_side * mlx->map.stats[1]))
 			return (0);
 		put2d_minimap(mlx, mlx->map.mini_side);
 		cast_field(mlx, &put_whole_column, &put2d_mini_ray);

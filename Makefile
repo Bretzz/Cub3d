@@ -17,7 +17,7 @@ NAME			:= cub3D
 NAME_BONUS		:= $(NAME)_bonus
 UNAME			:= $(shell uname)
 CC				:= cc
-CFLAGS			:= -Wall -Wextra -Werror
+CFLAGS			:= -Wall -Wextra -Werror #--std=gnu89
 
 #Libs
 LIBFT			= libft/
@@ -158,15 +158,17 @@ $(HPC)hpc.a:
 	@$(MAKE) all -C $(HPC) --quiet
 
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
-	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o));
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o))
 	@echo "${BOLD}compiling $(NAME)...${RESET}"
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $(B_RECOMPILE)
+	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 $(NAME_BONUS): $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
-	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o)) $(B_RECOMPILE:.c=.o);
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o))
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D BONUS -Ibonus/ -c $(B_RECOMPILE)
+	$(CC) $(CFLAGS) $(INKS) -Ibonus/ $(DEFS) -D BONUS -c $(B_RECOMPILE)
 	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"

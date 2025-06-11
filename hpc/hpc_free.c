@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hpc_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:29:08 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/11 02:25:39 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:05:14 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	shutdown_procedure(int *socket, int *index, t_player *lobby)
 		ft_memset(buffer, 0, sizeof(buffer));
 		ft_strlcpy(buffer, "pls:just:die:fast:shutdown", sizeof(buffer));
 		if (sendto(*socket, buffer, sizeof(buffer), 0,
-			lobby[my_index].online, sizeof(struct sockaddr)) < 0)
+				lobby[my_index].online, sizeof(struct sockaddr)) < 0)
 		{
 			ft_perror(ERROR"send failure"RESET);
 			close(*socket);
