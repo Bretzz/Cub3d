@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:04:36 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ static int	img_init(void *mlx_ptr, t_img *img, int size_x, int size_y)
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
 int	put_board(t_mlx *mlx)
 {
-	int				i;
-
+	player_handle(mlx, mlx->fake_lobby);
 	if (!img_init(mlx->mlx, &mlx->img[0], MLX_WIN_X, MLX_WIN_Y))
 		return (0);
 	if (mlx->keys.minimap)
@@ -60,12 +59,11 @@ int	put_board(t_mlx *mlx)
 			return (0);
 		put2d_minimap(mlx, mlx->map.mini_side);
 		cast_field(mlx, &put_whole_column, &put2d_mini_ray);
+		put2d_mini_lobby(mlx, mlx->map.mini_side);
 	}
 	else
 		cast_field(mlx, &put_whole_column, NULL);
-	i = 0;
-	while (i < MAXPLAYERS)
-		handle_player(mlx, mlx->fake_lobby, i++);
+	player_put(mlx, mlx->fake_lobby);
 	put_crosshair(mlx, 0xFF0000);
 	img_put_and_clean(mlx, &mlx->img[0], 0);
 	if (mlx->keys.minimap)

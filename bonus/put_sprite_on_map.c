@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_sprite_on_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 12:49:26 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:54:06 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,6 @@
 #include <stdio.h>
 
 int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
-
-/* adds the sprite to the mlx->img
-starting from x_screen and y_screen and scaled
-by a factor (scale).
-NOTE: future implementation: passing the sprite pointer and the
-dimensions of the sprite. */
-/* dunno how color < 100000000 excludes 'None' of xpm */
-static void	put_sprite(t_mlx *mlx, t_plot plot, t_sprite sprite)
-{
-	const int			new_width = (sprite.width * sprite.scale);
-	const int			new_heigth = (sprite.heigth * sprite.scale);
-	int					win_x_y[2];
-	int					src_x_y[2];
-	unsigned int		color;
-
-	win_x_y[1] = 0;
-	while (win_x_y[1] < new_heigth && win_x_y[1]
-		+ (plot.y_screen - (new_heigth / 2)) < MLX_WIN_Y)
-	{
-		win_x_y[0] = 0;
-		while (win_x_y[0] < new_width && win_x_y[0]
-			+ (plot.x_screen - (new_width / 2)) < MLX_WIN_X)
-		{
-			src_x_y[0] = win_x_y[0] * sprite.width / new_width;
-			src_x_y[1] = win_x_y[1] * sprite.heigth / new_heigth;
-			color = get_pixel_color(sprite.image, src_x_y[0], src_x_y[1]);
-			if ((unsigned int)color < 100000000)
-				my_pixel_put(&mlx->img,
-					win_x_y[0] + (plot.x_screen - (new_width / 2)),
-					win_x_y[1] + (plot.y_screen - (new_heigth / 2)), color);
-			win_x_y[0]++;
-		}
-		win_x_y[1]++;
-	}
-}
 
 /* junky as hell, useful for difference in directions
 that are normalize usually in (-180, 180] in other parts
@@ -80,10 +45,11 @@ static void	set_sprite_data(t_mlx *mlx,
 	const int	floor = (MLX_WIN_X / my_dist) - ((MLX_WIN_X / my_dist)
 			/ ((mlx->player.pos[2] / (pos[2] + 1)) + 1));
 
-	mlx->player.last_sprite_data.x_screen = x_screen;
-	mlx->player.last_sprite_data.y_screen = mid_line + floor;
-	mlx->player.last_sprite_data.dist = my_dist;
-	mlx->player.last_sprite_data.dir = sprite_dir;
+	mlx->pos_data[MAXPLAYERS].seen = 1;
+	mlx->pos_data[MAXPLAYERS].x_screen = x_screen;
+	mlx->pos_data[MAXPLAYERS].y_screen = mid_line + floor;
+	mlx->pos_data[MAXPLAYERS].dist = my_dist;
+	mlx->pos_data[MAXPLAYERS].dir = sprite_dir;
 }
 
 /* (x,y) position of the sprite in the map,
@@ -98,9 +64,9 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	const float	my_dist = sqrt((pos[0] - my_pos[0]) * (pos[0] - my_pos[0])
 			+ (pos[1] - my_pos[1]) * (pos[1] - my_pos[1]));
 
-	ft_memset(&mlx->player.last_sprite_data, 0, sizeof(t_plot));
-	mlx->player.last_sprite_data.dist = my_dist;
-	mlx->player.last_sprite_data.dir = sprite_dir;
+	ft_memset(&mlx->pos_data[MAXPLAYERS], 0, sizeof(t_plot));
+	mlx->pos_data[MAXPLAYERS].dist = my_dist;
+	mlx->pos_data[MAXPLAYERS].dir = sprite_dir;
 	if (fabsf(dir_diff(sprite_dir, mlx->player.dir[0]))
 		> mlx->player.fov[0] / 2)
 		return (1);
@@ -108,8 +74,8 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
 		return (1);
 	sprite.scale = ((MLX_WIN_X / 2) / sprite.heigth) / my_dist;
-	ft_memmove(&mlx->player.last_sprite_data, &sprite, 3 * sizeof(int));
+	ft_memmove(&mlx->pos_data, &sprite, 3 * sizeof(int));
 	set_sprite_data(mlx, pos, my_dist, sprite_dir);
-	put_sprite(mlx, mlx->player.last_sprite_data, sprite);
+	put_sprite(mlx, mlx->pos_data[MAXPLAYERS], sprite);
 	return (0);
 }

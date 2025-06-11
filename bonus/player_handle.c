@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_player.c                                    :+:      :+:    :+:   */
+/*   player_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 17:14:40 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-#define SHOT_FRAMES 10
-
-int	handle_player(t_mlx *mlx, t_player *lobby, int index);
+int	player_handle(t_mlx *mlx, t_player *fake_lobby);
 
 /* 0 it killed us, 1 it didn't */
 /* inside plot we have all the data of the sprite that is trying to kill us. */
@@ -80,31 +78,45 @@ static void	hit_procedure(t_mlx *mlx, int index)
 if we got hit by a line (even ours) we exit.
 'lobby' is a pointer to the head of the array. */
 /* LOBBY MUTEX */
-int	handle_player(t_mlx *mlx, t_player *fake_lobby, int index)
+int	player_handle(t_mlx *mlx, t_player *fake_lobby)
 {
-	static int	shootframes[MAXPLAYERS];
+	int			i;
 
-	if (!lbb_is_alive(fake_lobby[index]) || fake_lobby[index].extra == NULL)
-		return (0);
-	if (index == mlx->fake_index)
-		return (0);
-	if (fake_lobby[index].data[0] == 0)
-		put_player(mlx, fake_lobby[index], 0);
-	else if (fake_lobby[index].data[0] == 4)
+	i = 0;
+	while (i < MAXPLAYERS)
 	{
-		if (shootframes[index] < SHOT_FRAMES && ++shootframes[index])
-			put_player(mlx, fake_lobby[index], 4);
-		if (shootframes[index] == 1 && mlx->player.last_sprite_data.dist != 0
-			&& shoot_laser(mlx, mlx->player.last_sprite_data,
-				(float *)fake_lobby[index].tar) == 0)
-			hit_procedure(mlx, index);
-		if (shootframes[index] == SHOT_FRAMES)
+		if (i == mlx->fake_index && ++i)
+			continue ;
+		pos_get_data(mlx, (float *)fake_lobby[i].pos, i);
+		if (fake_lobby[i].data[0] == 4)
 		{
+			if (shoot_laser(mlx, mlx->pos_data[i],
+					(float *)fake_lobby[i].tar) == 0)
+				hit_procedure(mlx, i);
 			lbb_mutex(1);
-			mlx->lobby[index].data[0] = 0;
+			mlx->lobby[i].data[0] = 0;
 			lbb_mutex(2);
-			shootframes[index] = 0;
 		}
+		if (mlx->pos_data[i].seen != 0)
+			mlx->fake_lobby[i].data[2] = 1;
+		else
+			mlx->fake_lobby[i].data[2] = 0;
+		i++;
 	}
 	return (1);
 }
+
+// else if (!lbb_is_alive(fake_lobby[i])
+// 	|| fake_lobby[i].extra == NULL)
+// 	;
+// if (fake_lobby[i].data[0] == 0)
+// 		put_player(mlx, fake_lobby[i], 0);
+// if (shootframes[i] < SHOT_FRAMES && ++shootframes[i])
+// 			put_player(mlx, fake_lobby[i], 4);
+// if (shootframes[i] == SHOT_FRAMES)
+// {
+// 	lbb_mutex(1);
+// 	mlx->lobby[i].data[0] = 0;
+// 	lbb_mutex(2);
+// 	shootframes[i] = 0;
+// }

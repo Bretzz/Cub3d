@@ -43,14 +43,16 @@ int			resign_exit(t_mlx *mlx);
 void		send_all(t_mlx *mlx, char *msg, size_t size);
 
 /* BONUS PUTS */
+
+void		put_sprite(t_mlx *mlx, t_plot plot, t_sprite sprite);
 int			put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
 int			put_health_bar(t_mlx *mlx, t_plot plot, int hp);
-int			put_player(t_mlx *mlx, t_player player, int action);
 int			put_crosshair(t_mlx *mlx, unsigned int color);
 
 int			put2d_minimap(t_mlx *mlx, size_t side);
 int			put2d_mini_ray(void *my_struct, int side,
 				float null2, unsigned int color);
+int			put2d_mini_lobby(t_mlx *mlx, size_t side);
 
 /* BONUS LOADING */
 
@@ -62,7 +64,9 @@ int			online_data_init(t_mlx *mlx,
 
 /* BONUS INGAME */
 
-int			handle_player(t_mlx *mlx, t_player *lobby, int index);
+int			pos_get_data(t_mlx *mlx, float *pos, int index);
+int			player_handle(t_mlx *mlx, t_player *fake_lobby);
+int			player_put(t_mlx *mlx, t_player *fake_lobby);
 int			move_and_slide(t_local *player, t_map map);
 
 /* BONUS MATH */

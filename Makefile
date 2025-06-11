@@ -85,14 +85,23 @@ SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 B_SRC_FILES		= main_bonus.c main_data_init.c \
 				clean_exit_bonus.c \
 				update_frame_bonus.c \
+				\
 				move_player_bonus.c move_and_slide_bonus.c \
-				move_mouse_bonus.c \
-				handle_mouse_bonus.c handle_player.c \
-				put_board_bonus.c put_crosshair.c \
+				move_mouse_bonus.c handle_mouse_bonus.c \
+				\
+				pos_get_data.c \
+				\
+				put_board_bonus.c \
+				player_handle.c player_put.c \
 				put_whole_column_bonus.c \
+				\
+				put_sprite.c \
 				put_sprite_on_map.c put_health_bar.c \
-				put_player.c \
+				\
 				put2d_minimap.c put2d_mini_ray.c \
+				put2d_mini_lobby.c \
+				put_crosshair.c \
+				\
 				send_all.c tiny_utils.c \
 				sprite_init.c sprite_destroy.c 
 

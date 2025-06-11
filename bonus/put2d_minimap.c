@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:37:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:12:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,37 +86,13 @@ static int	put2d_mini_map(t_mlx *mlx, int side, unsigned int color)
 	return (0);
 }
 
-/* side is the length of the single square unit in pixel */
-static int	put2d_mini_player(t_mlx *mlx, float *pos,
-				int side, unsigned int color)
-{
-	const int	scale_pos[2] = {(pos[0] - 0.25f) * side,
-		(pos[1] - 0.25f) * side};
-
-	put_square(&mlx->img[1], side / 1.25f, (int *)scale_pos, color);
-	return (0);
-}
-
 /* creates the mlx->map.mini_img image.
 puts the minimap and the single player location/direction */
 /* LOBBY MUTEX */
 int	put2d_minimap(t_mlx *mlx, size_t side)
 {
-	int	i;
-
 	put2d_mini_map(mlx, side, 0x0000ff);
 	put_top_bottom_mini_border(mlx, side);
 	put_left_right_mini_border(mlx, side);
-	i = 0;
-	while (i < MAXPLAYERS)
-	{
-		if (lbb_is_alive(mlx->fake_lobby[i])
-			&& mlx->fake_lobby[i].extra != NULL)
-		{
-			put2d_mini_player(mlx, (float *)mlx->fake_lobby[i].pos,
-				side, ((t_sprite *)mlx->fake_lobby[i].extra)->chroma);
-		}
-		i++;
-	}
 	return (0);
 }

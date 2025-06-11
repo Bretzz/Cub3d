@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:14:27 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:27:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,10 @@ typedef struct s_plot
 	int		width;
 	int		x_screen;
 	int		y_screen;
-	float	dist;
+	float	pos[3];
 	float	dir;
+	float	dist;
+	int		seen;
 }				t_plot;
 
 // keys pressed
@@ -130,6 +132,8 @@ typedef struct s_keys
 	int	mouse[2];
 	int	minimap;
 }				t_keys;
+
+# define RAY_COLOR 0xff0000
 
 // ray data
 typedef struct s_ray
@@ -177,7 +181,6 @@ typedef struct s_local
 	float		jground;			// were the jump will end...
 	int			friction;			// divider of the x_diff and y_diff
 	t_sprite	*sprite;			// front, back, left, right
-	t_plot		last_sprite_data;	// buffer from data on the sprite plot
 }				t_local;
 
 // # include "hpc.h"
@@ -236,6 +239,7 @@ typedef struct s_mlx
 	int				fps;
 	t_ray			ray;
 	t_local			player;
+	t_plot			pos_data[MAXPLAYERS + 1];	// buffer from data on the pos plot
 	t_player		*lobby;		//online stuff here
 	int				*index;
 	int				*socket;

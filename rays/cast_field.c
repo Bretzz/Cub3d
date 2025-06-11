@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_field.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:07:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 12:53:12 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/11 15:09:02 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	cast_field(t_mlx *mlx,
 		if (func3d)
 			(*func3d)(mlx, i + MLX_WIN_X / 2, len, 0xa0b0c0);
 		if (func2d)
-			(*func2d)(mlx, mlx->map.mini_side, len, 0xff0000);
+			(*func2d)(mlx, mlx->map.mini_side, len, RAY_COLOR);
 		i++;
 	}
 	return (0);
