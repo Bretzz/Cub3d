@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 18:05:24 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:30:28 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -40,7 +40,36 @@ void	error_msg(char *msg)
 
 int	skip_spaces(char	*line, int	count)
 {
-	while (line[count] == ' ')
+	while (line[count] == ' ' || line[count] == '\f' || line[count] == '\r'
+		|| line[count] == '\t' || line[count] == '\v')
 		count++;
 	return (count);
+}
+/* 1 = OK, 0 = error */
+int	check_rgb(char	*rgb_value)
+{
+	int	count;
+
+	count = skip_spaces(rgb_value, 0);
+	if (!ft_isdigit(rgb_value[count]))
+		return (0);
+	while (ft_isdigit(rgb_value[count]))
+		count++;
+	count = skip_spaces(rgb_value, count);
+	if (rgb_value[count] != '\n' && rgb_value[count] != '\0')
+		return (0);
+	return (1);
+}
+
+void free_split(char	**split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

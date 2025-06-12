@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 16:33:13 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:01:42 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -60,8 +60,8 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 		return (1);
 	get_map_stats((const char **)mlx->map.mtx, MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
-	mlx->map.sky = 0;
-	mlx->map.floor = 0;
+	// mlx->map.sky = 0;
+	// mlx->map.floor = 0;
 	mlx->frames = 21;	// do not insert a multiple of 10
 	return (0);	
 }

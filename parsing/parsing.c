@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 19:52:02 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:06:25 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -109,10 +109,11 @@ int	check_walls(char	*line, char **wall)
 	int	count;
 	int	i;
 
-	count = 2;
 	i = 0;
-	while (line[count] == ' ')
-		count++;
+	//count = 2;
+	/* while (line[count] == ' ')//sostituire con funzione apposita
+		count++; */
+	count = skip_spaces(line, 2);
 	if (*wall)
 		return (error_msg(ERR_WALL_REPEAT), 0);
 	else
@@ -138,25 +139,20 @@ int	check_fc(char	*line, unsigned int	*floor_ceiling)
 	else
 	{
 		rgb = ft_split(&line[1], ',');
-		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
-			return (free(rgb), error_msg(ERR_FC_FORMAT), 0);
+		//printf("0 = %s\n 1 = %s\n 2 = %s\n\n ", rgb[0], rgb[1], rgb[2]);
+		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3]
+			|| !check_rgb(rgb[0]) || !check_rgb(rgb[1]) || !check_rgb(rgb[2]))
+			return (free_split(rgb), error_msg(ERR_FC_FORMAT), 0);		
 		r = ft_atoi(rgb[0]);
 		g = ft_atoi(rgb[1]);
 		b = ft_atoi(rgb[2]);
+		//printf("r = %i\n g = %i\n b = %i\n ", r, g, b);
 		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-			return (free(rgb), error_msg(ERR_FC_BOUNDS), 0);
-
-		
-		//floor_ceiling deve ricevere un valore esadecimale
+			return (free_split(rgb), error_msg(ERR_FC_BOUNDS), 0);
 		*floor_ceiling = (r << 16) | (g << 8) | b;
-		//floor_ceiling deve ricevere un valore esadecimale
-		printf("valore: %u\n", *floor_ceiling);
-		printf("valore esadecimale: 0x%06X\n", *floor_ceiling);
-		
-		//*floor_ceiling = 0xff0000;
-
-		
-		//free()
+		/* printf("valore: %u\n", *floor_ceiling);
+		printf("valore esadecimale: 0x%06X\n", *floor_ceiling); */
+		free_split(rgb);
 		return (1);
 	}
 	return (1);
@@ -174,8 +170,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 	{		
 		start = line;
 		if (line == NULL || *line == '\0')//empty file or missing map
-			return (free(start), 0);
-		
+			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 0);
 		while (line && *line == '\n') //forse mettere ft_isspace
 		{
 			free(line);
@@ -186,6 +181,9 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 
 		start = line;
 
+		/* printf("valore soffitto: %u\n", mlx->map.sky);
+		printf("valore pavimento: %u\n", mlx->map.floor); */
+		
 		while (*line == ' ') //salta gli spazi iniziali
 			line++;
 		if (ft_strncmp(line, "NO ", 3) == 0)
@@ -203,7 +201,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 		else if (*line == '1')
 			return (parsing_map(line, mlx), free(start), 1);
 		else
-			return(free(start), 0);//mappa aperta o carattere non valido in file .cub
+			return(error_msg(ERR_CHAR_FILE), free(start), 0);//carattere non valido in file .cub
 		//per proseguire dopo aver letto una riga corretta, dopo mettere in funzione separata
 		free(start);
 		if (err == 0)
@@ -218,15 +216,11 @@ char	**parsing(const char *path, t_mlx *mlx)
 {
 	int		fd;
 	char	**map;
-	//int		i;
 	char	*line;
 
 	if (!is_file_type(path, ".cub"))//wrong file format
-		//return (NULL);
 		clean_exit(mlx);
 	fd = open(path, O_RDONLY);
-	//printf("fd = %d\n", fd);
-	//close(fd);
 	if (fd < 0)//file not found
 	{
 		error_msg(ERR_OPEN);//serve close(fd)?
@@ -236,12 +230,8 @@ char	**parsing(const char *path, t_mlx *mlx)
 	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
 
-	if (walls_ceiling(line, fd, mlx) == 0)//empty file
-	{
-		error_msg(ERR_EMPTY_OR_FOLDER);
-		close(fd);
-		return (NULL);
-	}
+	if (walls_ceiling(line, fd, mlx) != 1)
+		return (close(fd), NULL);
 
 	map = get_map_from_path(path);
 	if (map == NULL)
