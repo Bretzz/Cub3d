@@ -17,7 +17,7 @@ NAME			:= cub3D
 NAME_BONUS		:= $(NAME)_bonus
 UNAME			:= $(shell uname)
 CC				:= cc
-CFLAGS			:= -Wall -Wextra -Werror
+CFLAGS			:= -Wall -Wextra -Werror -g
 
 #Libs
 LIBFT			= libft/

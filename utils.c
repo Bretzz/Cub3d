@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/05/27 23:54:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:30:28 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 
@@ -36,4 +36,40 @@ void	error_msg(char *msg)
 	write(2, RESET, ft_strlen(RESET));
 	//clean_exit(mlx); //chiama funzione per liberare tutto
 	//exit(1);
+}
+
+int	skip_spaces(char	*line, int	count)
+{
+	while (line[count] == ' ' || line[count] == '\f' || line[count] == '\r'
+		|| line[count] == '\t' || line[count] == '\v')
+		count++;
+	return (count);
+}
+/* 1 = OK, 0 = error */
+int	check_rgb(char	*rgb_value)
+{
+	int	count;
+
+	count = skip_spaces(rgb_value, 0);
+	if (!ft_isdigit(rgb_value[count]))
+		return (0);
+	while (ft_isdigit(rgb_value[count]))
+		count++;
+	count = skip_spaces(rgb_value, count);
+	if (rgb_value[count] != '\n' && rgb_value[count] != '\0')
+		return (0);
+	return (1);
+}
+
+void free_split(char	**split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
