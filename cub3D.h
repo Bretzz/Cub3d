@@ -82,8 +82,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 1440
-# define MLX_WIN_Y 860
+# define MLX_WIN_X 1920
+# define MLX_WIN_Y 1080
 
 // graphic libs
 # include "mlx.h"
