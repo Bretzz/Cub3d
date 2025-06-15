@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/12 19:30:28 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:05:18 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -59,17 +59,4 @@ int	check_rgb(char	*rgb_value)
 	if (rgb_value[count] != '\n' && rgb_value[count] != '\0')
 		return (0);
 	return (1);
-}
-
-void free_split(char	**split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
 }
