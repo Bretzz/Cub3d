@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/12 20:06:25 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/15 19:05:45 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,47 +35,33 @@ int	ft_mapchr(char *str, const char *map)
 	return (0);
 }
 
-static char	**get_map_from_path(const char *path)
+static char	**get_map(char		*line, int		fd)
 {
-	const int	fd = open(path, O_RDONLY);
 	char		**map;
-	char		*line;
 	int			i;
 
 	i = 0;
 	map = (char **)malloc(sizeof(char *));
 	if (map == NULL)
-	{
-		ft_printfd(2, "Error: malloc failure\n");
-		return (close(fd), NULL);
-	}
-	line = get_next_line(fd);
-	if (line == NULL)
-	{
-		error_msg(ERR_EMPTY_OR_FOLDER);//forse mettere errore diverso
-		return (close(fd), free(map), NULL);
-	}
-
-	// va fino alla linea della mappa (molto abbozzato)
-	while (line != NULL && !ft_strchr(line, '1'))
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-
+		return (error_msg(MALLOC), close(fd), NULL);
 	while (line != NULL)
 	{
 		map = ft_realloc(map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
 		if (map == NULL)
+			return (error_msg(MALLOC), close(fd), free(line), NULL);
+		if (line[0] == '\n')
 		{
-			ft_printfd(2, "Error: malloc failure\n");
-			return (close(fd), free(line), NULL);
+			map[i] = trim_back_nl(line);
+			map[++i] = NULL;
+			return(error_msg(ERR_NEWLINE_MAP), close(fd), free_mtx((void **)map), NULL);
 		}
 		map[i] = trim_back_nl(line);
 		line = get_next_line(fd);
 		i++;
 	}
 	map[i] = NULL;
+	if (parsing_map(map, 0, 0) == 0)
+		return(close(fd), free_mtx((void **)map), NULL);
 	return (close(fd), map);
 }
 
@@ -95,12 +81,25 @@ int	is_file_type(const char *file, const char *type)
 	}
 	return (1);
 }
-
-void	parsing_map(char	*line, t_mlx *mlx)
+//1 = OK, 0 = KO
+int	parsing_map(char	**map, int	line, int	count)
 {
-	(void)line;
-	(void)mlx;
-	printf("trovata mappa\n");
+	(void)count;
+	char	**start;
+
+	start = map;
+	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
+		line++;
+	if (map[line] != NULL)
+	{
+		write(2, RED, ft_strlen(RED));
+		ft_printfd(2, "Error\n	invalid char '%c' in map\n",
+			ft_mapchr(map[line], MAP_ALLOWED));
+		write(2, RESET, ft_strlen(RESET));
+		return (0);
+	} 
+	
+	return (1);
 }
 
 /*1 = OK, 0 = error */
@@ -134,7 +133,7 @@ int	check_fc(char	*line, unsigned int	*floor_ceiling)
 	int		b;
 	char	**rgb;
 
-	if (*floor_ceiling != 0)
+	if (*floor_ceiling != UINT_MAX)
 		return (error_msg(ERR_FC_REPEAT), 0);
 	else
 	{
@@ -142,17 +141,17 @@ int	check_fc(char	*line, unsigned int	*floor_ceiling)
 		//printf("0 = %s\n 1 = %s\n 2 = %s\n\n ", rgb[0], rgb[1], rgb[2]);
 		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3]
 			|| !check_rgb(rgb[0]) || !check_rgb(rgb[1]) || !check_rgb(rgb[2]))
-			return (free_split(rgb), error_msg(ERR_FC_FORMAT), 0);		
+			return (free_mtx((void **)rgb), error_msg(ERR_FC_FORMAT), 0);		
 		r = ft_atoi(rgb[0]);
 		g = ft_atoi(rgb[1]);
 		b = ft_atoi(rgb[2]);
 		//printf("r = %i\n g = %i\n b = %i\n ", r, g, b);
 		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-			return (free_split(rgb), error_msg(ERR_FC_BOUNDS), 0);
+			return (free_mtx((void **)rgb), error_msg(ERR_FC_BOUNDS), 0);
 		*floor_ceiling = (r << 16) | (g << 8) | b;
 		/* printf("valore: %u\n", *floor_ceiling);
 		printf("valore esadecimale: 0x%06X\n", *floor_ceiling); */
-		free_split(rgb);
+		free_mtx((void **)rgb);
 		return (1);
 	}
 	return (1);
@@ -181,10 +180,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 
 		start = line;
 
-		/* printf("valore soffitto: %u\n", mlx->map.sky);
-		printf("valore pavimento: %u\n", mlx->map.floor); */
-		
-		while (*line == ' ') //salta gli spazi iniziali
+		while (*line == ' ') //salta gli spazi iniziali, metti funzione apposita e forse modificala
 			line++;
 		if (ft_strncmp(line, "NO ", 3) == 0)
 			err = check_walls(line, &mlx->map.no_wall);
@@ -199,7 +195,8 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 		else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
 			err = check_fc(line, &mlx->map.sky);
 		else if (*line == '1')
-			return (parsing_map(line, mlx), free(start), 1);
+			//return (parsing_map(line, mlx), free(start), 1);
+			return (mlx->map.tmp_line = start, 1);
 		else
 			return(error_msg(ERR_CHAR_FILE), free(start), 0);//carattere non valido in file .cub
 		//per proseguire dopo aver letto una riga corretta, dopo mettere in funzione separata
@@ -214,28 +211,35 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 /* char * ok, 0 error */
 char	**parsing(const char *path, t_mlx *mlx)
 {
-	int		fd;
+	const int	fd = open(path, O_RDONLY);
 	char	**map;
 	char	*line;
 
 	if (!is_file_type(path, ".cub"))//wrong file format
 		clean_exit(mlx);
-	fd = open(path, O_RDONLY);
 	if (fd < 0)//file not found
-	{
-		error_msg(ERR_OPEN);//serve close(fd)?
-		clean_exit(mlx);
-		return (NULL);
-	}
+		return (error_msg(ERR_OPEN), clean_exit(mlx), NULL);//serve close(fd)?
 	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
 
 	if (walls_ceiling(line, fd, mlx) != 1)
 		return (close(fd), NULL);
+		
+	//se manca pavimento o soffitto, errore
+	if (mlx->map.sky == UINT_MAX || mlx->map.floor == UINT_MAX)
+		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), NULL);
 
-	map = get_map_from_path(path);
+	//se manca un muro, errore
+	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
+			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
+		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), NULL);
+
+	map = get_map(mlx->map.tmp_line, fd);
 	if (map == NULL)
-		return (NULL);
+		return (close(fd), NULL);
+	/* if (parsing_map(mlx) != 1)
+		return (close(fd), NULL); */
+	
 	//controllo caratteri mappa, commentato perche' interferisce con parsing altri parametri
 	/* i = 0;
 	while (map[i] && !ft_mapchr(map[i], "01NSEW \n"))

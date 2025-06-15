@@ -1,15 +1,21 @@
 SO ./texture_siciliana pinco pallino
 NO    ./texture_di_prova
 
-C       255,   0,  0,
 
-F   0  ,0,   255
+
+F       255,   0,  0,,,,
+
+
+    C       0,   0,  255,,,,
+
+
 
 
    EA ./texture_cinese
 
 
    WE     ./texture_occidentale
+
 
 
    1101101111
@@ -24,4 +30,4 @@ F   0  ,0,   255
 10000000000000001
 10000000000000001
 10000000000000001
-10000000000000001
+11111111111111111

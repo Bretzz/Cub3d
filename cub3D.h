@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/12 20:06:13 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/15 19:13:50 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -29,6 +29,8 @@
 # define WHITE "\033[0;37m"
 # define RESET "\033[0m"
 
+# define MAP_ALLOWED "01NSEW \n"
+
 //errors
 # define ERR_ARGS "	incorrect arguments number"
 # define ERR_FORMAT "	incorrect file format"
@@ -36,10 +38,14 @@
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_WALL_REPEAT "	wall is repeated in scene description file"
 # define ERR_FC_REPEAT "	floor or ceiling is repeated in scene description file"
+# define ERR_FC_MISS "	floor or ceiling is missing in scene description file"
+# define ERR_WALL_MISS "	wall is missing in scene description file"
 # define ERR_FC_FORMAT "	color format invalid"
 # define ERR_FC_BOUNDS "	color value out of bounds"
 # define ERR_CHAR_MAP "	invalid character in map"
-# define ERR_CHAR_FILE "	invalid character in file"
+# define ERR_NEWLINE_MAP "	empty line in map"
+# define ERR_CHAR_FILE "	invalid character in scene description file"
+# define MALLOC "	malloc failure"
 # define ERR_ENVP " missing env variable(s)"
 # define ERR_ONLINE "online setup failed"
 # define ERR_IP_FORMAT "wrong IP format"
@@ -48,6 +54,8 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <stdio.h>
+//limits.h used to initialize floor and ceiling color values
+# include <limits.h>
 
 # ifdef __APPLE__
 #  define UP 126
@@ -137,6 +145,7 @@ typedef struct s_map
 {
 	char			**mtx;
 	int				stats[3];	// max X, Y, side
+	char			*tmp_line;
 	unsigned int	sky;
 	unsigned int	floor;
 	char			*no_wall;
@@ -292,14 +301,13 @@ int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 int				get_player_stats(char **map, float *pos, float *dir);
 int				check_texture(t_mlx *mlx, char	*line, char *wall);
 int				walls_ceiling(char *line, int fd, t_mlx *mlx);
-void			parsing_map(char	*line, t_mlx *mlx);
+int				parsing_map(char	**map, int	line, int	count);
 
 /* ============ UTILS ============= */
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
 int				skip_spaces(char	*line, int	count);
-void			free_split(char	**split);
 int				check_rgb(char	*rgb_value);
 
 
