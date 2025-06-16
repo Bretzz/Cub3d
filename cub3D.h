@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 21:50:56 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 22:35:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_map
 {
 	char			**mtx;
 	int				stats[3];	// max X, Y, side
+	int				mini_side;
 	char			*tmp_line;
 	unsigned int	sky;
 	unsigned int	floor;
@@ -182,20 +183,6 @@ typedef struct s_img
 	int		width;
 	int		heigth;
 }				t_img;
-
-// data of the map
-typedef struct s_map
-{
-	char			**mtx;
-	int				stats[3];	// max X, Y, side
-	int				mini_side;
-	unsigned int	sky;
-	unsigned int	floor;
-	char			*no_wall;
-	char			*so_wall;
-	char			*we_wall;
-	char			*ea_wall;
-}				t_map;
 
 // player data
 typedef struct s_local
