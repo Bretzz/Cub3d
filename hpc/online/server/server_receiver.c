@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_receiver.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 21:42:13 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/08 16:33:59 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:16:25 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ Client\n"RESET, ft_strlen(buffer), buffer);
 	if (parse == 1 && server_ack(socket, lobby, addr, buffer) && DEBUG)
 		ft_printf(CONNECT"'%z' joined the \
 game%s\n", buffer, msg_name_length(buffer), RESET);
+	else if (parse == 7)
+		return (-1);
 	else if (!cycle_player_msgs(buffer, lobby))
 	{
 		ft_perror(ERROR"handler failure"RESET);

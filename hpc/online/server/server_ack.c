@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:31:48 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 16:36:01 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:56:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,8 @@ currupted message\n", RESET);
 		return (0);
 	if (send_lobby(socket, addr, buffer) < 0)
 		return (0);
+	if (DEBUG)
+		ft_printf(WARN"implement ':renew' action on \
+'send_lobby' failure (server_ack)%s\n", RESET);
 	return (1);
 }

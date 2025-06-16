@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lbb.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 23:44:58 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/07 18:50:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:50:31 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ the 'extra' pointer is a tool for
 the user to differenciate the players.
 NOTE: the 'extra' pointer is never assigned, modified
 or free'd inside the lbb library. */
+/* data: array of data about the player, default:
+	0. action (0:idle, 4:fire)
+	1. hp */
 typedef struct s_player
 {
 	char	name[MSG_NAME_LEN];
@@ -38,8 +41,7 @@ typedef struct s_player
 	int		pos[3];
 	int		tar[3];
 	char	pos_tar[MSG_DATA_LEN * 2];
-	int		action;
-	int		hp;
+	int		data[16];
 	void	*online;
 	void	*extra;
 }				t_player;

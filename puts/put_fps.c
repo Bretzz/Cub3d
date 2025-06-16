@@ -6,11 +6,12 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:13:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:15:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:10:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "puts.h"
 
 /* welp... */
 void	put_fps(t_mlx *mlx)

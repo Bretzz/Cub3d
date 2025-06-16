@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions_online.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:03:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 14:17:20 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:48:09 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	new_player(const char *msg, t_player *lobby, void *online)
 	msg_get_tar(msg, lobby[slot].tar);
 	if (online != NULL)
 		lobby[slot].online = online;
-	lobby[slot].hp = PLAYER_HP;
+	lobby[slot].data[1] = PLAYER_HP;
 	lbb_mutex(2);
 }
 

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 15:03:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:51:18 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,18 @@ static int	bind_to_world(void)
 
 /* writing personal NAME and IP into the lobby database */
 /* LOBBY MUTEX */
-/* logging:
-	print_lobby(lobby);
-	ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n",
-		lbb_player_count()); */
 static int	my_data_init(t_player *lobby, char *env[])
 {
 	if (lobby == NULL)
 		return (0);
 	lbb_mutex(1);
-	ft_strlcpy(lobby[PLAYER].ip, get_locl_ip(env), 16);
-	ft_strlcpy(lobby[PLAYER].name, get_my_name(env), 43);
-	lobby[PLAYER].hp = PLAYER_HP;
+	if (!lbb_is_alive(lobby[PLAYER]))
+	{
+		ft_strlcpy(lobby[PLAYER].ip, get_locl_ip(env), 16);
+		ft_strlcpy(lobby[PLAYER].name, get_my_name(env), 43);
+		lobby[PLAYER].online = get_localhost_addr();
+		lobby[PLAYER].data[1] = PLAYER_HP;
+	}
 	if (DEBUG)
 	{
 		print_lobby(lobby);

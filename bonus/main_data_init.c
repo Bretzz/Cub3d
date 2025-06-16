@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:58:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:42:37 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr)
 	ft_memset(mlx, 0, sizeof(t_mlx));
 	mlx->map.mtx = parsing(path, mlx);
 	if (mlx->map.mtx == NULL)
-		clean_exit(mlx);
+		return (0);
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
+	mlx->map.mini_side = mlx->map.stats[2] / 4;
 	mlx->map.sky = 0xadd8e6;
 	mlx->map.floor = 0xcaf0d5;
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
@@ -71,6 +72,8 @@ int	online_data_init(t_mlx *mlx,
 	mlx->socket = socket;
 	mlx->thread = thread;
 	mlx->lobby = lbb_get_ptr(NULL);
+	if (mlx->lobby == NULL)
+		return (0);
 	hpc_mutex(1);
 	lbb_mutex(1);
 	mlx->lobby[*mlx->index].extra = sprite_init(mlx->mlx,
@@ -78,5 +81,7 @@ int	online_data_init(t_mlx *mlx,
 	mlx->player.sprite = mlx->lobby[*mlx->index].extra;
 	lbb_mutex(2);
 	hpc_mutex(2);
+	if (mlx->lobby[*mlx->index].extra == NULL)
+		return (0);
 	return (1);
 }

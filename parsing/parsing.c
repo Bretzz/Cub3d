@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 20:36:01 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/16 22:32:54 by topiana-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 
@@ -18,8 +18,8 @@ int	parsing(const char *path, t_mlx *mlx, int	argc);
 
 int	ft_mapchr(char *str, const char *map);
 
-/* checks if any char of map is in chr.
-if a char that ISN'T in 'map' is found, returns 1,
+/* checks if any char of map is in str.
+if a char that ISN'T in 'map' is found, returns that char,
 otherwise returns 0 */
 int	ft_mapchr(char *str, const char *map)
 {

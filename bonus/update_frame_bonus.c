@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_frame_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:21:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	update_sprites(void *mlx_ptr, t_player *lobby)
 		if (lbb_is_alive(lobby[i]) && lobby[i].extra == NULL)
 		{
 			lobby[i].extra = sprite_init(mlx_ptr, i, 0x714333);
-			if (DEBUG)
+			if (DEBUG && lobby[i].extra)
 				ft_printf("init sprite N.%i, \
 chroma #%X\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);
 		}
@@ -57,7 +57,7 @@ static int	update_lobby(t_mlx *mlx)
 		ft_memcpy(mlx->lobby[*mlx->index].tar,
 			mlx->player.dir, 3 * sizeof(int));
 	}
-	ft_memcpy(&mlx->fake_lobby, mlx->lobby, MAXPLAYERS * sizeof(t_player));
+	ft_memcpy(mlx->fake_lobby, mlx->lobby, MAXPLAYERS * sizeof(t_player));
 	lbb_mutex(2);
 	hpc_mutex(2);
 	return (0);
@@ -71,7 +71,7 @@ the things that will be modified are:
 int	update_frame(void *arg)
 {
 	t_mlx *const		mlx = (t_mlx *)arg;
-	char				buffer[MSG_LEN + 6];
+	char				buffer[MSG_LEN + 9];
 	static unsigned int	frame;
 
 	if (frame++ % mlx->frames == 0)
@@ -85,7 +85,8 @@ int	update_frame(void *arg)
 		}
 		mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 		mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
-		put_board(mlx);
+		if (!put_board(mlx))
+			resign_exit(mlx);
 	}
 	if (frame % (75) == 0)
 		mlx->fps = get_fps(frame / mlx->frames);

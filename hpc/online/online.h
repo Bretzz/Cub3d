@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:04:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 14:43:48 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:06:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,24 @@ typedef struct s_setup
 
 /* MANAGER */
 
-void	*manager(void *arg);
+void				*manager(void *arg);
 
 /* ROUTINES */
 
-int		client_routine(pthread_t *tid, char *envp[]);
-int		server_routine(pthread_t *tid, char *envp[]);
+int					client_routine(pthread_t *tid, char *envp[]);
+int					server_routine(pthread_t *tid, char *envp[]);
 
 /* MSG STRING MANAGEMENT */
 
-int		parse_msg_string(const char *msg);
-int		one_player_action(const char *msg, t_player *lobby, void *online);
-int		cycle_player_msgs(char *msg, t_player *lobby);
+int					parse_msg_string(const char *msg);
+int					one_player_action(const char *msg,
+						t_player *lobby, void *online);
+int					cycle_player_msgs(char *msg, t_player *lobby);
 
-char	*buffer_player_action(t_player player,
-			const char *action, void *buffer);
-char	*buffer_lobby_action(t_player *lobby,
-			const char *action, void *buffer);
+char				*buffer_player_action(t_player player,
+						const char *action, void *buffer);
+char				*buffer_lobby_action(t_player *lobby,
+						const char *action, void *buffer);
 
 /* DB MANAGEMENT */
 
@@ -60,6 +61,7 @@ char	*buffer_lobby_action(t_player *lobby,
 
 /* UTILS */
 
-char	*get_my_addr(void);
+char				*get_my_ip_addr(void);
+struct sockaddr_in	*get_localhost_addr(void);
 
 #endif

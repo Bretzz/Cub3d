@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 16:39:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:53:38 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,21 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 	int		cw = z;
 	int		tw = heigth - z;
 	//ft_printf("height %d\n", heigth);
+	(void)color, (void)tw; (void)cw; (void)z; (void)mid_line; (void)x;
 	y = 0;
 	// ft_printf("sky, ml %d, cw %d\n", mid_line, cw);
 	while (y < mid_line - cw && y < MLX_WIN_Y)
-		my_pixel_put(mlx, x, y++, mlx->map.sky);
+		my_pixel_put(&mlx->img, x, y++, mlx->map.sky);
 	// ft_printf("mid\n");
 	while (y < mid_line + tw && y < MLX_WIN_Y)
 	{
 		if (y > MLX_WIN_Y)
 			break ;
-		my_pixel_put(mlx, x, y++, color * (int)mlx->ray.face);
+		my_pixel_put(&mlx->img, x, y++, color * (int)mlx->ray.face);
 	}
 	// ft_printf("floor\n");
 	while (y < MLX_WIN_Y)
-		my_pixel_put(mlx, x, y++, mlx->map.floor);
+		my_pixel_put(&mlx->img, x, y++, mlx->map.floor);
 	return (0);
 }
 

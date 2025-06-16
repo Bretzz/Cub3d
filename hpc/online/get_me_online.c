@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_me_online.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:15:22 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 19:17:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:52:45 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**setup_fake_env(char *ip, char *nickname)
 
 	if (fenvp == NULL)
 		return (NULL);
-	set_my_ip(get_my_addr(), fenvp);
+	set_my_ip(get_my_ip_addr(), fenvp);
 	set_my_name(nickname, fenvp);
 	make_him_host(ip, fenvp);
 	return (fenvp);

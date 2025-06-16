@@ -13,7 +13,7 @@ Libft authorized Yes
 
 
 HOST_PUNCH extras:
-	usleep
+	> usleep
 	PTHREAD
 	> pthread_create
 	> pthread_join

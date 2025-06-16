@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 11:51:55 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 17:08:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:58:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define CONNECT "\033[0;42m"
 
 # define PORT_1 42042
-# define PORT_2 41041
+# define PORT_2 42043
 # define MAXLINE 2760	/* Max sent/recvd buffer size */
 
 # define MAXPLAYERS 10	/* lbb max number of players */

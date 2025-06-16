@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 17:08:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:45:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static int	cub3d_bonus(t_multi_data *data)
 	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
 	mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
 	mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
-	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &clean_exit, &mlx);
+	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &resign_exit, &mlx);
 	mlx_loop_hook(mlx.mlx, &update_frame, &mlx);
+	mlx_do_sync(mlx.mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
 }
@@ -62,10 +63,10 @@ int	online_setup(t_multi_data *data, int argc, char *argv[])
 	if (hpc_init() == 1)
 		return (mini_clean_exit(data), 1);
 	if (argc == 3)
-		data->thread = get_me_online(&data->index,
+		data->thread = (unsigned long)get_me_online(&data->index,
 				&data->socket, argv[2], "b4llbre4k3r");
 	else
-		data->thread = get_me_online(&data->index,
+		data->thread = (unsigned long)get_me_online(&data->index,
 				&data->socket, argv[2], argv[3]);
 	if (data->thread == 0)
 	{
@@ -104,13 +105,14 @@ int	main(int argc, char *argv[])
 		if (lbb_init() == NULL)
 			return (1);
 		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].name, "cub3D", 42);
-		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "local", 15);
+		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "singleplayer", 15);
 	}
 	if (argc > 2)
 	{
 		if (online_setup(&data, argc, argv) == 1)
 			return (1);
 	}
+	ft_printf("\n! ! ! CHECK LEAKS ON MULTI HOOST SWITCH ! ! !\n! ! ! INVALID READ ON OPEN MAP ! ! !\n");
 	cub3d_bonus(&data);
 	return (0);
 }

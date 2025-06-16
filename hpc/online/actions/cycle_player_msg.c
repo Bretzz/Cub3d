@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle_player_msg.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 15:03:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:14:44 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	parse_msg_string(const char *msg)
 		return (5);
 	if (!ft_strncmp("hit", &msg[action], 4))
 		return (6);
+	if (!ft_strncmp("shutdown", &msg[action], 9))
+		return (7);
 	return (0);
 }
 

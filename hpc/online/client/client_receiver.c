@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_receiver.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:33:11 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 15:21:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:16:45 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	process_buffer(t_player *lobby, char *buffer)
 		ft_perror(ERROR"handler failure"RESET);
 		return (-1);
 	}
-	if (parse == 4)
+	if (parse == 4 || parse == 7)
 		return (-1);
 	return (0);
 }

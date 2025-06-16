@@ -17,7 +17,7 @@ NAME			:= cub3D
 NAME_BONUS		:= $(NAME)_bonus
 UNAME			:= $(shell uname)
 CC				:= cc
-CFLAGS			:= -Wall -Wextra -Werror -g
+CFLAGS			:= -Wall -Wextra -Werror #--std=gnu89
 
 #Libs
 LIBFT			= libft/
@@ -63,8 +63,8 @@ SRC_FILES		= main.c \
 				put_board.c \
 				put_line.c \
 				put_whole_column.c \
-				put2d.c put2d_minimap.c \
-				put_fps.c \
+				put2d.c \
+				put_fps.c puts_utils.c \
 				\
 				parsing.c \
 				get_player_stats.c \
@@ -73,7 +73,8 @@ SRC_FILES		= main.c \
 				update_frame.c get_fps.c \
 				move_player.c move_player_dom.c \
 				move_mouse.c \
-				handle_keys.c handle_mouse.c handle_hover.c \
+				handle_key_press.c handle_key_release.c \
+				handle_mouse.c handle_hover.c \
 				clean_exit.c utils.c \
 				\
 				debug.c
@@ -84,13 +85,23 @@ SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 B_SRC_FILES		= main_bonus.c main_data_init.c \
 				clean_exit_bonus.c \
 				update_frame_bonus.c \
+				\
 				move_player_bonus.c move_and_slide_bonus.c \
-				move_mouse_bonus.c \
-				handle_mouse_bonus.c handle_player.c \
-				put_board_bonus.c put_crosshair.c \
+				move_mouse_bonus.c handle_mouse_bonus.c \
+				\
+				pos_get_data.c \
+				\
+				put_board_bonus.c \
+				player_handle.c player_put.c \
 				put_whole_column_bonus.c \
+				\
+				put_sprite.c \
 				put_sprite_on_map.c put_health_bar.c \
-				put_player.c put2d_minimap_bonus.c \
+				\
+				put2d_minimap.c put2d_mini_ray.c \
+				put2d_mini_lobby.c \
+				put_crosshair.c \
+				\
 				send_all.c tiny_utils.c \
 				sprite_init.c sprite_destroy.c 
 
@@ -102,6 +113,9 @@ BONUS_FILES		= $(filter-out $(B_REPLACED), $(SRC_FILES)) $(B_SRC_FILES)
 
 # If you want full paths using SRCS_DIR:
 B_SRCS			= $(addprefix $(SRCS_DIR), $(BONUS_FILES))
+
+# Recompile with -D BONUS
+B_RECOMPILE		= input/handle_key_press.c
 
 # Objects
 OBJS_DIR		= obj/
@@ -120,6 +134,8 @@ VPATH 			= rays \
 				bonus
 
 all: $(NAME)
+
+bonus: $(NAME_BONUS)
 
 show_bonus:
 	@printf "SCRIPT		: $(SCRIPT)\n"
@@ -151,18 +167,20 @@ $(HPC)hpc.a:
 	@$(MAKE) all -C $(HPC) --quiet
 
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
-	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o));
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o))
 	@echo "${BOLD}compiling $(NAME)...${RESET}"
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $(B_RECOMPILE)
+	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 $(NAME_BONUS): $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
-	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o));
+	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o))
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
+	$(CC) $(CFLAGS) $(INKS) -Ibonus/ $(DEFS) -D BONUS -c $(B_RECOMPILE)
+	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
-
-bonus: $(NAME_BONUS)
 
 run.sh:
 	@> $@ echo '\

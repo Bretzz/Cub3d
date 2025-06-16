@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_mouse_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:29:54 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 13:12:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_mouse(int keysym, int x, int y, t_mlx *mlx)
 {
-	char	buffer[MSG_LEN + 6];
+	char	buffer[MSG_LEN + 9];
 
 	(void)x;
 	(void)y;

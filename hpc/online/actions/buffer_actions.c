@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffer_actions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:12:37 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 14:17:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char	*buffer_player_action(t_player player, const char *action, void *buffer)
 {
 	if (buffer == NULL)
 		return (NULL);
-	ft_memset(buffer, 0, (MSG_LEN + 6) * sizeof(char));
+	ft_memset(buffer, 0, (MSG_LEN + 9) * sizeof(char));
 	lbb_get_full_stats(player, buffer);
-	ft_strlcat(buffer, ":", (MSG_LEN + 6) * sizeof(char));
-	ft_strlcat(buffer, action, (MSG_LEN + 6) * sizeof(char));
+	ft_strlcat(buffer, ":", (MSG_LEN + 9) * sizeof(char));
+	ft_strlcat(buffer, action, (MSG_LEN + 9) * sizeof(char));
 	return (buffer);
 }
 
-/* EXPECTED buffer of size >(MSG_LEN + 6 + 1) * MAXPLAYERS
+/* EXPECTED buffer of size >(MSG_LEN + 9 + 1) * MAXPLAYERS
 MSG_LEN = player stats, 6 = action, 1 = newline, 1 = null term */
 /* LOBBY MUTEX */
 char	*buffer_lobby_action(t_player *lobby, const char *action, void *buffer)
@@ -38,7 +38,7 @@ char	*buffer_lobby_action(t_player *lobby, const char *action, void *buffer)
 
 	if (buffer == NULL)
 		return (NULL);
-	ft_memset(buffer, 0, (((MSG_LEN + 6 + 1) * MAXPLAYERS) + 1) * sizeof(char));
+	ft_memset(buffer, 0, (((MSG_LEN + 9 + 1) * MAXPLAYERS) + 1) * sizeof(char));
 	buffer_c = (unsigned char *)buffer;
 	lbb_mutex(1);
 	player_count = lbb_player_count();
@@ -51,7 +51,7 @@ char	*buffer_lobby_action(t_player *lobby, const char *action, void *buffer)
 			buffer_player_action(lobby[i],
 				action, &buffer_c[ft_strlen(buffer)]);
 			if (++count < player_count)
-				ft_strlcat(buffer, "\n", ((MSG_LEN + 6 + 1) * MAXPLAYERS) + 1);
+				ft_strlcat(buffer, "\n", ((MSG_LEN + 9 + 1) * MAXPLAYERS) + 1);
 		}
 		i++;
 	}
