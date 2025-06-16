@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/15 18:21:45 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:28:12 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -30,15 +30,10 @@ static int	juice_the_pc(t_mlx *mlx)
 	return (0);
 }
 
-int	data_init(t_mlx *mlx, int argc, char *argv[])
+int	data_init(t_mlx *mlx)
 {
 	/* (void)argc;(void)argv; */
-	if (argc != 2)
-	{
-		error_msg(ERR_ARGS);
-		exit(1);
-	}
-	ft_memset(mlx, 0, sizeof(t_mlx));
+	
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
 	mlx->player.speed[0] = 0;
@@ -48,13 +43,12 @@ int	data_init(t_mlx *mlx, int argc, char *argv[])
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
 	mlx->player.friction = 1;
-	mlx->map.sky = UINT_MAX;
-	mlx->map.floor = UINT_MAX;
-	mlx->map.no_wall = NULL;
+	
+	/* mlx->map.no_wall = NULL;
 	mlx->map.so_wall = NULL;
 	mlx->map.we_wall = NULL;
-	mlx->map.ea_wall = NULL;
-	mlx->map.mtx = parsing(argv[1], mlx/* , mlx */);
+	mlx->map.ea_wall = NULL; */
+	//mlx->map.mtx = presa in parsing;
 	if (mlx->map.mtx == NULL)
 		//return (1);
 		clean_exit(mlx);
@@ -73,7 +67,10 @@ int main(int argc, char *argv[])
 {
 	t_mlx	mlx;
 
-	if (data_init(&mlx, argc, argv))
+	ft_memset(&mlx, 0, sizeof(t_mlx));
+	if (!parsing(argv[1], &mlx, argc/* , mlx */))
+		return (clean_exit(&mlx), 1);
+	if (data_init(&mlx))
 		clean_exit(&mlx);
 
 	// key hooks

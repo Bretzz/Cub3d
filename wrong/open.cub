@@ -1,0 +1,24 @@
+SO ./qualcosa.xpm
+NO    
+
+
+
+F       255,   0,  0,,,,
+
+
+    C       0,   0,  255,,,,
+
+
+
+
+   EA ciao.xpm
+
+
+   WE     ./texture_occidentale
+
+
+
+11111  11111
+100E1  10001
+10001  10001
+11111  11111
