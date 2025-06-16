@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 20:22:43 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:36:01 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -184,8 +184,8 @@ int	check_walls(char	*line, char **wall)
 		while ((*wall)[i] && (*wall)[i] != '\n')
 			i++;
 		(*wall)[i] = '\0';
-		if (is_file_type(*wall, ".xpm"))
-			return (0);
+		/* if (is_file_type(*wall, ".xpm"))
+			return (0); */
 	}
 	return (1);	
 }
