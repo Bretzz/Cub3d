@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/12 13:18:20 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:45:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int argc, char *argv[])
 		if (lbb_init() == NULL)
 			return (1);
 		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].name, "cub3D", 42);
-		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "local", 15);
+		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "singleplayer", 15);
 	}
 	if (argc > 2)
 	{
