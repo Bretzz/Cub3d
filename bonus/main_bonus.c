@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 19:45:56 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 22:38:53 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static int	cub3d_bonus(t_multi_data *data)
 {
 	t_mlx	mlx;
 
-	if (!data_init(&mlx, data->path, data->mlx_ptr, data->win_ptr)
+	ft_memset(&mlx, 0, sizeof(t_mlx));
+	if (!parsing(data->path, &mlx, 2)
+		|| !data_init(&mlx, data->mlx_ptr, data->win_ptr)
 		|| !online_data_init(&mlx, &data->index, &data->socket, data->thread))
 		clean_exit(&mlx);
 	if (DEBUG)

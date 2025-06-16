@@ -6,13 +6,13 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 19:42:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/16 22:39:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
-int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
+int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr);
 int	online_data_init(t_mlx *mlx,
 		int *index, int *socket, unsigned long thread);
 
@@ -38,17 +38,11 @@ static int	juice_the_pc(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
 
 /* initializes all the struct's data.
 RETURNS: 1 ok, 0 error. */
-int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr)
+int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
 {
-	ft_memset(mlx, 0, sizeof(t_mlx));
-	mlx->map.mtx = parsing(path, mlx);
-	if (mlx->map.mtx == NULL)
-		return (0);
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	mlx->map.mini_side = mlx->map.stats[2] / 4;
-	mlx->map.sky = 0xadd8e6;
-	mlx->map.floor = 0xcaf0d5;
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
