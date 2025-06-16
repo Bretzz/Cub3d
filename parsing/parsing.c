@@ -6,13 +6,13 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/15 19:05:45 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:22:43 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "cub3D.h"
 
-char	**parsing(const char *path, t_mlx *mlx);
+int	parsing(const char *path, t_mlx *mlx, int	argc);
 
 // cool stuff
 
@@ -33,6 +33,37 @@ int	ft_mapchr(char *str, const char *map)
 		i++;
 	}
 	return (0);
+}
+/* check if characters in a cross formation around map[line][count] are in allowed
+if not, return 0 and error*/
+int	check_cross(char	**map, int	line, int	count, char	*allowed)
+{
+	int	i;
+
+	i = 0;
+	if (line == 0 || map[line + 1] == NULL
+			|| count == 0 || (count + 1) >= (int)ft_strlen(map[line]))
+		return (error_msg(ERR_OPEN_MAP), 0);
+	while (allowed[i] != '\0' && map[line -1][count] != allowed[i])
+		i++;
+	if (allowed[i] == '\0')
+		return (error_msg(ERR_OPEN_MAP), 0);
+	i = 0;
+	while (allowed[i] != '\0' && map[line +1][count] != allowed[i])
+		i++;
+	if (allowed[i] == '\0')
+		return (error_msg(ERR_OPEN_MAP), 0);
+	i = 0;
+	while (allowed[i] != '\0' && map[line][count -1] != allowed[i])
+		i++;
+	if (allowed[i] == '\0')
+		return (error_msg(ERR_OPEN_MAP), 0);
+	i = 0;
+	while (allowed[i] != '\0' && map[line][count +1] != allowed[i])
+		i++;
+	if (allowed[i] == '\0')
+		return (error_msg(ERR_OPEN_MAP), 0);
+	return (1);
 }
 
 static char	**get_map(char		*line, int		fd)
@@ -81,10 +112,23 @@ int	is_file_type(const char *file, const char *type)
 	}
 	return (1);
 }
+
+/* int	one_player(char	**map, char	*player)
+{
+	int	line;
+	int	count;
+
+	line = 0;
+	count = 0;
+	while (map[line] != NULL)
+	{
+		
+	}
+} */
+
 //1 = OK, 0 = KO
 int	parsing_map(char	**map, int	line, int	count)
 {
-	(void)count;
 	char	**start;
 
 	start = map;
@@ -97,7 +141,29 @@ int	parsing_map(char	**map, int	line, int	count)
 			ft_mapchr(map[line], MAP_ALLOWED));
 		write(2, RESET, ft_strlen(RESET));
 		return (0);
-	} 
+	}
+	
+	//controllo muri esterni e buchi interni
+	line = 0;
+	while (map[line] != NULL)
+	{
+		if (map[line][count] == '\0')
+		{
+			line++;
+			count = 0;
+		}
+		if (map[line] == NULL)
+			break;
+		while (map[line][count] == '1' || map[line][count] == ' ')
+			count++;
+		if (map[line][count] != '\0' && !check_cross(map, line, count, "01NSEW\0"))
+			return (0);
+		if (map[line][count] != '\0')	
+			count++;
+	}
+
+	//controllo ripetizione giocatore
+	
 	
 	return (1);
 }
@@ -109,9 +175,6 @@ int	check_walls(char	*line, char **wall)
 	int	i;
 
 	i = 0;
-	//count = 2;
-	/* while (line[count] == ' ')//sostituire con funzione apposita
-		count++; */
 	count = skip_spaces(line, 2);
 	if (*wall)
 		return (error_msg(ERR_WALL_REPEAT), 0);
@@ -121,6 +184,8 @@ int	check_walls(char	*line, char **wall)
 		while ((*wall)[i] && (*wall)[i] != '\n')
 			i++;
 		(*wall)[i] = '\0';
+		if (is_file_type(*wall, ".xpm"))
+			return (0);
 	}
 	return (1);	
 }
@@ -208,48 +273,46 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 	return (1);
 }
 
-/* char * ok, 0 error */
-char	**parsing(const char *path, t_mlx *mlx)
+/* 1 = ok, 0 error */
+int	parsing(const char *path, t_mlx *mlx, int	argc)
 {
 	const int	fd = open(path, O_RDONLY);
 	char	**map;
 	char	*line;
 
+	
+	if (argc != 2)
+	{
+		error_msg(ERR_ARGS);
+		exit(1);
+	}
+	mlx->map.sky = UINT_MAX;
+	mlx->map.floor = UINT_MAX;
 	if (!is_file_type(path, ".cub"))//wrong file format
 		clean_exit(mlx);
 	if (fd < 0)//file not found
-		return (error_msg(ERR_OPEN), clean_exit(mlx), NULL);//serve close(fd)?
+		return (error_msg(ERR_OPEN), clean_exit(mlx), 0);//serve close(fd)?
 	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
 
 	if (walls_ceiling(line, fd, mlx) != 1)
-		return (close(fd), NULL);
+		return (close(fd), 0);
 		
 	//se manca pavimento o soffitto, errore
 	if (mlx->map.sky == UINT_MAX || mlx->map.floor == UINT_MAX)
-		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), NULL);
+		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), 0);
 
 	//se manca un muro, errore
 	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
 			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
-		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), NULL);
+		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 0);
 
 	map = get_map(mlx->map.tmp_line, fd);
 	if (map == NULL)
-		return (close(fd), NULL);
-	/* if (parsing_map(mlx) != 1)
-		return (close(fd), NULL); */
+		return (close(fd), 0);
 	
-	//controllo caratteri mappa, commentato perche' interferisce con parsing altri parametri
-	/* i = 0;
-	while (map[i] && !ft_mapchr(map[i], "01NSEW \n"))
-		i++;
-	if (map[i] != NULL)
-	{
-		ft_printfd(2, "Error: invalid char '%c'\n", ft_mapchr(map[i], "01NSEW \n"));
-		return (free_mtx((void **)map), clean_exit(mlx), NULL);
-	} */
 	print_map(map);
 	close(fd);
-	return (map);
+	mlx->map.mtx = map;
+	return (1);
 }

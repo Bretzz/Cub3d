@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/15 19:13:50 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:19:20 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -44,6 +44,7 @@
 # define ERR_FC_BOUNDS "	color value out of bounds"
 # define ERR_CHAR_MAP "	invalid character in map"
 # define ERR_NEWLINE_MAP "	empty line in map"
+# define ERR_OPEN_MAP "	open map"
 # define ERR_CHAR_FILE "	invalid character in scene description file"
 # define MALLOC "	malloc failure"
 # define ERR_ENVP " missing env variable(s)"
@@ -295,7 +296,7 @@ void			put_fps(t_mlx *mlx);
 
 /* =========== PARSING =========== */
 
-char			**parsing(const char *path, t_mlx *mlx);
+int				parsing(const char *path, t_mlx *mlx, int	argc);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
