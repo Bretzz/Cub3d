@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 11:51:55 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 12:58:50 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:13:39 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define MSG_IP_LEN 16		/* len of the ip-string */
 # define MSG_NAME_LEN 43	/* len of the name-string */
 # define MSG_DATA_LEN 36	/* len of the coord-string */
+# define MSG_ACTION_LEN 9	/* len of the longest action */
 # define MSG_LEN 132		/* len of the whole msg-string (no action) */
 
 //colors
@@ -47,7 +48,7 @@
 
 # define PORT_1 42042
 # define PORT_2 42043
-# define MAXLINE 2760	/* Max sent/recvd buffer size */
+# define MAXLINE 4096	/* Max sent/recvd buffer size */
 
 # define MAXPLAYERS 10	/* lbb max number of players */
 # define PLAYER_HP 5

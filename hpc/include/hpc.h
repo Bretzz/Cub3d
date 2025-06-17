@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hpc.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 09:58:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:37:32 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ pthread_t	get_me_online(int *index, int *socket, char *ip, char *nickname);
 int			hpc_init(void);
 int			hpc_free(int *socket, int *index, unsigned long thread);
 void		*hpc_mutex(int action);
+
+/* ACK DATA */
+
+void		**ack_data(void);
 
 /* PRINTERS */
 
