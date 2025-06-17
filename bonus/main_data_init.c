@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main_data_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 19:42:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:04:48 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
+int	ack_map_init(t_multi_data *data);
 int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
 int	online_data_init(t_mlx *mlx,
 		int *index, int *socket, unsigned long thread);
@@ -83,5 +84,58 @@ int	online_data_init(t_mlx *mlx,
 	hpc_mutex(2);
 	if (mlx->lobby[*mlx->index].extra == NULL)
 		return (0);
+	return (1);
+}
+
+static char	*read_whole_file(char *path)
+{
+	char		*line;
+	char		*whole_file;
+	const int	fd = open(path, O_RDONLY);
+
+	if (fd < 0)
+		return (NULL);
+	whole_file = NULL;
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		whole_file = ft_strjoin_free(whole_file, line);
+		if (whole_file == NULL)
+			return (close(fd), NULL);
+		line = get_next_line(fd);
+	}
+	return (close(fd), whole_file);
+}
+
+/* writes a file with the string passed */
+static int	write_whole_file(char *whole_file)
+{
+	const int	fd = open("online.cub", O_WRONLY);
+
+	if (fd < 0)
+		return (1);
+	if (write(fd, whole_file, ft_strlen(whole_file)) < 0)
+		return (close(fd), 1);
+	return (close(fd), 0);
+}
+
+int	ack_map_init(t_multi_data *data)
+{
+	if (data->socket == 0)
+		return (1);
+	if (data->index == HOST)
+	{
+		*ack_data() = read_whole_file(data->path);
+		if (*ack_data() == NULL)
+			return (0);
+		ft_printf("host ack data:\n======START======\n'%s'\n======END=====\n", *ack_data());
+	}
+	else if (data->index == PLAYER)
+	{
+		if (write_whole_file(*ack_data()) != 0)
+			return (0);
+		ft_memset(data->path, 0, ft_strlen(data->path));
+		ft_strlcpy(data->path, "online.cub", 11);
+	}
 	return (1);
 }

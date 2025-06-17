@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 16:27:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:02:53 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 1920
-# define MLX_WIN_Y 1080
+# define MLX_WIN_X 250
+# define MLX_WIN_Y 250
 
 // graphic libs
 # include "mlx.h"

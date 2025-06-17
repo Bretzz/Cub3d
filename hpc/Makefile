@@ -72,6 +72,9 @@ SRC_FILES		= \
 				buffer_actions.c \
 				cycle_player_msg.c \
 				\
+				ack_data.c \
+				ack_data_from_msg.c ack_data_to_msg.c \
+				\
 				convert_stuff.c \
 				ft_perror.c \
 				fake_env.c \
@@ -89,7 +92,8 @@ OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
 
 VPATH 			= $(MSG) $(LBB) \
 				online/ \
-				online/client/ online/server online/actions \
+				online/client/ online/server \
+				online/actions online/ack \
 				utils/
 
 all: $(NAME)

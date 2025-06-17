@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_ack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:31:48 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:56:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:58:37 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	addr_in_lobby(t_player *lobby, struct sockaddr_in *addr)
 }
 
 /* sending the whole lobby's data to the client
+also sending ack_data if present
 -1 fail, 0 continue */
 static int	send_test(int socket, t_player *lobby, struct sockaddr_in *addr)
 {
@@ -41,6 +42,12 @@ static int	send_test(int socket, t_player *lobby, struct sockaddr_in *addr)
 
 	ft_memset(bluffer, 0, sizeof(bluffer));
 	buffer_lobby_action(lobby, "new", bluffer);
+	if (server_sender(socket, bluffer, addr, 1) < 0)
+		return (-1);
+	if (*ack_data() && *((char *)*ack_data()) != '\0')
+		return (0);
+	ft_memset(bluffer, 0, sizeof(bluffer));
+	ack_data_to_msg(bluffer);
 	if (server_sender(socket, bluffer, addr, 1) < 0)
 		return (-1);
 	return (0);

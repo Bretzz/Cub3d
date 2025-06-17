@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   online.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:04:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:06:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:59:22 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ char				*buffer_player_action(t_player player,
 						const char *action, void *buffer);
 char				*buffer_lobby_action(t_player *lobby,
 						const char *action, void *buffer);
+
+/* ACK DATA */
+
+void				ack_data_from_msg(const char *msg);
+void				ack_data_to_msg(char *buff);
 
 /* DB MANAGEMENT */
 

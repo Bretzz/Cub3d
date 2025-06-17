@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hpc_int.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:51:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/07 10:22:41 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:17:12 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int				server_sender(int socket, char *buffer, void *addr, char flag);
 /* MUTEX */
 
 void			*hpc_mutex(int action);
+
+/* ACK DATA */
+
+void			**ack_data(void);
 
 /* UTILS */
 
