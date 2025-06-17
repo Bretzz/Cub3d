@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:09:12 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:13:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	cub3d_bonus(t_multi_data *data)
 	ft_memset(&mlx, 0, sizeof(t_mlx));
 	if (!ack_map_init(data)
 		|| !parsing(data->path, &mlx, 2)
-		|| !data_init(&mlx, data->path, data->mlx_ptr, data->win_ptr)
+		|| !data_init(&mlx, data->mlx_ptr, data->win_ptr)
 		|| !online_data_init(&mlx, &data->index, &data->socket, data->thread))
 		clean_exit(&mlx);
 	if (DEBUG)
