@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:29:08 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/11 14:00:14 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:41:38 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include <sys/socket.h>
 
 int	hpc_free(int *socket, int *index, unsigned long thread);
+
+static int	saferead(int *target)
+{
+	int	my_value;
+
+	hpc_mutex(1);
+	my_value = *target;
+	hpc_mutex(2);
+	return (my_value);
+}
 
 static void	safewrite(int *target, int value)
 {
@@ -44,12 +54,13 @@ all these wrapped in hpc and lbb mutex pls.
 RETURNS: 1: clean procedure, 0: forced procdure. */
 static int	shutdown_procedure(int *socket, int *index, t_player *lobby)
 {
-	char	buffer[MSG_LEN + 9];
-	int		my_index;
+	char		buffer[MSG_LEN + 9];
+	const int	my_index = saferead(index);
 
+	safewrite(index, -1);
+	if (saferead(socket) <= 2)
+		return (0);
 	hpc_mutex(1);
-	my_index = *index;
-	*index = -1;
 	lbb_mutex(1);
 	if (lobby[my_index].online != NULL
 		&& !multiple_local_sessions(my_index, lobby))
@@ -90,6 +101,7 @@ int	hpc_free(int *socket, int *index, unsigned long thread)
 	client_sender(-1, NULL, 0);
 	lbb_mutex(3);
 	hpc_mutex(3);
+	free(*ack_data());
 	lbb_delete_lobby((lbb_get_ptr(NULL)));
 	return (0);
 }

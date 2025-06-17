@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:08:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:20:47 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@
 #  define ESC_KEY 65367
 # endif 
 
-# define MLX_WIN_X 250
-# define MLX_WIN_Y 250
+# define MLX_WIN_X 1920
+# define MLX_WIN_Y 1080
 
 // graphic libs
 # include "mlx.h"

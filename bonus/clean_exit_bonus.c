@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:08:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:56:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	clean_exit(t_mlx *mlx)
 		mlx_destroy_display(mlx->mlx);
 		free(mlx->mlx);
 	}
-	free_mtx((void **)mlx->map.mtx);
+	if (mlx->map.mtx != NULL)
+		free_mtx((void **)mlx->map.mtx);
 	free(mlx->map.no_wall);
 	free(mlx->map.so_wall);
 	free(mlx->map.we_wall);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lbb_delete_lobby.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:33:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/08 00:30:06 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:11:45 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	lbb_delete_lobby(t_player *lobby)
 	const void		*small = lbb_kill_player(NULL);
 	unsigned int	i;
 
+	if (lobby == NULL)
+		return ;
 	i = 0;
 	while (i < MAXPLAYERS)
 	{

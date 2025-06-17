@@ -6,16 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:10:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:50:59 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
+int	base_data_init(t_mlx *mlx, t_multi_data *data);
 int	ack_map_init(t_multi_data *data);
-int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr);
-int	online_data_init(t_mlx *mlx,
-		int *index, int *socket, unsigned long thread);
+int	data_init(t_mlx *mlx);
+int	sprite_data_init(t_mlx *mlx);
 
 /* assign the variables, if we are 'online' so mlx is initialized,
 or initializes the mlx struct and window.
@@ -39,7 +39,7 @@ static int	juice_the_pc(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
 
 /* initializes all the struct's data.
 RETURNS: 1 ok, 0 error. */
-int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
+int	data_init(t_mlx *mlx)
 {
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
@@ -55,81 +55,36 @@ int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
 	mlx->player.jground = 1;
 	mlx->player.friction = 8;
 	mlx->frames = 1;
-	if (!juice_the_pc(mlx, mlx_ptr, win_ptr))
-		return (0);
+	ft_printf("data init out\n");
 	return (1);
 }
 
-int	online_data_init(t_mlx *mlx,
-	int *index, int *socket, unsigned long thread)
+int	sprite_data_init(t_mlx *mlx)
 {
-	mlx->index = index;
-	mlx->socket = socket;
-	mlx->thread = thread;
-	mlx->lobby = lbb_get_ptr(NULL);
-	if (mlx->lobby == NULL)
-		return (0);
 	hpc_mutex(1);
 	lbb_mutex(1);
 	mlx->lobby[*mlx->index].extra = sprite_init(mlx->mlx,
 			*mlx->index, 0x714333);
+	mlx->fake_lobby[mlx->fake_index].extra = mlx->lobby[*mlx->index].extra;
 	mlx->player.sprite = mlx->lobby[*mlx->index].extra;
 	lbb_mutex(2);
 	hpc_mutex(2);
-	if (mlx->lobby[*mlx->index].extra == NULL)
+	if (mlx->player.sprite == NULL)
 		return (0);
+	ft_printf("sprite init out\n");
 	return (1);
 }
 
-static char	*read_whole_file(char *path)
+int	base_data_init(t_mlx *mlx, t_multi_data *data)
 {
-	char		*line;
-	char		*whole_file;
-	const int	fd = open(path, O_RDONLY);
-
-	if (fd < 0)
-		return (NULL);
-	whole_file = NULL;
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		whole_file = ft_strjoin_free(whole_file, line);
-		if (whole_file == NULL)
-			return (close(fd), NULL);
-		line = get_next_line(fd);
-	}
-	return (close(fd), whole_file);
-}
-
-/* writes a file with the string passed */
-static int	write_whole_file(char *whole_file)
-{
-	const int	fd = open("online.cub", O_WRONLY);
-
-	if (fd < 0)
-		return (1);
-	if (write(fd, whole_file, ft_strlen(whole_file)) < 0)
-		return (close(fd), 1);
-	return (close(fd), 0);
-}
-
-int	ack_map_init(t_multi_data *data)
-{
-	if (data->socket == 0)
-		return (1);
-	if (data->index == HOST)
-	{
-		*ack_data() = read_whole_file(data->path);
-		if (*ack_data() == NULL)
-			return (0);
-		ft_printf("host ack data:\n======START======\n'%s'\n======END=====\n", *ack_data());
-	}
-	else if (data->index == PLAYER)
-	{
-		if (write_whole_file(*ack_data()) != 0)
-			return (0);
-		ft_memset(data->path, 0, ft_strlen(data->path));
-		ft_strlcpy(data->path, "online.cub", 11);
-	}
+	mlx->index = &data->index;
+	mlx->socket = &data->socket;
+	mlx->thread = data->thread;
+	mlx->lobby = lbb_get_ptr(NULL);
+	if (!juice_the_pc(mlx, data->mlx_ptr, data->win_ptr))
+		return (0);
+	if (mlx->lobby == NULL)
+		return (0);
+	ft_printf("base init out\n");
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_ack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:31:48 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 15:58:37 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:50:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ static int	send_test(int socket, t_player *lobby, struct sockaddr_in *addr)
 	buffer_lobby_action(lobby, "new", bluffer);
 	if (server_sender(socket, bluffer, addr, 1) < 0)
 		return (-1);
-	if (*ack_data() && *((char *)*ack_data()) != '\0')
+	if (ACK_DATA == 0
+		|| *ack_data() == NULL
+		|| *((char *)*ack_data()) == '\0')
 		return (0);
 	ft_memset(bluffer, 0, sizeof(bluffer));
 	ack_data_to_msg(bluffer);

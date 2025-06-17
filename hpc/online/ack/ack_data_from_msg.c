@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ack_data_from_msg.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:29:47 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/17 15:31:17 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:00:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ static int	crop_data_from_msg(const char *msg, char **buff)
 	*buff = (char *)malloc((len + 1) * sizeof(char));
 	if (*buff == NULL)
 		return (1);
+	ft_memset(*buff, 0, (len + 1) * sizeof(char));
 	i = 0;
 	while (i < len)
 	{
-		*buff[i] = msg[data + i];
+		(*buff)[i] = msg[data + i];
 		i++;
 	}
 	return (0);
@@ -56,13 +57,13 @@ static void	special_chars_converter(char *buff)
 	{
 		if (buff[i] == ';' && buff[i + 1] == ';')
 		{
-			buff[i] = ':';
 			ft_memmove(&buff[i], &buff[i + 1], ft_strlen(&buff[i]));
+			buff[i] = ':';
 		}
 		if (buff[i] == '-' && buff[i + 1] == 'n')
 		{
-			buff[i] = '\n';
 			ft_memmove(&buff[i], &buff[i + 1], ft_strlen(&buff[i]));
+			buff[i] = '\n';
 		}
 		i++;
 	}

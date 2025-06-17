@@ -82,7 +82,8 @@ SRC_FILES		= main.c \
 SRCS			= $(addprefix $(SRCS_DIR), $(SRC_FILES))
 
 #B_SRCS_DIR		= bonus/
-B_SRC_FILES		= main_bonus.c main_data_init.c \
+B_SRC_FILES		= main_bonus.c \
+				main_data_init.c main_ack_map_init.c \
 				clean_exit_bonus.c \
 				update_frame_bonus.c \
 				\

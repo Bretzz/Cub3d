@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:56:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:36:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:15:58 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,21 @@ static void	error_break(const char *error, int *socket)
 
 /* single routine cycle, assuming hpc_mutex(1) call beforehand
 -1 break, 0 ok */
-static int	single_routine(t_setup *setup, pthread_t *tid)
+static int	single_routine(t_setup *setup)
 {
+	pthread_t	tid;
+
 	safeclose(*setup->socket);
-	*setup->socket = select_routine(tid, *setup->index, setup->envp);
-	if (*tid == 0 || *setup->socket < 0)
+	*setup->socket = select_routine(&tid, *setup->index, setup->envp);
+	if (tid == 0 || *setup->socket < 0)
 	{
 		error_break("online routine failure", setup->socket);
+		if (tid != 0 && pthread_join(tid, NULL) != 0)
+			ft_printfd(STDERR_FILENO, "online join failure\n");
 		return (-1);
 	}
 	hpc_mutex(2);
-	if (pthread_join(*tid, NULL) != 0 && hpc_mutex(1))
+	if (pthread_join(tid, NULL) != 0 && hpc_mutex(1))
 	{
 		safeclose(*setup->socket);
 		error_break("online joine failure", setup->socket);
@@ -84,12 +88,11 @@ void	*manager(void *arg)
 {
 	t_player *const	lobby = lbb_get_ptr(NULL);
 	t_setup *const	setup = arg;
-	pthread_t		tid;
 
 	while (!0)
 	{
 		hpc_mutex(1);
-		if (single_routine(setup, &tid) < 0)
+		if (single_routine(setup) < 0)
 			break ;
 		if (*setup->index < 0 && hpc_mutex(2))
 			break ;

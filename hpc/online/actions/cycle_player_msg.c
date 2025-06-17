@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle_player_msg.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:31:36 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 15:59:57 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:47:58 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 		errno = 256;
 	else if (lobby == NULL)
 		errno = 257;
-	else if (action == 1)
+	if (errno == 256 || errno == 257)
+		return (0);
+	if (action == 1)
 		new_player(msg, lobby, online);
 	else if (action == 2)
 		update_player(msg, lobby, online);
@@ -82,8 +84,6 @@ int	one_player_action(const char *msg, t_player *lobby, void *online)
 		ack_data_from_msg(msg);
 	else
 		errno = 1;
-	if (errno != 0)
-		return (-1);
 	return (action);
 }
 

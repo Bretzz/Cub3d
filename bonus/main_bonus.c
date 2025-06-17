@@ -6,17 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:13:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:50:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3D_bonus.h"
 
 static void	mini_clean_exit(t_multi_data *data)
 {
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	// mlx_destroy_display(data->mlx_ptr);
+	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 }
 
@@ -32,10 +31,11 @@ static int	cub3d_bonus(t_multi_data *data)
 	t_mlx	mlx;
 
 	ft_memset(&mlx, 0, sizeof(t_mlx));
-	if (!ack_map_init(data)
+	if (!base_data_init(&mlx, data)
+		|| !sprite_data_init(&mlx)
+		|| !ack_map_init(data)
 		|| !parsing(data->path, &mlx, 2)
-		|| !data_init(&mlx, data->mlx_ptr, data->win_ptr)
-		|| !online_data_init(&mlx, &data->index, &data->socket, data->thread))
+		|| !data_init(&mlx))
 		clean_exit(&mlx);
 	if (DEBUG)
 		ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n",
@@ -62,13 +62,13 @@ int	online_setup(t_multi_data *data, int argc, char *argv[])
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			MLX_WIN_X, MLX_WIN_Y, "cub3D");
 	if (data->win_ptr == NULL)
-		return (/* mlx_destroy_display(data->mlx_ptr), */
+		return (mlx_destroy_display(data->mlx_ptr),
 			free(data->mlx_ptr), 1);
 	if (hpc_init() == 1)
 		return (mini_clean_exit(data), 1);
 	if (argc == 3)
 		data->thread = (unsigned long)get_me_online(&data->index,
-				&data->socket, argv[2], "b4llbre4k3r");
+				&data->socket, argv[1], argv[2]);
 	else
 		data->thread = (unsigned long)get_me_online(&data->index,
 				&data->socket, argv[2], argv[3]);
@@ -103,13 +103,13 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	ft_memset(&data, 0, sizeof(t_multi_data));
-	ft_strlcpy(data.path, argv[1], ft_strlen(argv[1]));
+	ft_strlcpy(data.path, argv[1], ft_strlen(argv[1]) + 1);
 	if (argc == 2)
 	{
 		if (lbb_init() == NULL)
 			return (1);
 		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].name, "cub3D", 42);
-		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "singleplayer", 15);
+		ft_strlcpy(((t_player *)lbb_get_ptr(NULL))[HOST].ip, "lonely", 15);
 	}
 	if (argc > 2)
 	{

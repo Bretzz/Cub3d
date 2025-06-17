@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 11:51:55 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 15:13:39 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:10:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@
 
 # define MAXPLAYERS 10	/* lbb max number of players */
 # define PLAYER_HP 5
+
+# define ACK_DATA 1		/* ack data expected */
 
 #endif

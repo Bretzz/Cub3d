@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ack_data_to_msg.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:53:10 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/17 16:02:22 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:49:16 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,8 @@ void	ack_data_to_msg(char *buff)
 	size = special_length(*ack_data())
 		+ MSG_NAME_LEN + MSG_IP_LEN + MSG_ACTION_LEN;
 	ft_memset(buff, 0, size);
-	ft_strlcat(buff, "::", size);
+	ft_strlcat(buff, "-:-:", size);
 	write_ack_data(*ack_data(), &buff[ft_strlen(buff)]);
 	ft_strlcat(buff, "::", size);
 	ft_strlcat(buff, "ack", size);
 }
-
-// int	main(void)
-// {
-// 	char	str[] = "definitely cool data hehre\nlike strings textures: or stuff\n";
-// 	char	buff[1024];
-
-// 	ack_data_to_msg(str, buff);
-// 	printf("ack_data: '%s'\nmsg: '%s'\n", str, buff);
-// }

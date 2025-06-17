@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 14:26:09 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 16:35:09 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:07:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,32 @@ static int	validation(t_player *lobby, char *buffer)
 {
 	if (!cycle_player_msgs(buffer, lobby))
 	{
-		ft_printfd(STDERR_FILENO, ERROR"corrupted message%s\n", RESET);
+		ft_perror(ERROR"execute failure"RESET);
 		return (-1);
 	}
 	if (DEBUG)
 		ft_printf(CONNECT"connection accepted!!!%s\n", RESET);
+	return (0);
+}
+
+/* writes the ack msg into the ack_data() buffer */
+static int	recv_ack_msg(int servfd, char *buffer)
+{
+	ft_memset(buffer, 0, (MAXLINE + 1) * sizeof(char));
+	if (recvfrom(servfd, buffer, MAXLINE, 0, NULL, 0) < 0)
+	{
+		ft_perror(ERROR"recvfrom failed"RESET);
+		return (-1);
+	}
+	if (DEBUG)
+		ft_printf(PURPLE"[ack] received '%s' from server%s\n", buffer, RESET);
+	if (!cycle_player_msgs(buffer, lbb_get_ptr(NULL)))
+	{
+		ft_perror(ERROR"execute failure"RESET);
+		return (-1);
+	}
+	if (DEBUG)
+		ft_printf(CONNECT"[ack] data stored correctly%s\n", RESET);
 	return (0);
 }
 
@@ -79,6 +100,10 @@ int	client_ack(int servfd, t_player *lobby)
 	if (revc_test(servfd, buffer) < 0)
 		return (-1);
 	if (validation(lobby, buffer) < 0)
+		return (-1);
+	if (ACK_DATA == 0)
+		return (0);
+	if (recv_ack_msg(servfd, buffer) < 0)
 		return (-1);
 	return (0);
 }
