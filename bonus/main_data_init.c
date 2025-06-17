@@ -6,14 +6,14 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 17:09:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:10:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
 int	ack_map_init(t_multi_data *data);
-int	data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
+int	data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr);
 int	online_data_init(t_mlx *mlx,
 		int *index, int *socket, unsigned long thread);
 

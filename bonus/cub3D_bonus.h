@@ -59,7 +59,7 @@ int			put2d_mini_lobby(t_mlx *mlx, size_t side);
 t_sprite	*sprite_init(void *mlx_ptr, int i, unsigned int subst);
 void		sprite_destroy(void *mlx_ptr, t_sprite *sprite);
 int			ack_map_init(t_multi_data *data);
-int			data_init(t_mlx *mlx, char *path, void *mlx_ptr, void *win_ptr);
+int			data_init(t_mlx *mlx, void *mlx_ptr, void *win_ptr);
 int			online_data_init(t_mlx *mlx,
 				int *index, int *socket, unsigned long thread);
 
