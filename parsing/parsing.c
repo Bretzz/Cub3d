@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 22:32:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:09:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static char	**get_map(char		*line, int		fd)
 1 ok, 0 ko. */
 int	is_file_type(const char *file, const char *type)
 {
-	size_t	i;
+	int	i;
 
 	i = ft_strlen(file);
 	while (i >= 0 && file[i] != '.')

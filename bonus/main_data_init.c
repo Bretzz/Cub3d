@@ -6,15 +6,14 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 20:50:59 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:02:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
 int	base_data_init(t_mlx *mlx, t_multi_data *data);
-int	ack_map_init(t_multi_data *data);
-int	data_init(t_mlx *mlx);
+int	data_init(t_mlx *mlx, t_multi_data *data);
 int	sprite_data_init(t_mlx *mlx);
 
 /* assign the variables, if we are 'online' so mlx is initialized,
@@ -39,8 +38,10 @@ static int	juice_the_pc(t_mlx *mlx, void *mlx_ptr, void *win_ptr)
 
 /* initializes all the struct's data.
 RETURNS: 1 ok, 0 error. */
-int	data_init(t_mlx *mlx)
+int	data_init(t_mlx *mlx, t_multi_data *data)
 {
+	if (!juice_the_pc(mlx, data->mlx_ptr, data->win_ptr))
+		return (0);
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	mlx->map.mini_side = mlx->map.stats[2] / 4;
@@ -81,8 +82,6 @@ int	base_data_init(t_mlx *mlx, t_multi_data *data)
 	mlx->socket = &data->socket;
 	mlx->thread = data->thread;
 	mlx->lobby = lbb_get_ptr(NULL);
-	if (!juice_the_pc(mlx, data->mlx_ptr, data->win_ptr))
-		return (0);
 	if (mlx->lobby == NULL)
 		return (0);
 	ft_printf("base init out\n");

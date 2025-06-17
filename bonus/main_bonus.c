@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 20:50:16 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:15:55 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ static int	cub3d_bonus(t_multi_data *data)
 {
 	t_mlx	mlx;
 
+	ft_printf("got path %s\n", data->path);
 	ft_memset(&mlx, 0, sizeof(t_mlx));
 	if (!base_data_init(&mlx, data)
-		|| !sprite_data_init(&mlx)
 		|| !ack_map_init(data)
 		|| !parsing(data->path, &mlx, 2)
-		|| !data_init(&mlx))
+		|| !data_init(&mlx, data)
+		|| !sprite_data_init(&mlx))
 		clean_exit(&mlx);
 	if (DEBUG)
 		ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n",
@@ -52,6 +53,25 @@ static int	cub3d_bonus(t_multi_data *data)
 	return (0);
 }
 
+/* options:
+	./cub3D map.cub host pipphost
+	./cub3D map.cub host
+	./cub3D 127.0.0.1 client */
+static void	different_input_modes(t_multi_data *data, int argc, char *argv[])
+{
+	if (argc < 3 || argc > 4)
+		return ;
+	if (argc == 3 && is_ip(argv[1]))
+		data->thread = (unsigned long)get_me_online(&data->index,
+				&data->socket, argv[1], argv[2]);
+	else if (argc == 3)
+		data->thread = (unsigned long)get_me_online(&data->index,
+				&data->socket, argv[2], "b4llBr3ak3r");
+	else
+		data->thread = (unsigned long)get_me_online(&data->index,
+				&data->socket, argv[2], argv[3]);
+}
+
 /* 0 ok, 1 error */
 int	online_setup(t_multi_data *data, int argc, char *argv[])
 {
@@ -66,12 +86,7 @@ int	online_setup(t_multi_data *data, int argc, char *argv[])
 			free(data->mlx_ptr), 1);
 	if (hpc_init() == 1)
 		return (mini_clean_exit(data), 1);
-	if (argc == 3)
-		data->thread = (unsigned long)get_me_online(&data->index,
-				&data->socket, argv[1], argv[2]);
-	else
-		data->thread = (unsigned long)get_me_online(&data->index,
-				&data->socket, argv[2], argv[3]);
+	different_input_modes(data, argc, argv);
 	if (data->thread == 0)
 	{
 		mini_clean_exit(data);

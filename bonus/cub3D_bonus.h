@@ -63,7 +63,7 @@ void		sprite_destroy(void *mlx_ptr, t_sprite *sprite);
 
 int			base_data_init(t_mlx *mlx, t_multi_data *data);
 int			ack_map_init(t_multi_data *data);
-int			data_init(t_mlx *mlx);
+int			data_init(t_mlx *mlx, t_multi_data *data);
 int			sprite_data_init(t_mlx *mlx);
 
 /* BONUS INGAME */
