@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 12:53:38 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:33:37 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 	int				heigth;
 	int				y;
 
+	if (x < 0 || x >= MLX_WIN_X)
+		return (1);
 	if (len < 0)
 		heigth = 0;
 	else if (len == 0)
@@ -31,20 +33,21 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 	int		tw = heigth - z;
 	//ft_printf("height %d\n", heigth);
 	(void)color, (void)tw; (void)cw; (void)z; (void)mid_line; (void)x;
-	y = 0;
 	// ft_printf("sky, ml %d, cw %d\n", mid_line, cw);
-	while (y < mid_line - cw && y < MLX_WIN_Y)
-		my_pixel_put(&mlx->img, x, y++, mlx->map.sky);
-	// ft_printf("mid\n");
-	while (y < mid_line + tw && y < MLX_WIN_Y)
-	{
-		if (y > MLX_WIN_Y)
-			break ;
-		my_pixel_put(&mlx->img, x, y++, color * (int)mlx->ray.face);
-	}
-	// ft_printf("floor\n");
+	
+	unsigned int	put_color;
+	y = 0;
 	while (y < MLX_WIN_Y)
-		my_pixel_put(&mlx->img, x, y++, mlx->map.floor);
+	{
+		if (y < mid_line - cw)
+			put_color = mlx->map.sky;
+		else if (y < mid_line + tw)
+			put_color = color * (int)mlx->ray.face;
+		else
+			put_color = mlx->map.floor;
+		*(unsigned int *)(mlx->img->addr + (y * mlx->img->line_length)
+			+ (x * mlx->img->bpp)) = put_color;
+		y++;
+	}
 	return (0);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 03:11:04 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:14:27 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ static char	get_smart_face(char x_or_y, int axis)
 	return ('V');
 }
 
-void	get_x_collision(t_mlx *mlx, t_cast_vars *cast, float x, float y)
-{
-	mlx->ray.hit[0] = x + (cast->iter[0] - 1 + cast->incr[0]) * cast->axis[0];
-	mlx->ray.hit[1] = y + (cast->incr[0] + cast->iter[0] - 1)
-		/ fabsf(cosf(cast->angle)) * fabsf(sinf(cast->angle)) * cast->axis[1];
-}
-
-void	get_y_collision(t_mlx *mlx, t_cast_vars *cast, float x, float y)
-{
-	mlx->ray.hit[1] = y + (cast->iter[1] - 1 + cast->incr[1]) * cast->axis[1];
-	mlx->ray.hit[0] = x + (cast->incr[1] + cast->iter[1] - 1)
-		/ fabsf(sinf(cast->angle)) * fabsf(cosf(cast->angle)) * cast->axis[0];
-}
-
 // needs to be called every cycle
 static int	collision_check(t_mlx *mlx, t_cast_vars *cast, float x, float y)
 {
@@ -56,7 +42,7 @@ static int	collision_check(t_mlx *mlx, t_cast_vars *cast, float x, float y)
 
 	curr_x = (int)x + cast->axis[0] * cast->iter[0];
 	curr_y = (int)y + cast->axis[1] * cast->iter[1];
-	if (mlx->map.mtx[curr_y][curr_x] == '1') 
+	if (mlx->map.mtx[curr_y][curr_x] == '1')
 		return (1);
 	return (0);
 }
@@ -75,36 +61,22 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 
 	ray_init(&mlx->ray, x, y);
 	vars_init(&mlx->ray, &cast, dir);
-	while (!out_of_bound(mlx, &cast, x, y))
+	while (1)
 	{
-		if ((cast.incr[0] + cast.iter[0]) / fabsf(cosf(cast.angle))
-			< (cast.incr[1] + cast.iter[1]) / fabsf(sinf(cast.angle)))
-		{
-			cast.iter[0]++;
+		if (((cast.incr[0] + cast.iter[0]) * cast.inv_cos
+				< (cast.incr[1] + cast.iter[1]) * cast.inv_sin)
+			&& ++cast.iter[0])
 			cast.curr = 0;
-		}
-		// else if ((cast.incr[0] + cast.iter[0]) / fabsf(cosf(cast.angle))
-		// 	> (cast.incr[1] + cast.iter[1]) / fabsf(sinf(cast.angle)))
-		// {
-		// 	cast.iter[1]++;
-		// 	cast.curr = 1;
-		// }
-		else
-		{
-			cast.iter[1]++;
+		else if (++cast.iter[1])
 			cast.curr = 1;
-		}
+		if (out_of_bound(mlx, &cast, x, y))
+			break ;
 		if (collision_check(mlx, &cast, x, y))
 		{
 			mlx->ray.face = get_smart_face(cast.curr, cast.axis[cast.curr]);
 			break ;
 		}
 	}
-	if (cast.curr == 0)
-		get_x_collision(mlx, &cast, x, y);
-	else
-		get_y_collision(mlx, &cast, x, y);
-	mlx->ray.len = sqrt(((mlx->ray.hit[0] - x) * (mlx->ray.hit[0] - x))
-			+ ((mlx->ray.hit[1] - y) * (mlx->ray.hit[1] - y)));
+	get_ray_data(mlx, &cast, x, y);
 	return (mlx->ray.len);
 }

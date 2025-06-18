@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 21:53:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:01:58 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	data_init(t_mlx *mlx)
 	mlx->player.speed[0] = 0;
 	mlx->player.speed[1] = 0;
 	mlx->player.speed[2] = 0;
-	mlx->player.tspeed[0] = 300.0f;
+	mlx->player.tspeed[0] = 200.0f;
 	mlx->player.tspeed[1] = 300;
 	mlx->player.jground = 1;
 	mlx->player.friction = 1;
@@ -49,14 +49,15 @@ int	data_init(t_mlx *mlx)
 	mlx->map.we_wall = NULL;
 	mlx->map.ea_wall = NULL; */
 	//mlx->map.mtx = presa in parsing;
-	if (mlx->map.mtx == NULL)
-		//return (1);
-		clean_exit(mlx);
 	if (juice_the_pc(mlx))
+		return (1);
+	mlx->map.mtx = map_padding(mlx->map.mtx);
+	if (mlx->map.mtx == NULL)
 		return (1);
 	get_map_stats((const char **)mlx->map.mtx, MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
-	mlx->frames = 21;	// do not insert a multiple of 10
+	mlx->map.mini_side = mlx->map.stats[2] / 4;
+	mlx->frames = 1;	// do not insert a multiple of 10
 	return (0);	
 }
 
@@ -78,11 +79,11 @@ int main(int argc, char *argv[])
 	mlx_hook(mlx.win, KeyRelease, KeyReleaseMask, &handle_key_release, &mlx);
 
 	// mouse hook
-	mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
+	// mlx_mouse_hook(mlx.win, &handle_mouse, &mlx);
 
 	// on window hooks
-	mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
-	mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
+	// mlx_hook(mlx.win, EnterNotify, (1L << 4), &enter_notify_handler, &mlx);
+	// mlx_hook(mlx.win, LeaveNotify, (1L << 5), &leave_notify_handler, &mlx);
 
 	// red cross
 	mlx_hook(mlx.win, DestroyNotify, StructureNotifyMask, &clean_exit, &mlx);

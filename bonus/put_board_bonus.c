@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:35 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:30:44 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	img_init(void *mlx_ptr, t_img *img, int size_x, int size_y)
 		return (0);
 	img->width = size_x;
 	img->heigth = size_y;
+	img->bpp = img->bits_per_pixel >> 3;
 	return (1);
 }
 

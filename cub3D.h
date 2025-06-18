@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 03:10:06 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 17:02:43 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ typedef struct s_img
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
+	int		bpp;
 	int		line_length;
 	int		endian;
 	int		width;
@@ -314,6 +315,8 @@ int				get_player_stats(char **map, float *pos, float *dir);
 int				check_texture(t_mlx *mlx, char	*line, char *wall);
 int				walls_ceiling(char *line, int fd, t_mlx *mlx);
 int				parsing_map(char	**map, int	line, int	count);
+
+char			**map_padding(char **old_map);
 
 /* ============ UTILS ============= */
 

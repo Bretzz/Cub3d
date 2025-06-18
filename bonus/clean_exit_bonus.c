@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 03:06:43 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 12:40:36 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	clean_exit(t_mlx *mlx)
 			mlx_destroy_image(mlx->mlx, mlx->img[1].img);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);
-		// mlx_destroy_display(mlx->mlx);
+		mlx_destroy_display(mlx->mlx);
 		free(mlx->mlx);
 	}
 	if (mlx->map.mtx != NULL)

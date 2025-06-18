@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:29:54 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 22:25:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:16:44 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	handle_mouse(int keysym, int x, int y, t_mlx *mlx)
 		{
 			ft_printf("PIU-PIU!!!\n");
 			mlx->player.dir[2]++;
-			cast_ray(mlx, mlx->player.pos[0], mlx->player.pos[1], mlx->player.dir[0]);
+			cast_ray(mlx,
+				mlx->player.pos[0],
+				mlx->player.pos[1],
+				mlx->player.dir[0]);
 			mlx->player.dir[2]--;
 		}
 		buffer_player_action(mlx->fake_lobby[*mlx->index], "fire", buffer);

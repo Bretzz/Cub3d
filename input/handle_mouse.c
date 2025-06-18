@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_mouse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:29:54 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 02:12:10 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:16:14 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	handle_mouse(int keysym, int x, int y, t_mlx *mlx)
 				mlx->player.dir[0]);
 		mlx->player.dir[2]--;
 		if (DEBUG)
-			ft_printf("HIT [%f,%f] len %f\n", mlx->ray.hit[0], mlx->ray.hit[1], ray);
+			ft_printf("HIT [%f,%f] len %f\n",
+				mlx->ray.hit[0], mlx->ray.hit[1], ray);
 	}
 	else if (DEBUG)
 		ft_printf("Mouse thing N. %d\n", keysym);
