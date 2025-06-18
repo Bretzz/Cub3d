@@ -6,16 +6,16 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:19:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:36:01 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include <stdlib.h>
 
-int clean_exit(t_mlx *mlx);
+int clean_exit(t_mlx *mlx, int exit_code);
 
-int	clean_exit(t_mlx *mlx)
+int	clean_exit(t_mlx *mlx, int exit_code)
 {
 	if (mlx->win)
 	{
@@ -55,6 +55,6 @@ int	clean_exit(t_mlx *mlx)
 	//aggiungi altri muri e pavimento e soffitto
 	
 	//finally exit
-	exit(EXIT_SUCCESS);
+	exit(exit_code);
 	return (0);
 }

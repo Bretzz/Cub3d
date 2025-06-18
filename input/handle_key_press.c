@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_key_press.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 03:09:32 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 17:37:36 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	handle_key_press(int keysym, void *arg)
 	t_mlx *const	mlx = (t_mlx *)arg;
 
 	if (keysym == XK_Escape || keysym == ESC_KEY)
-		clean_exit(mlx);
+		clean_exit(mlx, EXIT_SUCCESS);
 	else if (keysym == XK_0)
 		ft_printf("pos[%d, %d, %d]\n",
 			*(int *)&mlx->player.pos[0],

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:01:58 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:36:10 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int main(int argc, char *argv[])
 
 	ft_memset(&mlx, 0, sizeof(t_mlx));
 	if (!parsing(argv[1], &mlx, argc/* , mlx */))
-		return (clean_exit(&mlx), 1);
+		return (clean_exit(&mlx, EXIT_FAILURE), 1);
 	if (data_init(&mlx))
-		clean_exit(&mlx);
+		clean_exit(&mlx, EXIT_FAILURE);
 
 	// key hooks
 	mlx_hook(mlx.win, KeyPress, KeyPressMask, &handle_key_press, &mlx);

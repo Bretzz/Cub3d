@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 17:14:40 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:37:32 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	death_by_hand(t_mlx *mlx, int killer)
 			"host", buffer);
 		send_all(mlx, buffer, ft_strlen(buffer));
 	}
-	clean_exit(mlx);
+	clean_exit(mlx, EXIT_SUCCESS);
 }
 
 /* LOBBY MUTEX */

@@ -6,14 +6,14 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 12:40:36 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:36:33 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 #include <stdlib.h>
 
-int	clean_exit(t_mlx *mlx);
+int	clean_exit(t_mlx *mlx, int exit_code);
 
 /* LOBBY MUTEX */
 static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
@@ -50,12 +50,12 @@ int	resign_exit(t_mlx *mlx)
 			send_all(mlx, buffer, ft_strlen(buffer));
 		}
 	}
-	clean_exit(mlx);
+	clean_exit(mlx, EXIT_SUCCESS);
 	return (0);
 }
 
 /* Bonus exit procedure */
-int	clean_exit(t_mlx *mlx)
+int	clean_exit(t_mlx *mlx, int exit_code)
 {
 	char	buffer[MSG_LEN + 9];
 
@@ -80,6 +80,6 @@ int	clean_exit(t_mlx *mlx)
 	free(mlx->map.so_wall);
 	free(mlx->map.we_wall);
 	free(mlx->map.ea_wall);
-	exit(EXIT_SUCCESS);
+	exit(exit_code);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:16:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:37:40 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	update_frame(void *arg)
 	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
 	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
 	if (!put_board(mlx))
-		clean_exit(mlx);
+		clean_exit(mlx, EXIT_FAILURE);
 	frame++;
 	if (frame % 10 == 0)
 		mlx->fps = get_fps(frame);

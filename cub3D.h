@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:19:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:35:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ int				handle_mouse(int keysym, int x, int y, t_mlx *mlx);
 int				leave_notify_handler(t_mlx *mlx);
 int				enter_notify_handler(t_mlx *mlx);
 
-int 			clean_exit(t_mlx *mlx);
+int 			clean_exit(t_mlx *mlx, int exit_code);
 
 /* ========== GRAPHICS ========== */
 

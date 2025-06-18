@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:17:14 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:37:23 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	cub3d_bonus(t_multi_data *data)
 		|| !parsing(data->path, &mlx, 2)
 		|| !data_init(&mlx, data)
 		|| !sprite_data_init(&mlx))
-		clean_exit(&mlx);
+		clean_exit(&mlx, EXIT_FAILURE);
 	if (DEBUG)
 		ft_printf(RED"MLX ADDR: %p, index %d, socket %d%s\n",
 			&mlx, *mlx.index, *mlx.socket, RESET);
