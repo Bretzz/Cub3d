@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 21:09:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:25:08 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ int	is_file_type(const char *file, const char *type)
 //1 = OK, 0 = KO
 int	parsing_map(char	**map, int	line, int	count)
 {
-	char	**start;
+	// char	**start;
 
-	start = map;
+	// start = map;
 	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
 		line++;
 	if (map[line] != NULL)

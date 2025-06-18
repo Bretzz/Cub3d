@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:00:27 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:00:22 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	put_board(t_mlx *mlx)
 		return (0);
 	mlx->img->width = MLX_WIN_X;
 	mlx->img->heigth = MLX_WIN_Y;
-	cast_field(mlx, &put_whole_column, NULL);
+	// cast_field(mlx, &put_whole_column, NULL);
+	put2d_map(mlx, mlx->map.stats[2], 0x0f4cfa);
+	put2d_player(mlx, mlx->player.pos, mlx->map.stats[2], 0x0000FF);
+	cast_field(mlx, NULL, &put2d_ray);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img->img);
 	ft_memset(&mlx->img, 0, sizeof(t_img));

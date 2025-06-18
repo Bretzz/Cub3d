@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 22:29:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 03:10:06 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
 # include <limits.h>
 
 # ifdef __APPLE__
+#  define __LINUX__ 0
 #  define UP 126
 #  define DOWN 125
 #  define LEFT 123
@@ -79,7 +80,7 @@
 #  define MINUS 27
 #  define ESC_KEY 53
 # else
-#  define __LINUX__
+#  define __LINUX__ 1
 #  define UP 65362
 #  define DOWN 65364
 #  define LEFT 65361

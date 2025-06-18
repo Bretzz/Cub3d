@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 17:00:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 22:49:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 03:04:02 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ float	normalize_dir(float dir);
 
 void	ray_init(t_ray *ray, float x, float y);
 void	vars_init(t_ray *ray, t_cast_vars *cast, float dir);
-int		out_of_bound(t_mlx *mlx, float *ray);
+int		out_of_bound(t_mlx *mlx, t_cast_vars *cast, float x, float y);
 int		get_next_border(int axis, float start, int i);
 
 // Normalize the direction to stay within the range [-180, 180]
@@ -80,12 +80,15 @@ int	get_next_border(int axis, float start, int i)
 }
 
 /* checks if the ray is out ouf bounds :D */
-int	out_of_bound(t_mlx *mlx, float *ray)
+int	out_of_bound(t_mlx *mlx, t_cast_vars *cast, float x, float y)
 {
-	if (ray[1] <= 0
-		|| (int)ray[1] >= mlx->map.stats[1]
-		|| ray[0] <= 0
-		|| (int)ray[0] >= (int)ft_strlen(mlx->map.mtx[(int)ray[1]]))
+	const int	curr_x = (int)x + cast->axis[0] * cast->iter[0];
+	const int	curr_y = (int)y + cast->axis[1] * cast->iter[1];
+
+	if (curr_y <= 0
+		|| curr_y >= mlx->map.stats[1]
+		|| curr_x <= 0
+		|| curr_x >= (int)ft_strlen(mlx->map.mtx[curr_y]))	// add padding
 		return (1);
 	return (0);
 }

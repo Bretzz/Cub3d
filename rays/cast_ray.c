@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 23:13:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 03:11:04 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,70 +14,50 @@
 #include "cast.h"
 #include <stdio.h>
 
-/* returns 1 if a collision is found, 0 if it hasn't */
-static int	collision_x_check(t_mlx *mlx, int axis)
+// welp...
+static char	get_smart_face(char x_or_y, int axis)
 {
-	if ((int)mlx->ray.hit[1] >= mlx->map.stats[1])
-		return (0);
-	if (axis < 0 && (int)mlx->ray.hit[0] > 0
-		&& mlx->map.mtx[(int)mlx->ray.hit[1]][(int)mlx->ray.hit[0] - 1] == '1')
+	if (x_or_y == 1)
 	{
-		mlx->ray.face = 'E';
-		return (1);
+		if (axis > 0)
+			return ('N');
+		else
+			return ('S');
 	}
-	if (axis > 0 && (int)mlx->ray.hit[0]
-		< (int)ft_strlen(mlx->map.mtx[(int)mlx->ray.hit[1]])
-		&& mlx->map.mtx[(int)mlx->ray.hit[1]][((int)mlx->ray.hit[0])] == '1')
+	else if (x_or_y == 0)
 	{
-		mlx->ray.face = 'W';
-		return (1);
+		if (axis > 0)
+			return ('W');
+		else
+			return ('E');
 	}
-	return (0);
+	return ('V');
 }
 
-/* ! ! ! CHECK COLLISION ON CORNERS ! ! !
-(likely the culprit of the seetrugh corner) */
-/* returns 1 if a collision is found, 0 if it hasn't */
-static int	collision_y_check(t_mlx *mlx, int axis)
+void	get_x_collision(t_mlx *mlx, t_cast_vars *cast, float x, float y)
 {
-	if (axis < 0 && ((int)mlx->ray.hit[1]) > 0
-		&& mlx->map.mtx[((int)mlx->ray.hit[1]) - 1]
-		[(int)mlx->ray.hit[0]] == '1')
-	{
-		mlx->ray.face = 'S';
-		return (1);
-	}
-	if (axis > 0 && (int)mlx->ray.hit[1] < mlx->map.stats[1]
-		&& (mlx->map.mtx[(int)mlx->ray.hit[1]][((int)mlx->ray.hit[0])] == '1'
-		|| ((int)mlx->ray.hit[1] > 0
-			&& mlx->map.mtx[(int)mlx->ray.hit[1] - 1]
-			[((int)mlx->ray.hit[0])] == '1')))
-	{
-		mlx->ray.face = 'N';
-		return (1);
-	}
-	return (0);
-}
-
-static int	move_trough_y(t_mlx *mlx, t_cast_vars *cast, float x, float y)
-{
-	cast->ray[0] = x + (cast->incr[1] + cast->iter[1])
-		/ fabsf(sinf(cast->angle)) * fabsf(cosf(cast->angle)) * cast->axis[0];
-	cast->ray[1] = get_next_border(cast->axis[1], y, cast->iter[1]);
-	if (collision_y_check(mlx, cast->axis[1]) != 0)
-		return (1);
-	cast->iter[1]++;
-	return (0);
-}
-
-static int	move_trough_x(t_mlx *mlx, t_cast_vars *cast, float x, float y)
-{
-	cast->ray[0] = get_next_border(cast->axis[0], x, cast->iter[0]);
-	cast->ray[1] = y + (cast->incr[0] + cast->iter[0])
+	mlx->ray.hit[0] = x + (cast->iter[0] - 1 + cast->incr[0]) * cast->axis[0];
+	mlx->ray.hit[1] = y + (cast->incr[0] + cast->iter[0] - 1)
 		/ fabsf(cosf(cast->angle)) * fabsf(sinf(cast->angle)) * cast->axis[1];
-	if (collision_x_check(mlx, cast->axis[0]) != 0)
+}
+
+void	get_y_collision(t_mlx *mlx, t_cast_vars *cast, float x, float y)
+{
+	mlx->ray.hit[1] = y + (cast->iter[1] - 1 + cast->incr[1]) * cast->axis[1];
+	mlx->ray.hit[0] = x + (cast->incr[1] + cast->iter[1] - 1)
+		/ fabsf(sinf(cast->angle)) * fabsf(cosf(cast->angle)) * cast->axis[0];
+}
+
+// needs to be called every cycle
+static int	collision_check(t_mlx *mlx, t_cast_vars *cast, float x, float y)
+{
+	int			curr_x;
+	int			curr_y;
+
+	curr_x = (int)x + cast->axis[0] * cast->iter[0];
+	curr_y = (int)y + cast->axis[1] * cast->iter[1];
+	if (mlx->map.mtx[curr_y][curr_x] == '1') 
 		return (1);
-	cast->iter[0]++;
 	return (0);
 }
 
@@ -95,33 +75,36 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 
 	ray_init(&mlx->ray, x, y);
 	vars_init(&mlx->ray, &cast, dir);
-	if (out_of_bound(mlx, cast.ray))
-		return (mlx->ray.len);
-	while (mlx->map.mtx[(int)cast.ray[1]][(int)cast.ray[0]] != '1')
+	while (!out_of_bound(mlx, &cast, x, y))
 	{
 		if ((cast.incr[0] + cast.iter[0]) / fabsf(cosf(cast.angle))
 			< (cast.incr[1] + cast.iter[1]) / fabsf(sinf(cast.angle)))
 		{
-			if (move_trough_x(mlx, &cast, x, y) != 0)
-				break ;
+			cast.iter[0]++;
+			cast.curr = 0;
 		}
-		else if ((cast.incr[0] + cast.iter[0]) / fabsf(cosf(cast.angle))
-			> (cast.incr[1] + cast.iter[1]) / fabsf(sinf(cast.angle)))
-		{
-			if (move_trough_y(mlx, &cast, x, y) != 0)
-				break ;
-		}
+		// else if ((cast.incr[0] + cast.iter[0]) / fabsf(cosf(cast.angle))
+		// 	> (cast.incr[1] + cast.iter[1]) / fabsf(sinf(cast.angle)))
+		// {
+		// 	cast.iter[1]++;
+		// 	cast.curr = 1;
+		// }
 		else
 		{
-			// we are going in a diagonal here, do a better check
-			// for the wall hit
-			if (move_trough_y(mlx, &cast, x, y) != 0)
-				break ;
+			cast.iter[1]++;
+			cast.curr = 1;
 		}
-		if (out_of_bound(mlx, cast.ray))
-			return (mlx->ray.len);
+		if (collision_check(mlx, &cast, x, y))
+		{
+			mlx->ray.face = get_smart_face(cast.curr, cast.axis[cast.curr]);
+			break ;
+		}
 	}
-	mlx->ray.len = sqrt(((cast.ray[0] - x) * (cast.ray[0] - x))
-			+ ((cast.ray[1] - y) * (cast.ray[1] - y)));
+	if (cast.curr == 0)
+		get_x_collision(mlx, &cast, x, y);
+	else
+		get_y_collision(mlx, &cast, x, y);
+	mlx->ray.len = sqrt(((mlx->ray.hit[0] - x) * (mlx->ray.hit[0] - x))
+			+ ((mlx->ray.hit[1] - y) * (mlx->ray.hit[1] - y)));
 	return (mlx->ray.len);
 }
