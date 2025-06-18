@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 15:31:22 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:16:22 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	update_frame(void *arg)
 	t_mlx *const		mlx = (t_mlx *)arg;
 	static unsigned int	frame;
 
-	if (frame++ % mlx->frames == 0)
-	{
-		move_player(mlx);
-		move_mouse(mlx);
-		mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
-		mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
-		if (!put_board(mlx))
-			clean_exit(mlx);
-	}
+	move_player(mlx);
+	move_mouse(mlx);
+	mlx->player.dir[0] = normalize_dir(mlx->player.dir[0]);
+	mlx->player.dir[1] = normalize_dir(mlx->player.dir[1]);
+	if (!put_board(mlx))
+		clean_exit(mlx);
+	frame++;
+	if (frame % 10 == 0)
+		mlx->fps = get_fps(frame);
 	return (0);
 }

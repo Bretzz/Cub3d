@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 21:15:55 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:17:14 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	cub3d_bonus(t_multi_data *data)
 {
 	t_mlx	mlx;
 
-	ft_printf("got path %s\n", data->path);
 	ft_memset(&mlx, 0, sizeof(t_mlx));
 	if (!base_data_init(&mlx, data)
 		|| !ack_map_init(data)
@@ -99,7 +98,7 @@ int	online_setup(t_multi_data *data, int argc, char *argv[])
 // dummy player
 // t_player *lobby = lbb_get_ptr(NULL);
 // ft_strlcpy(lobby[2].name, "dummy", 10);
-// ft_strlcpy(lobby[2].name, "0.0.0.0", 10);
+// ft_strlcpy(lobby[2].ip, "0.0.0.0", 10);
 // lobby[2].pos[0] = 1091968148;
 // lobby[2].pos[1] = 1094417599;
 // lobby[2].pos[2] = 1065353216;

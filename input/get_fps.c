@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:03:01 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 13:05:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:37:30 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 #include <sys/time.h>
 
 int	get_fps(int frame);
+
+// #include <stdio.h>
+// #include <time.h>
+
+// int get_fps(int frame) {
+//     static int frame_count = 0;
+//     static double last_time = 0.0;
+
+//     frame_count++;
+// 	(void)frame;
+//     double current_time = (double)clock() / CLOCKS_PER_SEC;
+//     // Print FPS every second
+//     if (current_time - last_time >= 1.0) {
+//         ft_printf("FPS: %d\n", frame_count);
+//         frame_count = 0;
+//         last_time = current_time;
+//     }
+// 	return (0);
+// }
 
 int	get_fps(int frame)
 {

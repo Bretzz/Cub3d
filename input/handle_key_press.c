@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_key_press.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 12:29:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 03:09:32 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_key_press(int keysym, void *arg)
 			*(int *)&mlx->player.pos[0],
 			*(int *)&mlx->player.pos[1],
 			*(int *)&mlx->player.pos[2]);
-	else if (keysym == XK_1 || keysym == 18)
+	else if ((__LINUX__ && keysym == XK_1) || keysym == 18)
 		print_lobby(mlx->fake_lobby);
 	else if (handle_movement_keys(keysym, mlx))
 		;

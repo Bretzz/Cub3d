@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:01:59 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:20:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 
@@ -133,9 +133,9 @@ int	is_file_type(const char *file, const char *type)
 //1 = OK, 0 = KO
 int	parsing_map(char	**map, int	line, int	count)
 {
-	char	**start;
+	// char	**start;
 
-	start = map;
+	// start = map;
 	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
 		line++;
 	if (map[line] != NULL)

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:37:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:16:08 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	put2d_minimap(t_mlx *mlx, size_t side);
 static int	put_left_right_mini_border(t_mlx *mlx, int side)
 {
 	const float	incr = ((float)mlx->map.stats[1] / 2) / side;
+	const float	half_side = side / 2;
 	float		point;
 	int			pixel[4];
 
 	pixel[0] = 0;
-	pixel[2] = (mlx->map.stats[0] * side);
+	pixel[2] = (mlx->map.stats[0] * side) - half_side;
 	point = 0;
 	while (point < mlx->map.stats[1] * side)
 	{
 		pixel[1] = point + incr - 1;
 		pixel[3] = point + incr - 1;
-		put_square(&mlx->img[1], side / 2, pixel, 0x000000);
-		put_square(&mlx->img[1], side / 2, &pixel[2], 0x000000);
+		put_square(&mlx->img[1], half_side, pixel, 0x000000);
+		put_square(&mlx->img[1], half_side, &pixel[2], 0x000000);
 		point += incr;
 	}
 	return (0);
@@ -37,18 +38,19 @@ static int	put_left_right_mini_border(t_mlx *mlx, int side)
 static int	put_top_bottom_mini_border(t_mlx *mlx, int side)
 {
 	const float	incr = ((float)mlx->map.stats[0] / 2) / side;
+	const float	half_side = side / 2;
 	float		point;
 	int			pixel[4];
 
 	pixel[1] = 0;
-	pixel[3] = (mlx->map.stats[1] * side);
+	pixel[3] = (mlx->map.stats[1] * side) - half_side;
 	point = 0;
 	while (point < mlx->map.stats[0] * side)
 	{
 		pixel[0] = point + incr - 1;
 		pixel[2] = point + incr - 1;
-		put_square(&mlx->img[1], side / 2, pixel, 0x000000);
-		put_square(&mlx->img[1], side / 2, &pixel[2], 0x000000);
+		put_square(&mlx->img[1], half_side, pixel, 0x000000);
+		put_square(&mlx->img[1], half_side, &pixel[2], 0x000000);
 		point += incr;
 	}
 	return (0);
