@@ -1,18 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:20:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:47:58 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 
-int	parsing(const char *path, t_mlx *mlx, int	argc);
+//int	parsing(const char *path, t_mlx *mlx, int	argc);
 
 // cool stuff
 
@@ -117,19 +117,6 @@ int	is_file_type(const char *file, const char *type)
 	return (1);
 }
 
-/* int	one_player(char	**map, char	*player)
-{
-	int	line;
-	int	count;
-
-	line = 0;
-	count = 0;
-	while (map[line] != NULL)
-	{
-		
-	}
-} */
-
 //1 = OK, 0 = KO
 int	parsing_map(char	**map, int	line, int	count)
 {
@@ -167,7 +154,8 @@ int	parsing_map(char	**map, int	line, int	count)
 	}
 
 	//controllo ripetizione giocatore
-	
+	if (just_one_player(map) != 1)
+		return (error_msg(ERR_SPAWN), 0);
 	
 	return (1);
 }
@@ -310,43 +298,30 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 }
 
 /* 1 = ok, 0 error */
-int	parsing(const char *path, t_mlx *mlx, int	argc)
+int	parsing(const char *path, t_mlx *mlx)
 {
 	const int	fd = open(path, O_RDONLY);
 	char	**map;
 	char	*line;
 
-	if (argc != 2)
-	{
-		error_msg(ERR_ARGS);
-		exit(1);
-	}
 	mlx->map.sky = UINT_MAX;
 	mlx->map.floor = UINT_MAX;
 	if (!is_file_type(path, ".cub"))//wrong file format
 		clean_exit(mlx);
 	if (fd < 0)//file not found
 		return (error_msg(ERR_OPEN), clean_exit(mlx), 0);//serve close(fd)?
-	//check informazioni su muri, pavimento e soffitto
 	line = get_next_line(fd);
-
 	if (walls_ceiling(line, fd, mlx) != 1)
 		return (close(fd), 0);
-		
-	//se manca pavimento o soffitto, errore
 	if (mlx->map.sky == UINT_MAX || mlx->map.floor == UINT_MAX)
 		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), 0);
-
-	//se manca un muro, errore
 	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
 			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
 		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 0);
-
 	map = get_map(mlx->map.tmp_line, fd);
 	if (map == NULL)
 		return (close(fd), 0);
-	
-	print_map(map);
+	print_map(map);//togliere prima di consegna
 	close(fd);
 	mlx->map.mtx = map;
 	return (1);

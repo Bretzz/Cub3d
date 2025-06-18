@@ -1,14 +1,15 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:19:54 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:44:43 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
+
 
 
 #ifndef CUB3D_H
@@ -46,6 +47,7 @@
 # define ERR_CHAR_MAP "	invalid character in map"
 # define ERR_NEWLINE_MAP "	empty line in map"
 # define ERR_OPEN_MAP "	open map"
+# define ERR_SPAWN "	map needs exactly ONE of the following chars: N S W E"
 # define ERR_CHAR_FILE "	invalid character in scene description file"
 # define MALLOC "	malloc failure"
 # define ERR_ENVP " missing env variable(s)"
@@ -308,7 +310,7 @@ void			put_fps(t_mlx *mlx);
 
 /* =========== PARSING =========== */
 
-int				parsing(const char *path, t_mlx *mlx, int	argc);
+int				parsing(const char *path, t_mlx *mlx);
 int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
@@ -318,12 +320,17 @@ int				parsing_map(char	**map, int	line, int	count);
 
 char			**map_padding(char **old_map);
 
+int 			just_one_player(char **map);
+/* static int  	mapset_count(char **mtx, const char *set);
+static int  	strset_count(const char *str, const char *set); */
+
 /* ============ UTILS ============= */
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
 int				skip_spaces(char	*line, int	count);
 int				check_rgb(char	*rgb_value);
+
 
 
 /* ============ DEBUG ============= */
