@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 16:50:11 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:09:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:25:56 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**map_padding(char **old_map)
 	char				**new_map;
 	unsigned int		i;
 
-	new_map = (char **)ft_calloc(len, sizeof(char *));
+	new_map = (char **)ft_calloc(len + 1, sizeof(char *));
 	if (new_map == NULL)
 		return (free_mtx((void **)old_map), NULL);
 	i = 0;
@@ -78,5 +78,6 @@ char	**map_padding(char **old_map)
 		}
 		i++;
 	}
+	free_mtx((void **)old_map);
 	return (new_map);
 }
