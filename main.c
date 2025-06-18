@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:36:10 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:36:47 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 
@@ -69,7 +69,9 @@ int main(int argc, char *argv[])
 	t_mlx	mlx;
 
 	ft_memset(&mlx, 0, sizeof(t_mlx));
-	if (!parsing(argv[1], &mlx, argc/* , mlx */))
+	if (argc != 2)
+		return (error_msg(ERR_ARGS), 1);//this check needs to precede open path in parsing, in case argc == 1
+	if (parsing(argv[1], &mlx/* , mlx */))
 		return (clean_exit(&mlx, EXIT_FAILURE), 1);
 	if (data_init(&mlx))
 		clean_exit(&mlx, EXIT_FAILURE);

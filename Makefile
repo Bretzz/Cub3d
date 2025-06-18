@@ -71,6 +71,7 @@ SRC_FILES		= main.c \
 				get_player_stats.c \
 				get_map_stats.c \
 				map_padding.c \
+				just_one_player.c \
 				\
 				update_frame.c get_fps.c \
 				move_player.c move_player_dom.c \

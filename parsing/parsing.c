@@ -1,18 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:20:08 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 19:55:25 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 
-int	parsing(const char *path, t_mlx *mlx, int	argc);
+//int	parsing(const char *path, t_mlx *mlx, int	argc);
 
 // cool stuff
 
@@ -32,10 +32,10 @@ int	ft_mapchr(char *str, const char *map)
 			return (str[i]);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 /* check if characters in a cross formation around map[line][count] are in allowed
-if not, return 0 and error*/
+0 = ok, 1 = error */
 int	check_cross(char	**map, int	line, int	count, char	*allowed)
 {
 	int	i;
@@ -43,27 +43,27 @@ int	check_cross(char	**map, int	line, int	count, char	*allowed)
 	i = 0;
 	if (line == 0 || map[line + 1] == NULL
 			|| count == 0 || (count + 1) >= (int)ft_strlen(map[line]))
-		return (error_msg(ERR_OPEN_MAP), 0);
+		return (error_msg(ERR_OPEN_MAP), 1);
 	while (allowed[i] != '\0' && map[line -1][count] != allowed[i])
 		i++;
 	if (allowed[i] == '\0')
-		return (error_msg(ERR_OPEN_MAP), 0);
+		return (error_msg(ERR_OPEN_MAP), 1);
 	i = 0;
 	while (allowed[i] != '\0' && map[line +1][count] != allowed[i])
 		i++;
 	if (allowed[i] == '\0')
-		return (error_msg(ERR_OPEN_MAP), 0);
+		return (error_msg(ERR_OPEN_MAP), 1);
 	i = 0;
 	while (allowed[i] != '\0' && map[line][count -1] != allowed[i])
 		i++;
 	if (allowed[i] == '\0')
-		return (error_msg(ERR_OPEN_MAP), 0);
+		return (error_msg(ERR_OPEN_MAP), 1);
 	i = 0;
 	while (allowed[i] != '\0' && map[line][count +1] != allowed[i])
 		i++;
 	if (allowed[i] == '\0')
-		return (error_msg(ERR_OPEN_MAP), 0);
-	return (1);
+		return (error_msg(ERR_OPEN_MAP), 1);
+	return (0);
 }
 
 static char	**get_map(char		*line, int		fd)
@@ -97,7 +97,7 @@ static char	**get_map(char		*line, int		fd)
 }
 
 /* check if the file type is the one passed,
-1 ok, 0 ko. */
+0 ok, 1 ko. */
 int	is_file_type(const char *file, const char *type)
 {
 	int	i;
@@ -107,36 +107,23 @@ int	is_file_type(const char *file, const char *type)
 	{
 		i--;
 		if (i == 0)
-			return (error_msg(ERR_FORMAT), 0);
+			return (error_msg(ERR_FORMAT), 1);
 	}
 	if (ft_strncmp(&file[i], type, (ft_strlen(type) + 1)) != 0)
 	{
 		error_msg(ERR_FORMAT);
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
-/* int	one_player(char	**map, char	*player)
-{
-	int	line;
-	int	count;
-
-	line = 0;
-	count = 0;
-	while (map[line] != NULL)
-	{
-		
-	}
-} */
-
-//1 = OK, 0 = KO
+//0 = OK, 1 = error
 int	parsing_map(char	**map, int	line, int	count)
 {
 	// char	**start;
 
 	// start = map;
-	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
+	while (map[line] && ft_mapchr(map[line], MAP_ALLOWED))
 		line++;
 	if (map[line] != NULL)
 	{
@@ -144,7 +131,7 @@ int	parsing_map(char	**map, int	line, int	count)
 		ft_printfd(2, "Error\n	invalid char '%c' in map\n",
 			ft_mapchr(map[line], MAP_ALLOWED));
 		write(2, RESET, ft_strlen(RESET));
-		return (0);
+		return (1);
 	}
 	
 	//controllo muri esterni e buchi interni
@@ -161,18 +148,19 @@ int	parsing_map(char	**map, int	line, int	count)
 		while (map[line][count] == '1' || map[line][count] == ' ')
 			count++;
 		if (map[line][count] != '\0' && !check_cross(map, line, count, "01NSEW\0"))
-			return (0);
+			return (1);
 		if (map[line][count] != '\0')	
 			count++;
 	}
 
 	//controllo ripetizione giocatore
+	if (just_one_player(map) != 0)
+		return (error_msg(ERR_SPAWN), 1);
 	
-	
-	return (1);
+	return (0);
 }
 
-/*1 = OK, 0 = error */
+/*0 = OK, 1 = error */
 int	check_single_wall(char	*line, char **wall)
 {
 	int	count;
@@ -181,20 +169,20 @@ int	check_single_wall(char	*line, char **wall)
 	i = 0;
 	count = skip_spaces(line, 2);
 	if (*wall)
-		return (error_msg(ERR_WALL_REPEAT), 0);
+		return (error_msg(ERR_WALL_REPEAT), 1);
 	else
 	{
 		*wall = ft_strdup(&line[count]);
 		while ((*wall)[i] && (*wall)[i] != '\n')
 			i++;
 		(*wall)[i] = '\0';
-		if (!is_file_type(*wall, ".xpm"))
-			return (0);
+		if (is_file_type(*wall, ".xpm"))
+			return (1);
 	}
-	return (1);	
+	return (0);	
 }
 
-/*1 = OK, 0 = error */
+/*0 = OK, 1 = error */
 int	check_single_floor(char	*line, unsigned int	*floor_ceiling)
 {
 	int		r;
@@ -203,71 +191,72 @@ int	check_single_floor(char	*line, unsigned int	*floor_ceiling)
 	char	**rgb;
 
 	if (*floor_ceiling != UINT_MAX)
-		return (error_msg(ERR_FC_REPEAT), 0);
+		return (error_msg(ERR_FC_REPEAT), 1);
 	else
 	{
 		rgb = ft_split(&line[1], ',');
 		//printf("0 = %s\n 1 = %s\n 2 = %s\n\n ", rgb[0], rgb[1], rgb[2]);
-		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3]
+		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3]//che succede se F 255,0,0, ,1,,
 			|| !check_rgb(rgb[0]) || !check_rgb(rgb[1]) || !check_rgb(rgb[2]))
-			return (free_mtx((void **)rgb), error_msg(ERR_FC_FORMAT), 0);		
+			return (free_mtx((void **)rgb), error_msg(ERR_FC_FORMAT), 1);		
 		r = ft_atoi(rgb[0]);
 		g = ft_atoi(rgb[1]);
 		b = ft_atoi(rgb[2]);
 		//printf("r = %i\n g = %i\n b = %i\n ", r, g, b);
 		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-			return (free_mtx((void **)rgb), error_msg(ERR_FC_BOUNDS), 0);
+			return (free_mtx((void **)rgb), error_msg(ERR_FC_BOUNDS), 1);
 		*floor_ceiling = (r << 16) | (g << 8) | b;
 		/* printf("valore: %u\n", *floor_ceiling);
 		printf("valore esadecimale: 0x%06X\n", *floor_ceiling); */
 		free_mtx((void **)rgb);
-		return (1);
+		return (0);//forse togliere
 	}
-	return (1);
+	return (0);
 }
 
+/* 0 = ok, 1 = error */
 int	check_walls(char *line, char	*start, t_mlx *mlx)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
-		if(!check_single_wall(line, &mlx->map.no_wall))
-			return (free(start), clean_exit(mlx), 0);
+		if(check_single_wall(line, &mlx->map.no_wall))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}			
 	else if (ft_strncmp(line, "SO ", 3) == 0)
 	{
-		if(!check_single_wall(line, &mlx->map.so_wall))
-			return (free(start), clean_exit(mlx), 0);
+		if(check_single_wall(line, &mlx->map.so_wall))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}
 	else if (ft_strncmp(line, "WE ", 3) == 0)
 	{
-		if(!check_single_wall(line, &mlx->map.we_wall))
-			return (free(start), clean_exit(mlx), 0);
+		if(check_single_wall(line, &mlx->map.we_wall))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 	{
-		if(!check_single_wall(line, &mlx->map.ea_wall))
-			return (free(start), clean_exit(mlx), 0);
+		if(check_single_wall(line, &mlx->map.ea_wall))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}
-	return (1);
+	return (0);
 }
-
+/* 0 = ok, 1 = error */
 int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
 {
 	if (ft_strncmp(line, "F ", 2) == 0)//pavimento
 	{
-		if (!check_single_floor(line, &mlx->map.floor))
-			return (free(start), clean_exit(mlx), 0);
+		if (check_single_floor(line, &mlx->map.floor))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
 	{
-		if (!check_single_floor(line, &mlx->map.sky))
-			return (free(start), clean_exit(mlx), 0);
+		if (check_single_floor(line, &mlx->map.sky))
+			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
 	}
-	return (1);
+	return (0);
 }
 
 /* check texture walls and color ceiling and floor
-1 = OK, 0 = error */
+0 = OK, 1 = error */
 int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 {
 	char	*start;
@@ -276,7 +265,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 	{		
 		start = line;
 		if (line == NULL || *line == '\0')//empty file or missing map
-			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 0);
+			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 1);
 		while (line && *line == '\n') //forse mettere ft_isspace
 		{
 			free(line);
@@ -290,64 +279,51 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 		if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
 			|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
 		{
-			if (!check_walls(line, start, mlx))
-				return (0);
+			if (check_walls(line, start, mlx))
+				return (1);
 		}
 		else if ((ft_strncmp(line, "F ", 2) == 0)
 			|| (ft_strncmp(line, "C ", 2) == 0))
 		{
-			if (!check_floor_ceiling(line, start, mlx))
+			if (check_floor_ceiling(line, start, mlx))
 				return (0);
 		}			
 		else if (*line == '1')
-			return (mlx->map.tmp_line = start, 1);
+			return (mlx->map.tmp_line = start, 0);
 		else
-			return(error_msg(ERR_CHAR_FILE), free(start), 0);//carattere non valido in file .cub
+			return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub
 		free(start);
 		line = get_next_line(fd);
 	}
-	return (1);
+	return (0);
 }
 
-/* 1 = ok, 0 error */
-int	parsing(const char *path, t_mlx *mlx, int	argc)
+/* 0 = ok, 1 error */
+int	parsing(const char *path, t_mlx *mlx)
 {
 	const int	fd = open(path, O_RDONLY);
 	char	**map;
 	char	*line;
 
-	if (argc != 2)
-	{
-		error_msg(ERR_ARGS);
-		exit(1);
-	}
 	mlx->map.sky = UINT_MAX;
 	mlx->map.floor = UINT_MAX;
-	if (!is_file_type(path, ".cub"))//wrong file format
-		clean_exit(mlx);
+	if (is_file_type(path, ".cub"))//wrong file format
+		clean_exit(mlx, EXIT_FAILURE);
 	if (fd < 0)//file not found
-		return (error_msg(ERR_OPEN), clean_exit(mlx), 0);//serve close(fd)?
-	//check informazioni su muri, pavimento e soffitto
+		return (error_msg(ERR_OPEN), clean_exit(mlx, EXIT_FAILURE), 1);//serve close(fd)?
 	line = get_next_line(fd);
-
-	if (walls_ceiling(line, fd, mlx) != 1)
-		return (close(fd), 0);
-		
-	//se manca pavimento o soffitto, errore
+	if (walls_ceiling(line, fd, mlx) != 0)//controllare se viene davvero chiuso fd
+		return (close(fd), 1);
 	if (mlx->map.sky == UINT_MAX || mlx->map.floor == UINT_MAX)
-		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), 0);
-
-	//se manca un muro, errore
+		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), 1);
 	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
 			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
-		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 0);
-
+		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 1);
 	map = get_map(mlx->map.tmp_line, fd);
 	if (map == NULL)
-		return (close(fd), 0);
-	
-	print_map(map);
+		return (close(fd), 1);
+	print_map(map);//togliere prima di consegna
 	close(fd);
 	mlx->map.mtx = map;
-	return (1);
+	return (0);
 }
