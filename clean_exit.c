@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 21:48:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:04:40 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 #include <stdlib.h>
@@ -33,9 +33,14 @@ int	clean_exit(t_mlx *mlx)
 			mlx_destroy_window(mlx->mlx, mlx->win);
 			mlx->win = NULL;
 		}
-			
+		if (mlx->mlx)
+		{
+			if(__LINUX__)
+				mlx_destroy_display(mlx->mlx);
+			free(mlx->mlx);
+		}
 		// mlx_destroy_display(mlx->mlx);	// macOS issues
-		free(mlx->mlx);
+		//free(mlx->mlx);
 	}
 	if (mlx->map.mtx)
 		free_mtx((void **)mlx->map.mtx);
