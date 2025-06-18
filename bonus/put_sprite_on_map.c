@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 16:54:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:55:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ float	dir_diff(float dir1, float dir2)
 static void	set_sprite_data(t_mlx *mlx,
 	float *pos, float my_dist, float sprite_dir)
 {
-	const int	mid_line = cos(mlx->player.dir[1] * M_PI / 180)
+	const int	mid_line = cos(mlx->player.dir[1] * MY_PI / 180)
 		* (2 * MLX_WIN_Y) + (MLX_WIN_Y / 2);
 	const int	x_screen = (MLX_WIN_X / 2) + dir_diff(sprite_dir,
 			mlx->player.dir[0]) * (MLX_WIN_X / mlx->player.fov[0]);
@@ -60,7 +60,7 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 {
 	const float	*my_pos = mlx->player.pos;
 	const float	sprite_dir = atan2((my_pos[1] - pos[1]),
-			(my_pos[0] - pos[0])) * 180 / M_PI;
+			(my_pos[0] - pos[0])) * 180 / MY_PI;
 	const float	my_dist = sqrt((pos[0] - my_pos[0]) * (pos[0] - my_pos[0])
 			+ (pos[1] - my_pos[1]) * (pos[1] - my_pos[1]));
 

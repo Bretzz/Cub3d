@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:37:32 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:55:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ int	player_handle(t_mlx *mlx, t_player *fake_lobby);
 (accurate-ish with the bunny sprite and 1920x1080 window resolution)*/
 static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 {
-	const float	diff = fabsf(dir_diff(dir[0], plot.dir)) * M_PI / 180;
+	const float	diff = fabsf(dir_diff(dir[0], plot.dir)) * MY_PI / 180;
 	const float	conv_dir = -(dir[1] - 90);
 	const float	laser_dir = (plot.dist * sinf(diff)) / cosf(diff);
 	float		heigth;
 
-	if ((laser_dir > (M_PI / 20))
-		|| laser_dir < -(M_PI / 20))
+	if ((laser_dir > (MY_PI / 20))
+		|| laser_dir < -(MY_PI / 20))
 		return (1);
 	if (cast_ray(mlx,
 			mlx->player.pos[0],
 			mlx->player.pos[1],
 			plot.dir) < plot.dist)
 		return (1);
-	heigth = (plot.dist / cosf(conv_dir * M_PI / 180))
-		* sinf(conv_dir * M_PI / 180) + 0.5f;
+	heigth = (plot.dist / cosf(conv_dir * MY_PI / 180))
+		* sinf(conv_dir * MY_PI / 180) + 0.5f;
 	if (heigth < 0 || heigth > 0.3f)
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:33:37 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:55:57 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 {
 	t_mlx	*const	mlx = (t_mlx *)my_struct;
-	const int		mid_line = cos(mlx->player.dir[1] * M_PI / 180) * (2 * MLX_WIN_Y) + (MLX_WIN_Y / 2);
+	const int		mid_line = cos(mlx->player.dir[1] * MY_PI / 180) * (2 * MLX_WIN_Y) + (MLX_WIN_Y / 2);
 	int				heigth;
 	int				y;
 

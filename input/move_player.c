@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:47:19 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/09 14:00:19 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:30:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	y_move(t_local *player, t_map map, float y_speed)
 NOTE: it's the only place where we change player.pos' values */
 static int	move_and_slide(t_local *player, t_map map)
 {
-	const int	x_max = ft_strlen(map.mtx[(int)player->pos[1]]);
+	const int	x_max = map.stats[0];
 	const float	x_speed = player->speed[0] * DELTA_SPEED;
 	const float	y_speed = player->speed[1] * DELTA_SPEED;
 

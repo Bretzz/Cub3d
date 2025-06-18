@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 18:06:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 17:53:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:57:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static int	straigthen_o_speed(int *keys, int *o_speed, float friction)
 /* converts o_speed into speed */
 static int	o_speed_to_speed(int *o_speed, int *speed, float dir)
 {
-	const float	x_axis_parallel = cosf(dir * M_PI / 180);
-	const float	y_axis_parallel = sinf(dir * M_PI / 180);
-	const float	x_axis_normal = cosf((dir * M_PI / 180) - M_PI_2);
-	const float	y_axis_normal = sinf((dir * M_PI / 180) - M_PI_2);
+	const float	x_axis_parallel = cosf(dir * MY_PI / 180);
+	const float	y_axis_parallel = sinf(dir * MY_PI / 180);
+	const float	x_axis_normal = cosf((dir * MY_PI / 180) - MY_PI_2);
+	const float	y_axis_normal = sinf((dir * MY_PI / 180) - MY_PI_2);
 
 	speed[0] = (float)o_speed[0] * x_axis_normal;
 	speed[1] = (float)o_speed[0] * y_axis_normal;

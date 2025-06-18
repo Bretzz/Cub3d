@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 17:00:23 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:17:26 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 23:15:24 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ray_init(t_ray *ray, float x, float y)
 
 static void	angle_init(t_cast_vars *cast, float dir)
 {
-	cast->angle = (float)dir * (M_PI / 180.0f);
+	cast->angle = (float)dir * (MY_PI / 180.0f);
 	cast->cos_angle = fabsf(cosf(cast->angle));
 	cast->sin_angle = fabsf(sinf(cast->angle));
 	cast->inv_cos = 1.0f / cast->cos_angle;
@@ -54,7 +54,7 @@ void	vars_init(t_ray *ray, t_cast_vars *cast, float dir)
 {
 	ft_memset(cast, 0, sizeof(t_cast_vars));
 	angle_init(cast, dir);
-	if (fabsf(cast->angle) > M_PI / 2)
+	if (fabsf(cast->angle) > MY_PI_2)
 	{
 		cast->axis[0] = 1;
 		cast->incr[0] = (int)(ray->hit[0]) + 1;

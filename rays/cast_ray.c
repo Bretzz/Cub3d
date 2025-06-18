@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:14:27 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 23:15:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ static char	get_smart_face(char x_or_y, int axis)
 // needs to be called every cycle
 static int	collision_check(t_mlx *mlx, t_cast_vars *cast, float x, float y)
 {
-	int			curr_x;
-	int			curr_y;
+	const int	curr_x = (int)x + cast->axis[0] * cast->iter[0];
+	const int	curr_y = (int)y + cast->axis[1] * cast->iter[1];
 
-	curr_x = (int)x + cast->axis[0] * cast->iter[0];
-	curr_y = (int)y + cast->axis[1] * cast->iter[1];
 	if (mlx->map.mtx[curr_y][curr_x] == '1')
 		return (1);
 	return (0);

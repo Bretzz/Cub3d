@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:35:07 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 23:15:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 		else
 			put_color = mlx->map.floor;
 		*(unsigned int *)(mlx->img->addr + (y * mlx->img->line_length)
-					+ (x * mlx->img->bpp)) = put_color;
+				+ (x * mlx->img->bpp)) = put_color;
 		y++;
 	}
 	return (0);
