@@ -1,20 +1,21 @@
-SO ./texture_siciliana pinco pallino
-NO    ./texture_di_prova
-
-
-
-F       255,   0,  0,,,,
-
-
-    C       0,   0,  255,,,,
+NO    prova.xpm
+SO ./texture_siciliana pinco pallino.xpm
 
 
 
 
-   EA ./texture_cinese
+F       255,   0, 0,,,,
 
 
-   WE     ./texture_occidentale
+    C       0,   0,  255
+
+
+
+
+   EA prova.xpm
+
+
+   WE     prova.xpm
 
 
 

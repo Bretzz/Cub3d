@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/17 21:09:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:01:59 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 
@@ -104,8 +104,12 @@ int	is_file_type(const char *file, const char *type)
 
 	i = ft_strlen(file);
 	while (i >= 0 && file[i] != '.')
+	{
 		i--;
-	if (ft_strncmp(&file[i], type, 5) != 0)
+		if (i == 0)
+			return (error_msg(ERR_FORMAT), 0);
+	}
+	if (ft_strncmp(&file[i], type, (ft_strlen(type) + 1)) != 0)
 	{
 		error_msg(ERR_FORMAT);
 		return (0);
@@ -169,7 +173,7 @@ int	parsing_map(char	**map, int	line, int	count)
 }
 
 /*1 = OK, 0 = error */
-int	check_walls(char	*line, char **wall)
+int	check_single_wall(char	*line, char **wall)
 {
 	int	count;
 	int	i;
@@ -184,14 +188,14 @@ int	check_walls(char	*line, char **wall)
 		while ((*wall)[i] && (*wall)[i] != '\n')
 			i++;
 		(*wall)[i] = '\0';
-		/* if (is_file_type(*wall, ".xpm"))
-			return (0); */
+		if (!is_file_type(*wall, ".xpm"))
+			return (0);
 	}
 	return (1);	
 }
 
 /*1 = OK, 0 = error */
-int	check_fc(char	*line, unsigned int	*floor_ceiling)
+int	check_single_floor(char	*line, unsigned int	*floor_ceiling)
 {
 	int		r;
 	int		g;
@@ -222,14 +226,52 @@ int	check_fc(char	*line, unsigned int	*floor_ceiling)
 	return (1);
 }
 
+int	check_walls(char *line, char	*start, t_mlx *mlx)
+{
+	if (ft_strncmp(line, "NO ", 3) == 0)
+	{
+		if(!check_single_wall(line, &mlx->map.no_wall))
+			return (free(start), clean_exit(mlx), 0);
+	}			
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+	{
+		if(!check_single_wall(line, &mlx->map.so_wall))
+			return (free(start), clean_exit(mlx), 0);
+	}
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+	{
+		if(!check_single_wall(line, &mlx->map.we_wall))
+			return (free(start), clean_exit(mlx), 0);
+	}
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+	{
+		if(!check_single_wall(line, &mlx->map.ea_wall))
+			return (free(start), clean_exit(mlx), 0);
+	}
+	return (1);
+}
+
+int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
+{
+	if (ft_strncmp(line, "F ", 2) == 0)//pavimento
+	{
+		if (!check_single_floor(line, &mlx->map.floor))
+			return (free(start), clean_exit(mlx), 0);
+	}
+	else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
+	{
+		if (!check_single_floor(line, &mlx->map.sky))
+			return (free(start), clean_exit(mlx), 0);
+	}
+	return (1);
+}
+
 /* check texture walls and color ceiling and floor
 1 = OK, 0 = error */
 int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 {
 	char	*start;
-	int		err;
 
-	err = 1;
 	while (line)
 	{		
 		start = line;
@@ -242,32 +284,26 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 		}
 		if (!line)
 			break; // fine file
-
 		start = line;
-
 		while (*line == ' ') //salta gli spazi iniziali, metti funzione apposita e forse modificala
 			line++;
-		if (ft_strncmp(line, "NO ", 3) == 0)
-			err = check_walls(line, &mlx->map.no_wall);
-		else if (ft_strncmp(line, "SO ", 3) == 0)
-			err = check_walls(line, &mlx->map.so_wall);
-		else if (ft_strncmp(line, "WE ", 3) == 0)
-			err = check_walls(line, &mlx->map.we_wall);
-		else if (ft_strncmp(line, "EA ", 3) == 0)
-			err = check_walls(line, &mlx->map.ea_wall);
-		else if (ft_strncmp(line, "F ", 2) == 0)//pavimento
-			err = check_fc(line, &mlx->map.floor);
-		else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
-			err = check_fc(line, &mlx->map.sky);
+		if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
+			|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
+		{
+			if (!check_walls(line, start, mlx))
+				return (0);
+		}
+		else if ((ft_strncmp(line, "F ", 2) == 0)
+			|| (ft_strncmp(line, "C ", 2) == 0))
+		{
+			if (!check_floor_ceiling(line, start, mlx))
+				return (0);
+		}			
 		else if (*line == '1')
-			//return (parsing_map(line, mlx), free(start), 1);
 			return (mlx->map.tmp_line = start, 1);
 		else
 			return(error_msg(ERR_CHAR_FILE), free(start), 0);//carattere non valido in file .cub
-		//per proseguire dopo aver letto una riga corretta, dopo mettere in funzione separata
 		free(start);
-		if (err == 0)
-			clean_exit(mlx);
 		line = get_next_line(fd);
 	}
 	return (1);
@@ -280,7 +316,6 @@ int	parsing(const char *path, t_mlx *mlx, int	argc)
 	char	**map;
 	char	*line;
 
-	
 	if (argc != 2)
 	{
 		error_msg(ERR_ARGS);
