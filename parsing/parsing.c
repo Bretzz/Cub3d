@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 19:55:25 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:17:00 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -220,22 +220,22 @@ int	check_walls(char *line, char	*start, t_mlx *mlx)
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
 		if(check_single_wall(line, &mlx->map.no_wall))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}			
 	else if (ft_strncmp(line, "SO ", 3) == 0)
 	{
 		if(check_single_wall(line, &mlx->map.so_wall))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}
 	else if (ft_strncmp(line, "WE ", 3) == 0)
 	{
 		if(check_single_wall(line, &mlx->map.we_wall))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 	{
 		if(check_single_wall(line, &mlx->map.ea_wall))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}
 	return (0);
 }
@@ -245,15 +245,17 @@ int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
 	if (ft_strncmp(line, "F ", 2) == 0)//pavimento
 	{
 		if (check_single_floor(line, &mlx->map.floor))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
 	{
 		if (check_single_floor(line, &mlx->map.sky))
-			return (free(start), clean_exit(mlx, EXIT_FAILURE), 1);
+			return (free(start), 1);
 	}
 	return (0);
 }
+
+
 
 /* check texture walls and color ceiling and floor
 0 = OK, 1 = error */
@@ -262,10 +264,9 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 	char	*start;
 
 	while (line)
-	{		
-		start = line;
-		if (line == NULL || *line == '\0')//empty file or missing map
-			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 1);
+	{
+		/* if (line == NULL || *line == '\0')//empty file or missing map
+			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 1); */
 		while (line && *line == '\n') //forse mettere ft_isspace
 		{
 			free(line);
@@ -286,12 +287,12 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 			|| (ft_strncmp(line, "C ", 2) == 0))
 		{
 			if (check_floor_ceiling(line, start, mlx))
-				return (0);
+				return (1);
 		}			
 		else if (*line == '1')
 			return (mlx->map.tmp_line = start, 0);
 		else
-			return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub
+			return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub oppure mappa mancante
 		free(start);
 		line = get_next_line(fd);
 	}

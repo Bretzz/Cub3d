@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 18:36:47 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:45:45 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	if (argc != 2)
 		return (error_msg(ERR_ARGS), 1);//this check needs to precede open path in parsing, in case argc == 1
 	if (parsing(argv[1], &mlx/* , mlx */))
-		return (clean_exit(&mlx, EXIT_FAILURE), 1);
+		clean_exit(&mlx, EXIT_FAILURE);
 	if (data_init(&mlx))
 		clean_exit(&mlx, EXIT_FAILURE);
 
