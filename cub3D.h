@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/19 14:41:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/19 23:43:20 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,10 @@ int				cast_field(t_mlx *mlx,
 					int (*func2d)(void *, int, float, unsigned int));
 
 void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
-void			my_string_put(void *my_struct, int x, int y, const char *string, unsigned int color);
+void			my_string_put(void *my_struct, int x, int y,
+					const char *string, unsigned int color);
+void			my_number_put(void *my_struct, int x, int y,
+					int nb, unsigned int color);
 void			image_pixel_put(void *image, int x, int y, unsigned int color);
 
 unsigned int	get_pixel_color(void *sprite, int x, int y);

@@ -6,14 +6,14 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:13:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 13:56:05 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/20 00:10:43 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "puts.h"
 
-/* welp... */
+/* welp... ! ! ! DEPRECATED ! ! ! (use my_number_put())*/
 void	put_fps(t_mlx *mlx)
 {
 	char			*fps;
