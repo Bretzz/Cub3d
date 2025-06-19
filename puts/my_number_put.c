@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_number_put.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:29:27 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 00:12:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/20 01:30:09 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_draw_map get_digit_map(const int digit)
 {
 	const t_draw_map empty = {42, {{-1,-1}}};
 	static const t_draw_map numbers[11] = {
-		{'-', {{0,3},{1,3},{2,3},{3,3},{4,3},{5,3},{-1,-1}}},
+		{'-', {{1,3},{2,3},{3,3},{4,3},{-1,-1}}},
 		{'0', {{1,0},{2,0},{0,1},{0,2},{0,3},{0,4},{1,5},{2,5},{3,1},{3,2},{3,3},{3,4},{-1,-1}}},
 		{'1', {{1,0},{0,1},{1,1},{1,2},{1,3},{1,4},{1,5},{0,5},{2,5},{-1,-1}}},
 		{'2', {{0,0},{1,0},{2,0},{3,1},{3,2},{2,3},{1,4},{0,5},{1,5},{2,5},{3,5},{-1,-1}}},
@@ -89,22 +89,49 @@ static void	draw_digit_map(void *my_struct, int x, int y,
 	}
 }
 
-/* minus sign to review, also it prints reverse x, also intmin not handled */
+/* :D */
+static void	brute_force_int_max(void *my_struct, int x, int y,
+	unsigned int color)
+{
+	draw_digit_map(my_struct, x, y, get_digit_map(-1), color);
+	draw_digit_map(my_struct, x + 12, y, get_digit_map(2), color);
+	draw_digit_map(my_struct, x + 24, y, get_digit_map(1), color);
+	draw_digit_map(my_struct, x + 36, y, get_digit_map(4), color);
+	draw_digit_map(my_struct, x + 48, y, get_digit_map(7), color);
+	draw_digit_map(my_struct, x + 60, y, get_digit_map(4), color);
+	draw_digit_map(my_struct, x + 72, y, get_digit_map(8), color);
+	draw_digit_map(my_struct, x + 84, y, get_digit_map(3), color);
+	draw_digit_map(my_struct, x + 96, y, get_digit_map(6), color);
+	draw_digit_map(my_struct, x + 108, y, get_digit_map(4), color);
+	draw_digit_map(my_struct, x + 120, y, get_digit_map(8), color);
+}
+
+/* PERFECT */
 void	my_number_put(void *my_struct, int x, int y,
 	int nb, unsigned int color)
 {
-	// if (nb == -2147483648)
-	// {
-	// 	write(fd, "-2147483648", 11);
-	// 	return ;
-	// }
+	static int	digits;
+	int			my_digit;
+	char		sign;
+
+	if (nb == -2147483648)
+	{
+		brute_force_int_max(my_struct, x, y, color);
+		return ;
+	}
+	sign = 0;
 	if (nb < 0)
 	{
-		draw_digit_map(my_struct, x, y, get_digit_map(-1), color);
-		x += 12;
+		sign = 1;
+		digits++;
 		nb *= -1;
 	}
+	my_digit = ++digits;
 	if (nb >= 10)
 		my_number_put(my_struct, x - 12, y, nb / 10, color);
-	draw_digit_map(my_struct, x, y, get_digit_map(nb % 10), color);
+	if (sign != 0)
+		draw_digit_map(my_struct, x, y, get_digit_map(-1), color);
+	draw_digit_map(my_struct, x + (12 * (digits - 1)), y, get_digit_map(nb % 10), color);
+	if (my_digit == sign + 1)
+		digits = 0;
 }
