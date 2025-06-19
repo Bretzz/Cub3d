@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 23:29:27 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 00:08:22 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/20 00:12:17 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	draw_digit_map(void *my_struct, int x, int y,
 	}
 }
 
-/* 'a' = 97-97 */
+/* minus sign to review, also it prints reverse x, also intmin not handled */
 void	my_number_put(void *my_struct, int x, int y,
 	int nb, unsigned int color)
 {
