@@ -47,6 +47,7 @@ void		send_all(t_mlx *mlx, char *msg, size_t size);
 void		put_sprite(t_mlx *mlx, t_plot plot, t_sprite sprite);
 int			put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite);
 int			put_health_bar(t_mlx *mlx, t_plot plot, int hp);
+int			put_name_tag(t_mlx *mlx, t_plot plot, const char *name);
 int			put_crosshair(t_mlx *mlx, unsigned int color);
 
 int			put2d_minimap(t_mlx *mlx, size_t side);

@@ -59,8 +59,9 @@ SRC_FILES		= main.c \
 				cast_data.c \
 				\
 				my_pixel_put.c \
-				get_pixel_color.c \
+				my_string_put.c \
 				image_pixel_put.c \
+				get_pixel_color.c \
 				put_board.c \
 				put_line.c \
 				put_whole_column.c \
@@ -100,7 +101,9 @@ B_SRC_FILES		= main_bonus.c \
 				put_whole_column_bonus.c \
 				\
 				put_sprite.c \
-				put_sprite_on_map.c put_health_bar.c \
+				put_sprite_on_map.c \
+				put_health_bar.c \
+				put_name_tag.c \
 				\
 				put2d_minimap.c put2d_mini_ray.c \
 				put2d_mini_lobby.c \

@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 22:02:31 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:41:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,9 +295,12 @@ float			cast_ray(t_mlx *mlx, float x, float y, float dir);
 int				cast_field(t_mlx *mlx,
 					int (*func3d)(void *, int, float, unsigned int),
 					int (*func2d)(void *, int, float, unsigned int));
+
 void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
-unsigned int	get_pixel_color(void *sprite, int x, int y);
+void			my_string_put(void *my_struct, int x, int y, const char *string, unsigned int color);
 void			image_pixel_put(void *image, int x, int y, unsigned int color);
+
+unsigned int	get_pixel_color(void *sprite, int x, int y);
 
 int				put_board(t_mlx *mlx);
 int				put_square(t_img *img, size_t side, int *origin, unsigned int color);
