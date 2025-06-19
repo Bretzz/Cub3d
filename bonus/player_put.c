@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:59:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:38:43 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/19 22:58:13 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	one_player_put(t_mlx *mlx, t_player player, int index)
 	ft_memmove(&mlx->pos_data[index], sprite, 3 * sizeof(int));
 	put_sprite(mlx, mlx->pos_data[index], *sprite);
 	put_health_bar(mlx, mlx->pos_data[index], player.data[1]);
+	put_name_tag(mlx, mlx->pos_data[index], player.name);
 	return (0);
 }
 

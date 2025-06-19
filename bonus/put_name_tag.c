@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_fps.c                                          :+:      :+:    :+:   */
+/*   put_name_tag.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 14:13:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 00:10:43 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/19 13:45:48 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/19 23:09:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
-#include "puts.h"
+#include "cub3D_bonus.h"
 
-/* welp... ! ! ! DEPRECATED ! ! ! (use my_number_put())*/
-void	put_fps(t_mlx *mlx)
+int	put_name_tag(t_mlx *mlx, t_plot plot, const char *name)
 {
-	char			*fps;
+	const int	new_width = (PLAYER_HP * 5) * plot.scale;
 
-	fps = ft_itoa(mlx->fps);
-	if (fps == NULL)
-		return ;
-	mlx_string_put(mlx->mlx, mlx->win, MLX_WIN_X - 25, 25, 0xff0000, fps);
-	free(fps);
+	plot.y_screen = plot.y_screen - (((float)plot.heigth / 1.6f) * plot.scale);
+	plot.x_screen = plot.x_screen - (new_width / 2.3f);
+	my_string_put(&mlx->img, plot.x_screen, plot.y_screen, name, 0x000000);
+	return (0);
 }
