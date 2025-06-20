@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/19 23:43:20 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:59:41 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 
 #ifndef CUB3D_H
@@ -46,10 +46,10 @@
 # define ERR_WALL_MISS "	wall is missing in scene description file"
 # define ERR_FC_FORMAT "	color format invalid"
 # define ERR_FC_BOUNDS "	color value out of bounds"
-# define ERR_CHAR_MAP "	invalid character in map"
 # define ERR_NEWLINE_MAP "	empty line in map"
 # define ERR_OPEN_MAP "	open map"
 # define ERR_SPAWN "	map needs exactly ONE of the following chars: N S W E"
+# define BAD_CHAR "	invalid character"
 # define ERR_CHAR_FILE "	invalid character in scene description file"
 # define MALLOC "	malloc failure"
 # define ERR_ENVP " missing env variable(s)"
@@ -336,8 +336,10 @@ static int  	strset_count(const char *str, const char *set); */
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
+void			error_msg2(char *msg, char print_char);
 int				skip_spaces(char	*line, int	count);
 int				check_rgb(char	*rgb_value);
+
 
 
 

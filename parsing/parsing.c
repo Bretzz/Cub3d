@@ -6,13 +6,11 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/19 20:17:00 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:53:18 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "cub3D.h"
-
-//int	parsing(const char *path, t_mlx *mlx, int	argc);
 
 // cool stuff
 
@@ -32,8 +30,17 @@ int	ft_mapchr(char *str, const char *map)
 			return (str[i]);
 		i++;
 	}
-	return (1);
+	return (0);
 }
+
+int	check_cross_help(int	*i, char	*allowed)
+{
+	if (allowed[*i] == '\0')
+		return (1);
+	*i = 0;
+	return (0);
+}
+
 /* check if characters in a cross formation around map[line][count] are in allowed
 0 = ok, 1 = error */
 int	check_cross(char	**map, int	line, int	count, char	*allowed)
@@ -46,19 +53,16 @@ int	check_cross(char	**map, int	line, int	count, char	*allowed)
 		return (error_msg(ERR_OPEN_MAP), 1);
 	while (allowed[i] != '\0' && map[line -1][count] != allowed[i])
 		i++;
-	if (allowed[i] == '\0')
+	if (check_cross_help(&i, allowed))
 		return (error_msg(ERR_OPEN_MAP), 1);
-	i = 0;
 	while (allowed[i] != '\0' && map[line +1][count] != allowed[i])
 		i++;
-	if (allowed[i] == '\0')
+	if (check_cross_help(&i, allowed))
 		return (error_msg(ERR_OPEN_MAP), 1);
-	i = 0;
 	while (allowed[i] != '\0' && map[line][count -1] != allowed[i])
 		i++;
-	if (allowed[i] == '\0')
+	if (check_cross_help(&i, allowed))
 		return (error_msg(ERR_OPEN_MAP), 1);
-	i = 0;
 	while (allowed[i] != '\0' && map[line][count +1] != allowed[i])
 		i++;
 	if (allowed[i] == '\0')
@@ -66,12 +70,10 @@ int	check_cross(char	**map, int	line, int	count, char	*allowed)
 	return (0);
 }
 
-static char	**get_map(char		*line, int		fd)
+static char	**get_map(char		*line, int		fd, int	i)
 {
 	char		**map;
-	int			i;
 
-	i = 0;
 	map = (char **)malloc(sizeof(char *));
 	if (map == NULL)
 		return (error_msg(MALLOC), close(fd), NULL);
@@ -84,14 +86,15 @@ static char	**get_map(char		*line, int		fd)
 		{
 			map[i] = trim_back_nl(line);
 			map[++i] = NULL;
-			return(error_msg(ERR_NEWLINE_MAP), close(fd), free_mtx((void **)map), NULL);
+			return(error_msg(ERR_NEWLINE_MAP), close(fd),
+				free_mtx((void **)map), NULL);
 		}
 		map[i] = trim_back_nl(line);
 		line = get_next_line(fd);
 		i++;
 	}
 	map[i] = NULL;
-	if (parsing_map(map, 0, 0) == 0)
+	if (parsing_map(map, 0, 0) == 1)
 		return(close(fd), free_mtx((void **)map), NULL);
 	return (close(fd), map);
 }
@@ -106,7 +109,7 @@ int	is_file_type(const char *file, const char *type)
 	while (i >= 0 && file[i] != '.')
 	{
 		i--;
-		if (i == 0)
+		if (i <= 0)
 			return (error_msg(ERR_FORMAT), 1);
 	}
 	if (ft_strncmp(&file[i], type, (ft_strlen(type) + 1)) != 0)
@@ -120,21 +123,10 @@ int	is_file_type(const char *file, const char *type)
 //0 = OK, 1 = error
 int	parsing_map(char	**map, int	line, int	count)
 {
-	// char	**start;
-
-	// start = map;
-	while (map[line] && ft_mapchr(map[line], MAP_ALLOWED))
+	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
 		line++;
 	if (map[line] != NULL)
-	{
-		write(2, RED, ft_strlen(RED));
-		ft_printfd(2, "Error\n	invalid char '%c' in map\n",
-			ft_mapchr(map[line], MAP_ALLOWED));
-		write(2, RESET, ft_strlen(RESET));
-		return (1);
-	}
-	
-	//controllo muri esterni e buchi interni
+		return (error_msg2(BAD_CHAR, ft_mapchr(map[line], MAP_ALLOWED)), 1);
 	line = 0;
 	while (map[line] != NULL)
 	{
@@ -147,16 +139,13 @@ int	parsing_map(char	**map, int	line, int	count)
 			break;
 		while (map[line][count] == '1' || map[line][count] == ' ')
 			count++;
-		if (map[line][count] != '\0' && !check_cross(map, line, count, "01NSEW\0"))
+		if (map[line][count] != '\0' && check_cross(map, line, count, "01NSEW\0"))
 			return (1);
 		if (map[line][count] != '\0')	
 			count++;
 	}
-
-	//controllo ripetizione giocatore
 	if (just_one_player(map) != 0)
 		return (error_msg(ERR_SPAWN), 1);
-	
 	return (0);
 }
 
@@ -254,19 +243,37 @@ int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
 	}
 	return (0);
 }
-
-
+//0 = ok, 1 = error, 2 = found map
+int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
+{
+	if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
+			|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
+	{
+		if (check_walls(line, start, mlx))
+			return (1);
+	}
+	else if ((ft_strncmp(line, "F ", 2) == 0)
+		|| (ft_strncmp(line, "C ", 2) == 0))
+	{
+		if (check_floor_ceiling(line, start, mlx))
+			return (1);
+	}	
+	else if (*line == '1')
+		return (mlx->map.tmp_line = start, 2);
+	else
+		return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub oppure mappa mancante
+	return (0);
+}
 
 /* check texture walls and color ceiling and floor
 0 = OK, 1 = error */
 int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 {
 	char	*start;
+	int		result;
 
 	while (line)
 	{
-		/* if (line == NULL || *line == '\0')//empty file or missing map
-			return (error_msg(ERR_EMPTY_OR_FOLDER), free(start), 1); */
 		while (line && *line == '\n') //forse mettere ft_isspace
 		{
 			free(line);
@@ -277,22 +284,11 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 		start = line;
 		while (*line == ' ') //salta gli spazi iniziali, metti funzione apposita e forse modificala
 			line++;
-		if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
-			|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
-		{
-			if (check_walls(line, start, mlx))
-				return (1);
-		}
-		else if ((ft_strncmp(line, "F ", 2) == 0)
-			|| (ft_strncmp(line, "C ", 2) == 0))
-		{
-			if (check_floor_ceiling(line, start, mlx))
-				return (1);
-		}			
-		else if (*line == '1')
-			return (mlx->map.tmp_line = start, 0);
-		else
-			return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub oppure mappa mancante
+		result = walls_ceiling_map(line, start, mlx);
+		if (result == 1)//0 = ok, 1 = error, 2 = found map
+			return (1);
+		else if (result == 2)
+			return (0);
 		free(start);
 		line = get_next_line(fd);
 	}
@@ -320,7 +316,7 @@ int	parsing(const char *path, t_mlx *mlx)
 	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
 			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
 		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 1);
-	map = get_map(mlx->map.tmp_line, fd);
+	map = get_map(mlx->map.tmp_line, fd, 0);
 	if (map == NULL)
 		return (close(fd), 1);
 	print_map(map);//togliere prima di consegna
