@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:49:31 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:02:58 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -34,8 +34,15 @@ void	error_msg(char *msg)
 	ft_printfd(2, "Error\n");
 	ft_printfd(2, "%s\n", msg);
 	write(2, RESET, ft_strlen(RESET));
-	//clean_exit(mlx); //chiama funzione per liberare tutto
-	//exit(1);
+}
+//forse rendere generica anche per carattere sbagliato prima di mappa
+void	error_msg2(char *msg, char print_char)
+{
+	write(2, RED, ft_strlen(RED));
+	ft_printfd(2, "Error\n");
+	ft_printfd(2, "%s ", msg);
+	ft_printfd(2, "'%c'  in map\n", print_char);
+	write(2, RESET, ft_strlen(RESET));
 }
 
 int	skip_spaces(char	*line, int	count)

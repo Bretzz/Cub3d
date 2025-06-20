@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   put_whole_column.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 23:15:50 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:58:01 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 #include "puts.h"
@@ -36,7 +36,7 @@ int	put_whole_column(void *my_struct, int x, float len, unsigned int color)
 		if (y < mid_line - heigth)
 			put_color = mlx->map.sky;
 		else if (y < mid_line + heigth)
-			put_color = color * (int)mlx->ray.face;
+			put_color = color * (int)mlx->ray.face;//colore da sostituire con sprite
 		else
 			put_color = mlx->map.floor;
 		*(unsigned int *)(mlx->img->addr + (y * mlx->img->line_length)
