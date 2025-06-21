@@ -1,5 +1,5 @@
-NO    ./texture_siciliana pinco pallino.xpm
-SO ./texture_siciliana pinco pallino.xpm
+NO    ./textures/colorstone.xpm
+SO ./textures/greystone.xpm
 
 
 F       255,   00000, 0,,,,
@@ -10,10 +10,10 @@ F       255,   00000, 0,,,,
 
 
 
-   EA prova.xpm
+   EA ./textures/redbrick.xpm
 
 
-   WE     prova.xpm
+   WE     ./textures/wood.xpm
 
 
 

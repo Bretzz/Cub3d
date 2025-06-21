@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 23:15:17 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:53:45 by scarlucc         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "cub3D.h"
 #include "cast.h"
@@ -20,16 +20,16 @@ static char	get_smart_face(char x_or_y, int axis)
 	if (x_or_y == 1)
 	{
 		if (axis > 0)
-			return ('N');
+			return (SO);
 		else
-			return ('S');
+			return (NO);
 	}
 	else if (x_or_y == 0)
 	{
 		if (axis > 0)
-			return ('W');
+			return (WE);
 		else
-			return ('E');
+			return (EA);
 	}
 	return ('V');
 }
