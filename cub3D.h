@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 13:59:41 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:38:38 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -34,6 +34,13 @@
 # define RESET "\033[0m"
 
 # define MAP_ALLOWED "01NSEW \n"
+
+//array walls images
+# define NO 0
+# define SO 1
+# define EA 2
+# define WE 3
+
 
 //errors
 # define ERR_ARGS "	incorrect arguments number"
@@ -154,6 +161,27 @@ typedef struct s_keys
 	int	minimap;
 }				t_keys;
 
+// mlx img related data
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		heigth;
+}				t_img;
+
+/* struct s_column_vars
+{
+	unsigned int	put_color;
+	float			wall_factor;
+	int				heigth;
+	int				y;
+}t_column_vars; */
+
 // data of the map
 typedef struct s_map
 {
@@ -163,6 +191,7 @@ typedef struct s_map
 	char			*tmp_line;
 	unsigned int	sky;
 	unsigned int	floor;
+	t_img			walls[4];
 	char			*no_wall;
 	char			*so_wall;
 	char			*we_wall;
@@ -176,19 +205,6 @@ typedef struct s_ray
 	float	hit[2];		// coord of the point hit
 	char	face;		// 'N', 'S', 'E', 'W', 'V' (V = 'Void')
 }				t_ray;
-
-// mlx img related data
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		bpp;
-	int		line_length;
-	int		endian;
-	int		width;
-	int		heigth;
-}				t_img;
 
 // player data
 typedef struct s_local
@@ -293,7 +309,7 @@ int 			clean_exit(t_mlx *mlx, int exit_code);
 float 			normalize_dir(float angle);
 float			cast_ray(t_mlx *mlx, float x, float y, float dir);
 int				cast_field(t_mlx *mlx,
-					int (*func3d)(void *, int, float, unsigned int),
+					int (*func3d)(void *, int, float),
 					int (*func2d)(void *, int, float, unsigned int));
 
 void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
@@ -301,14 +317,14 @@ void			my_string_put(void *my_struct, int x, int y,
 					const char *string, unsigned int color);
 void			my_number_put(void *my_struct, int x, int y,
 					int nb, unsigned int color);
-void			image_pixel_put(void *image, int x, int y, unsigned int color);
+void			image_pixel_put(void *img_ptr, int x, int y, unsigned int color);
 
-unsigned int	get_pixel_color(void *sprite, int x, int y);
+unsigned int	get_pixel_color(void *img_ptr, int x, int y);
 
 int				put_board(t_mlx *mlx);
 int				put_square(t_img *img, size_t side, int *origin, unsigned int color);
 int				put_line(t_img *img, int *p1, int *p2, unsigned int color);
-int				put_whole_column(void *my_struct, int x, float len, unsigned int color);
+int				put_whole_column(void *my_struct, int x, float len);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
 int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
