@@ -70,6 +70,8 @@ SRC_FILES		= main.c \
 				put_fps.c puts_utils.c \
 				\
 				parsing.c \
+				parsing_map.c \
+				parsing_utils.c \
 				get_player_stats.c \
 				get_map_stats.c \
 				map_padding.c \
