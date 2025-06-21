@@ -6,248 +6,34 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:13:29 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 14:53:18 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:12:24 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "cub3D.h"
 
-// cool stuff
-
-int	ft_mapchr(char *str, const char *map);
-
-/* checks if any char of map is in str.
-if a char that ISN'T in 'map' is found, returns that char,
-otherwise returns 0 */
-int	ft_mapchr(char *str, const char *map)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (ft_strchr(map, str[i]) == NULL)
-			return (str[i]);
-		i++;
-	}
-	return (0);
-}
-
-int	check_cross_help(int	*i, char	*allowed)
-{
-	if (allowed[*i] == '\0')
-		return (1);
-	*i = 0;
-	return (0);
-}
-
-/* check if characters in a cross formation around map[line][count] are in allowed
-0 = ok, 1 = error */
-int	check_cross(char	**map, int	line, int	count, char	*allowed)
-{
-	int	i;
-
-	i = 0;
-	if (line == 0 || map[line + 1] == NULL
-			|| count == 0 || (count + 1) >= (int)ft_strlen(map[line]))
-		return (error_msg(ERR_OPEN_MAP), 1);
-	while (allowed[i] != '\0' && map[line -1][count] != allowed[i])
-		i++;
-	if (check_cross_help(&i, allowed))
-		return (error_msg(ERR_OPEN_MAP), 1);
-	while (allowed[i] != '\0' && map[line +1][count] != allowed[i])
-		i++;
-	if (check_cross_help(&i, allowed))
-		return (error_msg(ERR_OPEN_MAP), 1);
-	while (allowed[i] != '\0' && map[line][count -1] != allowed[i])
-		i++;
-	if (check_cross_help(&i, allowed))
-		return (error_msg(ERR_OPEN_MAP), 1);
-	while (allowed[i] != '\0' && map[line][count +1] != allowed[i])
-		i++;
-	if (allowed[i] == '\0')
-		return (error_msg(ERR_OPEN_MAP), 1);
-	return (0);
-}
-
-static char	**get_map(char		*line, int		fd, int	i)
-{
-	char		**map;
-
-	map = (char **)malloc(sizeof(char *));
-	if (map == NULL)
-		return (error_msg(MALLOC), close(fd), NULL);
-	while (line != NULL)
-	{
-		map = ft_realloc(map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
-		if (map == NULL)
-			return (error_msg(MALLOC), close(fd), free(line), NULL);
-		if (line[0] == '\n')
-		{
-			map[i] = trim_back_nl(line);
-			map[++i] = NULL;
-			return(error_msg(ERR_NEWLINE_MAP), close(fd),
-				free_mtx((void **)map), NULL);
-		}
-		map[i] = trim_back_nl(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	map[i] = NULL;
-	if (parsing_map(map, 0, 0) == 1)
-		return(close(fd), free_mtx((void **)map), NULL);
-	return (close(fd), map);
-}
-
-/* check if the file type is the one passed,
-0 ok, 1 ko. */
-int	is_file_type(const char *file, const char *type)
-{
-	int	i;
-
-	i = ft_strlen(file);
-	while (i >= 0 && file[i] != '.')
-	{
-		i--;
-		if (i <= 0)
-			return (error_msg(ERR_FORMAT), 1);
-	}
-	if (ft_strncmp(&file[i], type, (ft_strlen(type) + 1)) != 0)
-	{
-		error_msg(ERR_FORMAT);
-		return (1);
-	}
-	return (0);
-}
-
-//0 = OK, 1 = error
-int	parsing_map(char	**map, int	line, int	count)
-{
-	while (map[line] && !ft_mapchr(map[line], MAP_ALLOWED))
-		line++;
-	if (map[line] != NULL)
-		return (error_msg2(BAD_CHAR, ft_mapchr(map[line], MAP_ALLOWED)), 1);
-	line = 0;
-	while (map[line] != NULL)
-	{
-		if (map[line][count] == '\0')
-		{
-			line++;
-			count = 0;
-		}
-		if (map[line] == NULL)
-			break;
-		while (map[line][count] == '1' || map[line][count] == ' ')
-			count++;
-		if (map[line][count] != '\0' && check_cross(map, line, count, "01NSEW\0"))
-			return (1);
-		if (map[line][count] != '\0')	
-			count++;
-	}
-	if (just_one_player(map) != 0)
-		return (error_msg(ERR_SPAWN), 1);
-	return (0);
-}
-
-/*0 = OK, 1 = error */
-int	check_single_wall(char	*line, char **wall)
-{
-	int	count;
-	int	i;
-
-	i = 0;
-	count = skip_spaces(line, 2);
-	if (*wall)
-		return (error_msg(ERR_WALL_REPEAT), 1);
-	else
-	{
-		*wall = ft_strdup(&line[count]);
-		while ((*wall)[i] && (*wall)[i] != '\n')
-			i++;
-		(*wall)[i] = '\0';
-		if (is_file_type(*wall, ".xpm"))
-			return (1);
-	}
-	return (0);	
-}
-
-/*0 = OK, 1 = error */
-int	check_single_floor(char	*line, unsigned int	*floor_ceiling)
-{
-	int		r;
-	int		g;
-	int		b;
-	char	**rgb;
-
-	if (*floor_ceiling != UINT_MAX)
-		return (error_msg(ERR_FC_REPEAT), 1);
-	else
-	{
-		rgb = ft_split(&line[1], ',');
-		//printf("0 = %s\n 1 = %s\n 2 = %s\n\n ", rgb[0], rgb[1], rgb[2]);
-		if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3]//che succede se F 255,0,0, ,1,,
-			|| !check_rgb(rgb[0]) || !check_rgb(rgb[1]) || !check_rgb(rgb[2]))
-			return (free_mtx((void **)rgb), error_msg(ERR_FC_FORMAT), 1);		
-		r = ft_atoi(rgb[0]);
-		g = ft_atoi(rgb[1]);
-		b = ft_atoi(rgb[2]);
-		//printf("r = %i\n g = %i\n b = %i\n ", r, g, b);
-		if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-			return (free_mtx((void **)rgb), error_msg(ERR_FC_BOUNDS), 1);
-		*floor_ceiling = (r << 16) | (g << 8) | b;
-		/* printf("valore: %u\n", *floor_ceiling);
-		printf("valore esadecimale: 0x%06X\n", *floor_ceiling); */
-		free_mtx((void **)rgb);
-		return (0);//forse togliere
-	}
-	return (0);
-}
-
-/* 0 = ok, 1 = error */
-int	check_walls(char *line, char	*start, t_mlx *mlx)
-{
-	if (ft_strncmp(line, "NO ", 3) == 0)
-	{
-		if(check_single_wall(line, &mlx->map.no_wall))
-			return (free(start), 1);
-	}			
-	else if (ft_strncmp(line, "SO ", 3) == 0)
-	{
-		if(check_single_wall(line, &mlx->map.so_wall))
-			return (free(start), 1);
-	}
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-	{
-		if(check_single_wall(line, &mlx->map.we_wall))
-			return (free(start), 1);
-	}
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-	{
-		if(check_single_wall(line, &mlx->map.ea_wall))
-			return (free(start), 1);
-	}
-	return (0);
-}
 /* 0 = ok, 1 = error */
 int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
 {
-	if (ft_strncmp(line, "F ", 2) == 0)//pavimento
+	if (ft_strncmp(line, "F ", 2) == 0)
 	{
 		if (check_single_floor(line, &mlx->map.floor))
 			return (free(start), 1);
 	}
-	else if (ft_strncmp(line, "C ", 2) == 0)//soffitto
+	else if (ft_strncmp(line, "C ", 2) == 0)
 	{
 		if (check_single_floor(line, &mlx->map.sky))
 			return (free(start), 1);
 	}
 	return (0);
 }
+
 //0 = ok, 1 = error, 2 = found map
 int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 {
 	if ((ft_strncmp(line, "NO ", 3) == 0) || (ft_strncmp(line, "SO ", 3) == 0)
-			|| (ft_strncmp(line, "WE ", 3) == 0) || (ft_strncmp(line, "EA ", 3) == 0))
+		|| (ft_strncmp(line, "WE ", 3) == 0)
+		|| (ft_strncmp(line, "EA ", 3) == 0))
 	{
 		if (check_walls(line, start, mlx))
 			return (1);
@@ -257,11 +43,11 @@ int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 	{
 		if (check_floor_ceiling(line, start, mlx))
 			return (1);
-	}	
+	}
 	else if (*line == '1')
 		return (mlx->map.tmp_line = start, 2);
 	else
-		return(error_msg(ERR_CHAR_FILE), free(start), 1);//carattere non valido in file .cub oppure mappa mancante
+		return (error_msg(ERR_CHAR_FILE), free(start), 1);
 	return (0);
 }
 
@@ -274,18 +60,18 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 
 	while (line)
 	{
-		while (line && *line == '\n') //forse mettere ft_isspace
+		while (line && *line == '\n')
 		{
 			free(line);
 			line = get_next_line(fd);
 		}
 		if (!line)
-			break; // fine file
+			break ;
 		start = line;
-		while (*line == ' ') //salta gli spazi iniziali, metti funzione apposita e forse modificala
+		while (*line == ' ' || *line == '\t')
 			line++;
 		result = walls_ceiling_map(line, start, mlx);
-		if (result == 1)//0 = ok, 1 = error, 2 = found map
+		if (result == 1)
 			return (1);
 		else if (result == 2)
 			return (0);
@@ -295,32 +81,60 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 	return (0);
 }
 
+static char	**get_map(char *line, int fd, int i)
+{
+	char		**map;
+
+	map = (char **)malloc(sizeof(char *));
+	if (map == NULL)
+		return (error_msg(MALLOC), close(fd), NULL);
+	while (line != NULL)
+	{
+		map = ft_realloc(map, (i + 1) * sizeof(char *),
+				(i + 2) * sizeof(char *));
+		if (map == NULL)
+			return (error_msg(MALLOC), close(fd), free(line), NULL);
+		if (line[0] == '\n')
+		{
+			map[i] = trim_back_nl(line);
+			return (map[++i] = NULL, error_msg(ERR_NEWLINE_MAP), close(fd),
+				free_mtx((void **)map), NULL);
+		}
+		map[i] = trim_back_nl(line);
+		line = get_next_line(fd);
+		i++;
+	}
+	map[i] = NULL;
+	if (parsing_map(map, 0, 0) == 1)
+		return (close(fd), free_mtx((void **)map), NULL);
+	return (close(fd), map);
+}
+
 /* 0 = ok, 1 error */
 int	parsing(const char *path, t_mlx *mlx)
 {
 	const int	fd = open(path, O_RDONLY);
-	char	**map;
-	char	*line;
+	char		**map;
+	char		*line;
 
 	mlx->map.sky = UINT_MAX;
 	mlx->map.floor = UINT_MAX;
-	if (is_file_type(path, ".cub"))//wrong file format
+	if (is_file_type(path, ".cub"))
 		clean_exit(mlx, EXIT_FAILURE);
-	if (fd < 0)//file not found
-		return (error_msg(ERR_OPEN), clean_exit(mlx, EXIT_FAILURE), 1);//serve close(fd)?
+	if (fd < 0)
+		return (error_msg(ERR_OPEN), clean_exit(mlx, EXIT_FAILURE), 1);
 	line = get_next_line(fd);
-	if (walls_ceiling(line, fd, mlx) != 0)//controllare se viene davvero chiuso fd
+	if (walls_ceiling(line, fd, mlx) != 0)
 		return (close(fd), 1);
 	if (mlx->map.sky == UINT_MAX || mlx->map.floor == UINT_MAX)
 		return (error_msg(ERR_FC_MISS), close(fd), free(mlx->map.tmp_line), 1);
 	if (mlx->map.no_wall == NULL || mlx->map.so_wall == NULL
-			|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
-		return (error_msg(ERR_WALL_MISS), close(fd), free(mlx->map.tmp_line), 1);
+		|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
+		return (error_msg(ERR_WALL_MISS), close(fd),
+			free(mlx->map.tmp_line), 1);
 	map = get_map(mlx->map.tmp_line, fd, 0);
 	if (map == NULL)
 		return (close(fd), 1);
-	print_map(map);//togliere prima di consegna
-	close(fd);
-	mlx->map.mtx = map;
-	return (0);
+	print_map(map);
+	return (close(fd), mlx->map.mtx = map, 0);
 }

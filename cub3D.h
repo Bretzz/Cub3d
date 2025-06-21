@@ -6,7 +6,7 @@
 /*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/21 19:38:38 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:37:06 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -348,6 +348,20 @@ int 			just_one_player(char **map);
 /* static int  	mapset_count(char **mtx, const char *set);
 static int  	strset_count(const char *str, const char *set); */
 
+/* =========== PARSING_UTILS =========== */
+
+int				is_file_type(const char *file, const char *type);
+int				ft_mapchr(char *str, const char *map);
+int				check_single_floor(char	*line, unsigned int	*floor_ceiling);
+int				check_single_wall(char	*line, char **wall);
+
+/* =========== PARSING_MAP =========== */
+
+int			check_walls(char *line, char	*start, t_mlx *mlx);
+int			parsing_map(char	**map, int	line, int	count);
+int			check_cross_help(int	*i, char	*allowed);
+int			check_cross(char	**map, int	line, int	count, char	*allowed);
+
 /* ============ UTILS ============= */
 
 char			*trim_back_nl(char *str);
@@ -355,8 +369,6 @@ void			error_msg(char *msg);
 void			error_msg2(char *msg, char print_char);
 int				skip_spaces(char	*line, int	count);
 int				check_rgb(char	*rgb_value);
-
-
 
 
 /* ============ DEBUG ============= */
