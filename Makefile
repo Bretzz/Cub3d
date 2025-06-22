@@ -22,12 +22,13 @@ CFLAGS			:= -Wall -Wextra -Werror -g #--std=gnu89
 #Libs
 LIBFT			= libft/
 HPC				= hpc/
+YFT				= yft/
 
 #Linkers
 LINKS			= -L/usr/lib -L$(MLX_DIR) -lXext -lX11 -lm -lz -lpthread
 
 #Includes
-INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR) -I$(HPC)include
+INKS			= -I$(CURDIR) -I$(LIBFT) -I$(MLX_DIR) -I$(HPC)include -I$(YFT)include
 
 ifeq ($(UNAME),Darwin)
 	MLX_DIR		= minilibx_opengl
@@ -180,6 +181,10 @@ $(HPC)hpc.a:
 	@echo "${BOLD}compiling hpc...${RESET}"
 	@$(MAKE) all -C $(HPC) --quiet
 
+$(YFT)yft.a:
+	@echo "${BOLD}compiling yft...${RESET}"
+	@$(MAKE) all -C $(YFT) --quiet
+
 $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_SRC_FILES:.c=.o))
 	@echo "${BOLD}compiling $(NAME)...${RESET}"
@@ -188,12 +193,12 @@ $(NAME): $(LIBFT)libft.a $(MLX) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS_DIR)* $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
-$(NAME_BONUS): $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
+$(NAME_BONUS): $(YFT)yft.a $(HPC)hpc.a $(LIBFT)libft.a $(MLX) $(B_OBJS)
 	@rm -rf $(addprefix $(OBJS_DIR), $(B_REPLACED:.c=.o))
 	@echo "${BOLD}compiling $(NAME_BONUS)...${RESET}"
 	$(CC) $(CFLAGS) $(INKS) -Ibonus/ $(DEFS) -D BONUS -c $(B_RECOMPILE)
 	@mv $(notdir $(B_RECOMPILE:.c=.o)) $(OBJS_DIR)
-	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
+	@$(CC) $(CFLAGS) -D BONUS $(OBJS_DIR)* $(YFT)yft.a $(HPC)hpc.a $(LIBFT)libft.a $(MLX) -I$(INKS) $(LINKS) -o $(NAME_BONUS) \
 	&& echo "${LIGHT_GREEN}DONE${RESET}"
 
 run.sh:
@@ -220,11 +225,13 @@ clean:
 	@rm -f $(OBJS_DIR)*
 	@$(MAKE) clean -C $(LIBFT) --quiet
 	@$(MAKE) clean -C $(HPC) --quiet
+	@$(MAKE) clean -C $(YFT) --quiet
 
 fclean: clean
 	@rm -rf $(OBJS_DIR) $(NAME) $(NAME)_bonus
 	@$(MAKE) fclean -C $(LIBFT) --quiet
 	@$(MAKE) fclean -C $(HPC) --quiet
+	@$(MAKE) fclean -C $(YFT) --quiet
 
 lre: clean all
 

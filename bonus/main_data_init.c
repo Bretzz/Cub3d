@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 13:32:11 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:09:38 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ int	data_init(t_mlx *mlx, t_multi_data *data)
 	mlx->player.tspeed[1] = 250;
 	mlx->player.jground = 1;
 	mlx->player.friction = 8;
-	mlx->frames = 1;
+	mlx->frames = 5;
 	mlx->keys.minimap = 1;
+	yft_is_better("yft/fonts/wobbly.yft");
 	return (1);
 }
 
@@ -85,11 +86,16 @@ int	sprite_data_init(t_mlx *mlx)
 
 int	base_data_init(t_mlx *mlx, t_multi_data *data)
 {
+	mlx->online = 1;
 	mlx->index = &data->index;
 	mlx->socket = &data->socket;
 	mlx->thread = data->thread;
 	mlx->lobby = lbb_get_ptr(NULL);
 	if (mlx->lobby == NULL)
 		return (0);
+	hpc_mutex(1);
+	if (!ft_strcmp("lonely", mlx->lobby->ip))
+		mlx->online = 0;
+	hpc_mutex(2);
 	return (1);
 }

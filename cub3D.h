@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 13:40:00 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:06:45 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ in scene description file"
 //online lib
 # ifdef BONUS
 #  include "hpc.h"
+#  include "yft.h"
 # endif
 
 // basic sprite data
@@ -247,6 +248,7 @@ typedef struct s_mlx
 	int				fps;
 	t_ray			ray;
 	t_local			player;
+	int				online;						// 1 online, 0 single
 	t_plot			pos_data[MAXPLAYERS + 1];	// buffer for pos_get_dat()
 	t_player		*lobby;						//online stuff here
 	int				*index;
