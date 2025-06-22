@@ -13,17 +13,17 @@
 #include "cub3D.h"
 
 /* 0 = ok, 1 = error */
-int	check_floor_ceiling(char *line, char	*start, t_mlx *mlx)
+int	check_floor_ceiling(char *line, t_mlx *mlx)
 {
 	if (ft_strncmp(line, "F ", 2) == 0)
 	{
 		if (check_single_floor(line, &mlx->map.floor))
-			return (free(start), 1);
+			return (1);
 	}
 	else if (ft_strncmp(line, "C ", 2) == 0)
 	{
 		if (check_single_floor(line, &mlx->map.sky))
-			return (free(start), 1);
+			return (1);
 	}
 	return (0);
 }
@@ -41,7 +41,7 @@ int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 	else if ((ft_strncmp(line, "F ", 2) == 0)
 		|| (ft_strncmp(line, "C ", 2) == 0))
 	{
-		if (check_floor_ceiling(line, start, mlx))
+		if (check_floor_ceiling(line, mlx))
 			return (1);
 	}
 	else if (*line == '1')
