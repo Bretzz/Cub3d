@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:57:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 13:12:06 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:54:03 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	move_mouse(t_mlx *mlx);
 int	move_mouse(t_mlx *mlx)
 {
 	const float	delta_dir = (float)mlx->player.fov[0] / MLX_WIN_X;
+	const float	delta_y_dir = (float)mlx->player.fov[1] / MLX_WIN_Y;
 	float		y_diff;
 	char		moved[2];
 
@@ -32,7 +33,7 @@ int	move_mouse(t_mlx *mlx)
 	}
 	if (mlx->keys.mouse[1] != MLX_WIN_Y / 2 && ++moved[1])
 	{
-		y_diff = (float)(mlx->keys.mouse[1] - (MLX_WIN_Y / 2)) / 6;
+		y_diff = (float)(mlx->keys.mouse[1] - (MLX_WIN_Y / 2)) * delta_y_dir;
 		if ((y_diff > 0 && mlx->player.dir[1] + y_diff <= 180)
 			|| (y_diff < 0 && mlx->player.dir[1] + y_diff >= 0))
 			mlx->player.dir[1] += y_diff;
