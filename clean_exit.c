@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:53:36 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:44:19 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@
 
 int clean_exit(t_mlx *mlx, int exit_code);
 
-int	clean_exit(t_mlx *mlx, int exit_code)
+static void destroy_wall_data(t_mlx *mlx)
 {
-	if (mlx->win)
-	{
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		mlx->win = NULL;
-	}
-	//free sprite pointers (repeat for every sprite)
 	if (mlx->map.walls[NO].img_ptr)
 		mlx_destroy_image(mlx->mlx, mlx->map.walls[NO].img_ptr);
 	if (mlx->map.walls[SO].img_ptr)
@@ -31,26 +25,6 @@ int	clean_exit(t_mlx *mlx, int exit_code)
 		mlx_destroy_image(mlx->mlx, mlx->map.walls[EA].img_ptr);
 	if (mlx->map.walls[WE].img_ptr)
 		mlx_destroy_image(mlx->mlx, mlx->map.walls[WE].img_ptr);
-	
-	//freeing mlx resources 
-	if (mlx->mlx)
-	{
-		if(mlx->img->img_ptr)
-			mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
-		if (mlx->win)
-		{
-			mlx_destroy_window(mlx->mlx, mlx->win);
-			mlx->win = NULL;
-		}
-		if (mlx->mlx)
-		{
-			if(__LINUX__)
-				// mlx_destroy_display(mlx->mlx);
-			free(mlx->mlx);
-		}
-	}
-	if (mlx->map.mtx)
-		free_mtx((void **)mlx->map.mtx);
 	if (mlx->map.no_wall)
 		free(mlx->map.no_wall);
 	if (mlx->map.so_wall)
@@ -59,10 +33,26 @@ int	clean_exit(t_mlx *mlx, int exit_code)
 		free(mlx->map.we_wall);
 	if (mlx->map.ea_wall)
 		free(mlx->map.ea_wall);
-	
-	
-	
-	//finally exit
+}
+
+int	clean_exit(t_mlx *mlx, int exit_code)
+{
+	destroy_wall_data(mlx);
+	if (mlx->mlx)
+	{
+		if(mlx->img->img_ptr)
+		mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
+		if (mlx->win)
+		{
+			mlx_destroy_window(mlx->mlx, mlx->win);
+			mlx->win = NULL;
+		}
+		if(__LINUX__)
+			mlx_destroy_display(mlx->mlx);
+		free(mlx->mlx);
+	}
+	if (mlx->map.mtx)
+		free_mtx((void **)mlx->map.mtx);
 	exit(exit_code);
 	return (0);
 }

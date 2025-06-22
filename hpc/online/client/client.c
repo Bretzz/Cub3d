@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 21:02:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 13:51:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:24:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	my_data_init(t_player *lobby, char *env[])
 		ft_printf("== = == === = PLAYER COUNT: %u == = == === = \n",
 			lbb_player_count());
 		ft_printf(LOG">data init ok...%s\n", RESET);
-	}	
+	}
 	lbb_mutex(2);
 	return (1);
 }

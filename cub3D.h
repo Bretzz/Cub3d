@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:49:14 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:40:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -41,14 +40,14 @@
 # define EA 2
 # define WE 3
 
-
 //errors
 # define ERR_ARGS "	incorrect arguments number"
 # define ERR_FORMAT "	incorrect file format"
 # define ERR_OPEN "	failed to open path"
 # define ERR_EMPTY_OR_FOLDER "	path points to empty file or folder"
 # define ERR_WALL_REPEAT "	wall is repeated in scene description file"
-# define ERR_FC_REPEAT "	floor or ceiling is repeated in scene description file"
+# define ERR_FC_REPEAT "	floor or ceiling is repeated \
+in scene description file"
 # define ERR_FC_MISS "	floor or ceiling is missing in scene description file"
 # define ERR_WALL_MISS "	wall is missing in scene description file"
 # define ERR_FC_FORMAT "	color format invalid"
@@ -118,13 +117,17 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-
 // basic libs
 # include "libft.h"
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+
+//online lib
+# ifdef BONUS
+#  include "hpc.h"
+# endif
 
 // basic sprite data
 typedef struct s_sprite
@@ -155,6 +158,7 @@ typedef struct s_keys
 {
 	int	up_dw[2];
 	int	lx_rx[2];
+	int	arrow[4];	// up, down, left, right
 	int	jump_slide[2];
 	int	shift;
 	int	mouse[2];
@@ -173,14 +177,6 @@ typedef struct s_my_img
 	int		width;
 	int		heigth;
 }				t_my_img;
-
-/* struct s_column_vars
-{
-	unsigned int	put_color;
-	float			wall_factor;
-	int				heigth;
-	int				y;
-}t_column_vars; */
 
 // data of the map
 typedef struct s_map
@@ -220,29 +216,6 @@ typedef struct s_local
 	t_sprite	*sprite;			// front, back, left, right
 }				t_local;
 
-// # include "hpc.h"
-
-// typedef struct s_mlx
-// {
-// 	void			*mlx;
-// 	void			*win;
-// 	int				win_x;
-// 	int				win_y;
-// 	t_my_img			img;
-// 	t_map			map;
-// 	t_keys			keys;
-// 	char			on_window;
-// 	int				frames;
-// 	int				fps;
-// 	t_ray			ray;
-// 	t_local			player;
-// 	t_player		*lobby;
-// 	int				*index;
-// 	int				*socket;
-// 	void			*thread;
-// }				t_mlx;
-
-// mlx big struct
 # ifndef BONUS
 
 typedef struct s_mlx
@@ -261,14 +234,12 @@ typedef struct s_mlx
 }				t_mlx;
 # else
 
-#  include "hpc.h"
-
 // online extension
 typedef struct s_mlx
 {
 	void			*mlx;
 	void			*win;
-	t_my_img			img[2];
+	t_my_img		img[2];
 	t_map			map;
 	t_keys			keys;
 	char			on_window;
@@ -276,8 +247,8 @@ typedef struct s_mlx
 	int				fps;
 	t_ray			ray;
 	t_local			player;
-	t_plot			pos_data[MAXPLAYERS + 1];	// buffer from data on the pos plot
-	t_player		*lobby;		//online stuff here
+	t_plot			pos_data[MAXPLAYERS + 1];	// buffer for pos_get_dat()
+	t_player		*lobby;						//online stuff here
 	int				*index;
 	int				*socket;
 	t_player		fake_lobby[MAXPLAYERS];
@@ -293,8 +264,8 @@ int				move_player(t_mlx *mlx);
 int				direction_oriented_movement(t_mlx *mlx);
 int				move_mouse(t_mlx *mlx);
 
-int 			update_frame(void *arg);
-int 			get_fps(int frame);
+int				update_frame(void *arg);
+int				get_fps(int frame);
 
 int				handle_key_press(int keysym, void *arg);
 int				handle_key_release(int keysym, void *arg);
@@ -302,49 +273,52 @@ int				handle_mouse(int keysym, int x, int y, t_mlx *mlx);
 int				leave_notify_handler(t_mlx *mlx);
 int				enter_notify_handler(t_mlx *mlx);
 
-int 			clean_exit(t_mlx *mlx, int exit_code);
+int				clean_exit(t_mlx *mlx, int exit_code);
 
 /* ========== GRAPHICS ========== */
 
-float 			normalize_dir(float angle);
+float			normalize_dir(float angle);
 float			cast_ray(t_mlx *mlx, float x, float y, float dir);
 int				cast_field(t_mlx *mlx,
 					int (*func3d)(void *, int, float),
 					int (*func2d)(void *, int, float, unsigned int));
 
-void			my_pixel_put(void *my_struct, int x, int y, unsigned int color);
+void			my_pixel_put(void *my_struct, int x, int y,
+					unsigned int color);
 void			my_string_put(void *my_struct, int x, int y,
-					const char *string, unsigned int color);
-void			my_number_put(void *my_struct, int x, int y,
-					int nb, unsigned int color);
-void			image_pixel_put(void *img_ptr, int x, int y, unsigned int color);
+					const char *string);
+void			my_number_put(void *my_struct, int x, int y, int nb);
+void			image_pixel_put(void *img_ptr, int x, int y,
+					unsigned int color);
 
 unsigned int	get_pixel_color(void *img_ptr, int x, int y);
 
 int				put_board(t_mlx *mlx);
-int				put_square(t_my_img *img, size_t side, int *origin, unsigned int color);
+int				put_square(t_my_img *img, size_t side, int *origin,
+					unsigned int color);
 int				put_line(t_my_img *img, int *p1, int *p2, unsigned int color);
 int				put_whole_column(void *my_struct, int x, float len);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
-int				put2d_ray(void *my_struct, int side, float null2, unsigned int color);
-int				put2d_player(t_mlx *mlx, float *pos, int side, unsigned int color);
-
-void			put_fps(t_mlx *mlx);
+int				put2d_ray(void *my_struct, int side, float null2,
+					unsigned int color);
+int				put2d_player(t_mlx *mlx, float *pos, int side,
+					unsigned int color);
 
 /* =========== PARSING =========== */
 
 int				parsing(const char *path, t_mlx *mlx);
-int				get_map_stats(const char **map, int win_x, int win_y, int *buff);
+int				get_map_stats(const char **map, int win_x,
+					int win_y, int *buff);
 
 int				get_player_stats(char **map, float *pos, float *dir);
 int				check_texture(t_mlx *mlx, char	*line, char *wall);
 int				walls_ceiling(char *line, int fd, t_mlx *mlx);
-int				parsing_map(char	**map, int	line, int	count);
+int				parsing_map(char **map, int line, int count);
 
 char			**map_padding(char **old_map);
 
-int 			just_one_player(char **map);
+int				just_one_player(char **map);
 /* static int  	mapset_count(char **mtx, const char *set);
 static int  	strset_count(const char *str, const char *set); */
 
@@ -358,19 +332,19 @@ int				check_single_wall(char	*line, char **wall);
 /* =========== PARSING_MAP =========== */
 
 int				check_walls(char *line, char	*start, t_mlx *mlx);
-int				parsing_map(char	**map, int	line, int	count);
-int				check_cross_help(int	*i, char	*allowed);
-int				check_cross(char	**map, int	line, int	count, char	*allowed);
+int				parsing_map(char **map, int line, int count);
+int				check_cross_help(int *i, char *allowed);
+int				check_cross(char **map, int line, int count, char *allowed);
 
 /* ============ UTILS ============= */
 
 char			*trim_back_nl(char *str);
 void			error_msg(char *msg);
 void			error_msg2(char *msg, char print_char);
-int				skip_spaces(char	*line, int	count);
-int				check_rgb(char	*rgb_value);
+int				skip_spaces(char *line, int count);
+int				check_rgb(char *rgb_value);
 
-int				load_walls_textures(t_mlx *mlx);
+int				load_walls_texture(t_mlx *mlx);
 
 /* ============ DEBUG ============= */
 

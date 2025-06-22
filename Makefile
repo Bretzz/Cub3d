@@ -60,6 +60,7 @@ SRC_FILES		= main.c \
 				\
 				my_pixel_put.c \
 				my_string_put.c \
+				my_string_db.c \
 				my_number_put.c \
 				image_pixel_put.c \
 				get_pixel_color.c \
@@ -67,7 +68,7 @@ SRC_FILES		= main.c \
 				put_line.c \
 				put_whole_column.c \
 				put2d.c \
-				put_fps.c puts_utils.c \
+				puts_utils.c \
 				\
 				parsing.c \
 				parsing_map.c \

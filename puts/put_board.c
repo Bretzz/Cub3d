@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_board.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:51:45 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:31:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	put_board(t_mlx *mlx)
 	mlx->img->width = MLX_WIN_X;
 	mlx->img->heigth = MLX_WIN_Y;
 	cast_field(mlx, &put_whole_column, NULL);
-	my_number_put(&mlx->img, MLX_WIN_X - 25, 20, mlx->fps, 0xff0000);
+	my_number_put(&mlx->img, MLX_WIN_X - 25, 20, mlx->fps);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img_ptr, 0, 0);
 	mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
 	ft_memset(&mlx->img, 0, sizeof(t_my_img));

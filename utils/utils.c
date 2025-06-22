@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:55:30 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 14:02:58 by scarlucc         ###   ########.fr       */
+/*   Created: 2025/06/22 13:25:14 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/22 13:26:02 by topiana-         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 
@@ -35,6 +35,7 @@ void	error_msg(char *msg)
 	ft_printfd(2, "%s\n", msg);
 	write(2, RESET, ft_strlen(RESET));
 }
+
 //forse rendere generica anche per carattere sbagliato prima di mappa
 void	error_msg2(char *msg, char print_char)
 {
@@ -45,13 +46,14 @@ void	error_msg2(char *msg, char print_char)
 	write(2, RESET, ft_strlen(RESET));
 }
 
-int	skip_spaces(char	*line, int	count)
+int	skip_spaces(char *line, int count)
 {
 	while (line[count] == ' ' || line[count] == '\f' || line[count] == '\r'
 		|| line[count] == '\t' || line[count] == '\v')
 		count++;
 	return (count);
 }
+
 /* 1 = OK, 0 = error */
 int	check_rgb(char	*rgb_value)
 {
@@ -67,5 +69,3 @@ int	check_rgb(char	*rgb_value)
 		return (0);
 	return (1);
 }
-
-

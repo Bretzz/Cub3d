@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_frame_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:53:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/11 02:13:55 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:19:50 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	update_sprites(void *mlx_ptr, t_player *lobby)
 		if (lbb_is_alive(lobby[i]) && lobby[i].extra == NULL)
 		{
 			lobby[i].extra = sprite_init(mlx_ptr, i, 0x714333);
+			if (lobby[i].extra == NULL)
+			{
+				ft_printfd(2, "Error: Sprite init\n");
+				return ;
+			}
 			if (DEBUG && lobby[i].extra)
 				ft_printf("init sprite N.%i, \
 chroma #%X\n", i, ((t_sprite *)lobby[i].extra)[0].chroma);

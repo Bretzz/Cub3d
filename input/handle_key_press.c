@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:30:32 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:37:36 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:27:52 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,14 @@ static int	handle_movement_keys(int keysym, t_mlx *mlx)
 
 static int	handle_arrow_keys(int keysym, t_mlx *mlx)
 {
-	if ((keysym == XK_Up || keysym == UP)
-		&& mlx->player.dir[1] - 5 >= 0)
-		mlx->player.dir[1] -= 5;
-	else if ((keysym == XK_Down || keysym == DOWN)
-		&& mlx->player.dir[1] + 5 <= 180)
-		mlx->player.dir[1] += 5;
+	if (keysym == XK_Up || keysym == UP)
+		mlx->keys.arrow[0] = 1;
+	else if (keysym == XK_Down || keysym == DOWN)
+		mlx->keys.arrow[1] = 1;
 	else if (keysym == XK_Left || keysym == LEFT)
-		mlx->player.dir[0] -= 5;
+		mlx->keys.arrow[2] = 1;
 	else if (keysym == XK_Right || keysym == RIGHT)
-		mlx->player.dir[0] += 5;
+		mlx->keys.arrow[3] = 1;
 	else
 		return (0);
 	return (1);

@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_fps.c                                          :+:      :+:    :+:   */
+/*   my_puts.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 14:13:41 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/20 00:10:43 by topiana-         ###   ########.fr       */
+/*   Created: 2025/06/22 12:35:24 by topiana-          #+#    #+#             */
+/*   Updated: 2025/06/22 13:31:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
-#include "puts.h"
+#ifndef MY_PUTS_H
+# define MY_PUTS_H
 
-/* welp... ! ! ! DEPRECATED ! ! ! (use my_number_put())*/
-void	put_fps(t_mlx *mlx)
+typedef struct s_draw_map
 {
-	char			*fps;
+	char	digit;
+	int		pixel[24][2];
+}				t_draw_map;
 
-	fps = ft_itoa(mlx->fps);
-	if (fps == NULL)
-		return ;
-	mlx_string_put(mlx->mlx, mlx->win, MLX_WIN_X - 25, 25, 0xff0000, fps);
-	free(fps);
-}
+/* EXTERNALE USE */
+
+void		my_number_put(void *my_struct, int x, int y, int nb);
+void		my_string_put(void *my_struct, int x, int y, const char *string);
+
+/* INTERNAL USE */
+
+t_draw_map	get_letter(const char letter);
+
+#endif

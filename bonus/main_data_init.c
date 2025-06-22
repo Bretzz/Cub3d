@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_data_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:33:26 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:32:11 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ int	data_init(t_mlx *mlx, t_multi_data *data)
 	mlx->map.mtx = map_padding(mlx->map.mtx);
 	if (mlx->map.mtx == NULL)
 		return (1);
-	if (load_walls_textures(mlx))
+	if (load_walls_texture(mlx))
+	{
+		ft_printfd(STDERR_FILENO, "Error: Walls texture init\n");
 		return (1);
+	}
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);
 	mlx->map.mini_side = mlx->map.stats[2] / 4;
 	get_player_stats(mlx->map.mtx, mlx->player.pos, mlx->player.dir);
 	mlx->player.fov[0] = 60;
 	mlx->player.fov[1] = 60;
-	mlx->player.speed[0] = 0;
-	mlx->player.speed[1] = 0;
-	mlx->player.speed[2] = 0;
 	mlx->player.tspeed[0] = 70.0f;
 	mlx->player.tspeed[1] = 250;
 	mlx->player.jground = 1;
@@ -76,7 +76,10 @@ int	sprite_data_init(t_mlx *mlx)
 	lbb_mutex(2);
 	hpc_mutex(2);
 	if (mlx->player.sprite == NULL)
+	{
+		ft_printfd(STDERR_FILENO, "Error: Player texture init\n");
 		return (0);
+	}
 	return (1);
 }
 

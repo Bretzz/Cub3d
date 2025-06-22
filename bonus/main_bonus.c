@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 23:43:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:24:08 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:35:35 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	mini_clean_exit(t_multi_data *data)
 {
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	// mlx_destroy_display(data->mlx_ptr);
+	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 }
 
@@ -81,7 +81,7 @@ int	online_setup(t_multi_data *data, int argc, char *argv[])
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			MLX_WIN_X, MLX_WIN_Y, "cub3D");
 	if (data->win_ptr == NULL)
-		return (/* mlx_destroy_display(data->mlx_ptr), */
+		return (mlx_destroy_display(data->mlx_ptr),
 			free(data->mlx_ptr), 1);
 	if (hpc_init() == 1)
 		return (mini_clean_exit(data), 1);
@@ -130,7 +130,8 @@ int	main(int argc, char *argv[])
 		if (online_setup(&data, argc, argv) == 1)
 			return (1);
 	}
-	ft_printf("\n! ! ! CHECK LEAKS ON MULTI HOOST SWITCH ! ! !\n! ! ! INVALID READ ON OPEN MAP ! ! !\n");
 	cub3d_bonus(&data);
 	return (0);
 }
+
+// ft_printf("\n! ! ! INVALID READ ON OPEN MAP ! ! !\n");

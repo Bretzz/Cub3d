@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_board_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:55:17 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 13:16:38 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	put_board(t_mlx *mlx)
 		cast_field(mlx, &put_whole_column, NULL);
 	player_put(mlx, mlx->fake_lobby);
 	put_crosshair(mlx, 0xFF0000);
+	my_number_put(&mlx->img, MLX_WIN_X - 30, 20, mlx->fps);
 	img_put_and_clean(mlx, &mlx->img[0], 0);
 	if (mlx->keys.minimap)
 		img_put_and_clean(mlx, &mlx->img[1], MINIMAP_OFFSET);
-	put_fps(mlx);
 	return (1);
 }
