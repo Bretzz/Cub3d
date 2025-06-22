@@ -25,6 +25,18 @@
 # include <X11/Xlib.h>
 # include <pthread.h>
 
+struct s_column_vars_bonus
+{
+	unsigned int	put_color;
+	float			wall_factor;
+	char			*first_y;
+	int				heigth;
+	int				y;
+	int				z;
+	int				cw;
+	int				tw;
+};
+
 /* data needed for the 'cub3D' thread
 to talk with the 'online' thread. */
 typedef struct s_multi_data

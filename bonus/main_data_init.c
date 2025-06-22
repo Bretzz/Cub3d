@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_data_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:05:50 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:33:26 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	data_init(t_mlx *mlx, t_multi_data *data)
 		return (0);
 	mlx->map.mtx = map_padding(mlx->map.mtx);
 	if (mlx->map.mtx == NULL)
+		return (1);
+	if (load_walls_textures(mlx))
 		return (1);
 	get_map_stats((const char **)mlx->map.mtx,
 		MLX_WIN_X, MLX_WIN_Y, mlx->map.stats);

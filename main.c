@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:13 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/21 19:08:15 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:33:05 by totommi          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 
@@ -30,33 +30,28 @@ static int	juice_the_pc(t_mlx *mlx)
 	return (0);
 }
 
-int load_single_wall(void *mlx_ptr, t_img *wall, char *path)
-{
-	wall->img = mlx_xpm_file_to_image(mlx_ptr, path, &wall->width, &wall->heigth);
-	if (wall->img == NULL)
-		return (1);
-	wall->addr =  mlx_get_data_addr(wall->img, &wall->bits_per_pixel, &wall->line_length, &wall->endian);
-	wall->bpp = wall->bits_per_pixel >> 3;
-	return (0);
-}
+// static int load_single_wall(void *mlx_ptr, t_img *wall, char *path)
+// {
+// 	wall->img = mlx_xpm_file_to_image(mlx_ptr, path, &wall->width, &wall->heigth);
+// 	if (wall->img == NULL)
+// 		return (1);
+// 	wall->addr =  mlx_get_data_addr(wall->img, &wall->bits_per_pixel, &wall->line_length, &wall->endian);
+// 	wall->bpp = wall->bits_per_pixel >> 3;
+// 	return (0);
+// }
 
-int	load_walls_textures(t_mlx *mlx)
-{
-	if (load_single_wall(mlx->mlx, &mlx->map.walls[NO], mlx->map.no_wall))
-		return (1);
-	if (load_single_wall(mlx->mlx, &mlx->map.walls[SO], mlx->map.so_wall))
-		return (1);
-	if (load_single_wall(mlx->mlx, &mlx->map.walls[EA], mlx->map.ea_wall))
-		return (1);
-	if (load_single_wall(mlx->mlx, &mlx->map.walls[WE], mlx->map.we_wall))
-		return (1);
-	// mlx->map.walls[NO].img = mlx_xpm_file_to_image(mlx->mlx, mlx->map.no_wall, &mlx->map.walls[NO].width, &mlx->map.walls[NO].heigth);
-	// if (mlx->map.walls[NO].img == NULL)
-	// 	return (1);
-	// mlx->map.walls[NO].addr =  mlx_get_data_addr(mlx->map.walls[NO].img, &mlx->map.walls[NO].bits_per_pixel, &mlx->map.walls[NO].line_length, &mlx->map.walls[NO].endian);
-	// mlx->map.walls[NO].bpp = mlx->map.walls[NO].bits_per_pixel >> 3;
-	return (0);
-}
+// static int	load_walls_textures(t_mlx *mlx)
+// {
+// 	if (load_single_wall(mlx->mlx, &mlx->map.walls[NO], mlx->map.no_wall))
+// 		return (1);
+// 	if (load_single_wall(mlx->mlx, &mlx->map.walls[SO], mlx->map.so_wall))
+// 		return (1);
+// 	if (load_single_wall(mlx->mlx, &mlx->map.walls[EA], mlx->map.ea_wall))
+// 		return (1);
+// 	if (load_single_wall(mlx->mlx, &mlx->map.walls[WE], mlx->map.we_wall))
+// 		return (1);
+// 	return (0);
+// }
 
 int	data_init(t_mlx *mlx)
 {

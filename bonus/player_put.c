@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_put.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:59:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/19 22:58:13 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:44:08 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,8 @@ static int	one_player_put(t_mlx *mlx, t_player player, int index)
 		return (0);
 	if (player.data[0] == 4 && shootframes[index] < SHOT_FRAMES)
 		shootframes[index]++;
-	else if (shootframes[index] == SHOT_FRAMES)
+	else if (shootframes[index] == SHOT_FRAMES && lbb_mutex(1))
 	{
-		lbb_mutex(1);
 		mlx->lobby[index].data[0] = 0;
 		lbb_mutex(2);
 		shootframes[index] = 0;

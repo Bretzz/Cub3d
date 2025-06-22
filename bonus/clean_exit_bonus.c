@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:02:14 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 17:36:33 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:54:38 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include <stdlib.h>
 
 int	clean_exit(t_mlx *mlx, int exit_code);
+
+static void	destroy_walls_textures(void *mlx_ptr, t_my_img *walls)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (walls[i].img_ptr != NULL)
+			mlx_destroy_image(mlx_ptr, walls[i].img_ptr);
+		i++;
+	}
+}
 
 /* LOBBY MUTEX */
 static void	destroy_lobby_sprites(void *mlx_ptr, t_player *lobby)
@@ -63,19 +76,19 @@ int	clean_exit(t_mlx *mlx, int exit_code)
 	send_all(mlx, buffer, ft_strlen(buffer));
 	hpc_free(mlx->socket, mlx->index, mlx->thread);
 	destroy_lobby_sprites(mlx->mlx, mlx->fake_lobby);
+	destroy_walls_textures(mlx->mlx, mlx->map.walls);
 	if (mlx->mlx)
 	{
-		if (mlx->img[0].img)
-			mlx_destroy_image(mlx->mlx, mlx->img[0].img);
-		if (mlx->img[1].img)
-			mlx_destroy_image(mlx->mlx, mlx->img[1].img);
+		if (mlx->img[0].img_ptr)
+			mlx_destroy_image(mlx->mlx, mlx->img[0].img_ptr);
+		if (mlx->img[1].img_ptr)
+			mlx_destroy_image(mlx->mlx, mlx->img[1].img_ptr);
 		if (mlx->win)
 			mlx_destroy_window(mlx->mlx, mlx->win);
-		mlx_destroy_display(mlx->mlx);
+		// mlx_destroy_display(mlx->mlx);
 		free(mlx->mlx);
 	}
-	if (mlx->map.mtx != NULL)
-		free_mtx((void **)mlx->map.mtx);
+	free_mtx((void **)mlx->map.mtx);
 	free(mlx->map.no_wall);
 	free(mlx->map.so_wall);
 	free(mlx->map.we_wall);

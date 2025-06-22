@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_string_put.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 13:55:15 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/19 23:28:16 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:50:14 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ static t_draw_map get_maiusc_letter(const char letter)
 
 static void	put_2by2_square(void *my_struct, int x, int y, unsigned int color)
 {
-	t_img *const	img = (t_img *)my_struct;
+	t_my_img *const	img = (t_my_img *)my_struct;
 	const int		bpp = img->bits_per_pixel / sizeof(int *);
 	int				t;
 	int				s;
 
 	if (my_struct == NULL
-		|| img->addr == NULL)
+		|| img->data == NULL)
 		return ;
 	t = 0;
 	while (t < 2)
@@ -76,7 +76,7 @@ static void	put_2by2_square(void *my_struct, int x, int y, unsigned int color)
 		{
 			if (x + t >= 0 && y + s >= 0
 				&& x + t < img->width && y + s < img->heigth)
-				*(unsigned int *)(img->addr + ((y + s) * img->line_length
+				*(unsigned int *)(img->data + ((y + s) * img->line_length
 							+ (x + t) * bpp)) = color;
 			s++;
 		}

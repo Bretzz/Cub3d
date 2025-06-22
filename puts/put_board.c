@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   put_board.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/21 18:26:16 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:51:45 by totommi          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "cub3D.h"
 #include "puts.h"
@@ -21,22 +21,18 @@
 /* ! ! ! CALL BEFORE ANY OTHER PUT* ! ! ! */
 int	put_board(t_mlx *mlx)
 {
-	mlx->img->img = mlx_new_image(mlx->mlx, MLX_WIN_X, MLX_WIN_X);
-	mlx->img->addr = mlx_get_data_addr(mlx->img->img, &mlx->img
-			->bits_per_pixel, &mlx->img->line_length, &mlx->img->endian);
-	if (!mlx->img->img || !mlx->img->addr)
+	mlx->img->img_ptr = mlx_new_image(mlx->mlx, MLX_WIN_X, MLX_WIN_X);
+	if (!mlx->img->img_ptr)
 		return (0);
+	mlx->img->data = mlx_get_data_addr(mlx->img->img_ptr, &mlx->img
+			->bits_per_pixel, &mlx->img->line_length, &mlx->img->endian);
 	mlx->img->bpp = mlx->img->bits_per_pixel >> 3;
 	mlx->img->width = MLX_WIN_X;
 	mlx->img->heigth = MLX_WIN_Y;
-	cast_field(mlx, &put_whole_column, &put2d_ray);
-	my_string_put(&mlx->img, 600 , 100, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0xff0000);	//remove
-	my_number_put(&mlx->img, 600, 120, -2147483647, 0xff0000);						//remove
+	cast_field(mlx, &put_whole_column, NULL);
 	my_number_put(&mlx->img, MLX_WIN_X - 25, 20, mlx->fps, 0xff0000);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
-	mlx_destroy_image(mlx->mlx, mlx->img->img);
-	ft_memset(&mlx->img, 0, sizeof(t_img));
-	//mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->map.walls[NO].img, 300, 300);
-	
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img_ptr, 0, 0);
+	mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
+	ft_memset(&mlx->img, 0, sizeof(t_my_img));
 	return (1);
 }

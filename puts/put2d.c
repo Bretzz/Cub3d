@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:56:46 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:00:43 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 02:52:58 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /* put a square in the window, (x, y) are the coordinates
 of the top left corner. */
-int	put_square(t_img *img, size_t side, int *origin, unsigned int color)
+int	put_square(t_my_img *img, size_t side, int *origin, unsigned int color)
 {
 	int	pixel[2];
 

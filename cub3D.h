@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it    +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/21 20:37:06 by scarlucc         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:49:14 by totommi          ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 
 #ifndef CUB3D_H
@@ -162,17 +162,17 @@ typedef struct s_keys
 }				t_keys;
 
 // mlx img related data
-typedef struct s_img
+typedef struct s_my_img
 {
-	void	*img;
-	char	*addr;
+	void	*img_ptr;
+	char	*data;
 	int		bits_per_pixel;
 	int		bpp;
 	int		line_length;
 	int		endian;
 	int		width;
 	int		heigth;
-}				t_img;
+}				t_my_img;
 
 /* struct s_column_vars
 {
@@ -191,7 +191,7 @@ typedef struct s_map
 	char			*tmp_line;
 	unsigned int	sky;
 	unsigned int	floor;
-	t_img			walls[4];
+	t_my_img		walls[4];
 	char			*no_wall;
 	char			*so_wall;
 	char			*we_wall;
@@ -228,7 +228,7 @@ typedef struct s_local
 // 	void			*win;
 // 	int				win_x;
 // 	int				win_y;
-// 	t_img			img;
+// 	t_my_img			img;
 // 	t_map			map;
 // 	t_keys			keys;
 // 	char			on_window;
@@ -249,7 +249,7 @@ typedef struct s_mlx
 {
 	void			*mlx;
 	void			*win;
-	t_img			img[2];
+	t_my_img		img[2];
 	t_map			map;
 	t_keys			keys;
 	char			on_window;
@@ -268,7 +268,7 @@ typedef struct s_mlx
 {
 	void			*mlx;
 	void			*win;
-	t_img			img[2];
+	t_my_img			img[2];
 	t_map			map;
 	t_keys			keys;
 	char			on_window;
@@ -322,8 +322,8 @@ void			image_pixel_put(void *img_ptr, int x, int y, unsigned int color);
 unsigned int	get_pixel_color(void *img_ptr, int x, int y);
 
 int				put_board(t_mlx *mlx);
-int				put_square(t_img *img, size_t side, int *origin, unsigned int color);
-int				put_line(t_img *img, int *p1, int *p2, unsigned int color);
+int				put_square(t_my_img *img, size_t side, int *origin, unsigned int color);
+int				put_line(t_my_img *img, int *p1, int *p2, unsigned int color);
 int				put_whole_column(void *my_struct, int x, float len);
 
 int				put2d_map(t_mlx *mlx, int side, unsigned int color);
@@ -357,10 +357,10 @@ int				check_single_wall(char	*line, char **wall);
 
 /* =========== PARSING_MAP =========== */
 
-int			check_walls(char *line, char	*start, t_mlx *mlx);
-int			parsing_map(char	**map, int	line, int	count);
-int			check_cross_help(int	*i, char	*allowed);
-int			check_cross(char	**map, int	line, int	count, char	*allowed);
+int				check_walls(char *line, char	*start, t_mlx *mlx);
+int				parsing_map(char	**map, int	line, int	count);
+int				check_cross_help(int	*i, char	*allowed);
+int				check_cross(char	**map, int	line, int	count, char	*allowed);
 
 /* ============ UTILS ============= */
 
@@ -370,6 +370,7 @@ void			error_msg2(char *msg, char print_char);
 int				skip_spaces(char	*line, int	count);
 int				check_rgb(char	*rgb_value);
 
+int				load_walls_textures(t_mlx *mlx);
 
 /* ============ DEBUG ============= */
 

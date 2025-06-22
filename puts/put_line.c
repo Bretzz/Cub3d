@@ -6,7 +6,7 @@
 /*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:22:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 12:55:55 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 02:51:52 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	set_sy(int *p1, int *p2)
 
 /* Basic implementation of the Breshaim line algorithm */
 /* p1 are the coords of the first pixel, p2 are the coords of the second one */
-int	put_line(t_img *img, int *p1, int *p2, unsigned int color)
+int	put_line(t_my_img *img, int *p1, int *p2, unsigned int color)
 {
 	const int	dx_sx[2] = {abs (p2[0] - p1[0]), set_sx(p1, p2)};
 	const int	dy_sy[2] = {-abs (p2[1] - p1[1]), set_sy(p1, p2)};

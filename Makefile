@@ -82,7 +82,10 @@ SRC_FILES		= main.c \
 				move_mouse.c \
 				handle_key_press.c handle_key_release.c \
 				handle_mouse.c handle_hover.c \
-				clean_exit.c utils.c \
+				clean_exit.c \
+				\
+				utils.c \
+				load_walls_textures.c \
 				\
 				debug.c
 

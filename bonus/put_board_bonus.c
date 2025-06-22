@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   put_board_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 16:30:44 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:55:17 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D_bonus.h"
 
 /* puts the image and cleanups the t_img struct */
-static void	img_put_and_clean(t_mlx *mlx, t_img *img, int offset)
+static void	img_put_and_clean(t_mlx *mlx, t_my_img *img, int offset)
 {
-	mlx_put_image_to_window(mlx->mlx, mlx->win, img->img, offset, offset);
-	mlx_destroy_image(mlx->mlx, img->img);
-	ft_memset(img, 0, sizeof(t_img));
+	mlx_put_image_to_window(mlx->mlx, mlx->win, img->img_ptr, offset, offset);
+	mlx_destroy_image(mlx->mlx, img->img_ptr);
+	ft_memset(img, 0, sizeof(t_my_img));
 }
 
 /* initialize the t_img struct */
-static int	img_init(void *mlx_ptr, t_img *img, int size_x, int size_y)
+static int	img_init(void *mlx_ptr, t_my_img *img, int size_x, int size_y)
 {
-	img->img = mlx_new_image(mlx_ptr, size_x, size_y);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
-			&img->line_length, &img->endian);
-	if (!img->img || !img->addr)
+	img->img_ptr = mlx_new_image(mlx_ptr, size_x, size_y);
+	if (!img->img_ptr)
 		return (0);
+	img->data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
 	img->width = size_x;
 	img->heigth = size_y;
 	img->bpp = img->bits_per_pixel >> 3;
