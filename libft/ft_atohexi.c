@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:00:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/08 17:45:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:15:12 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ int	ft_atohexi(const char *nptr)
 	nptr += 2;
 	nb = 0;
 	while ((*nptr >= '0' && *nptr <= '9')
-		|| (*nptr >= 'a' && *nptr <= 'f'))
+		|| (*nptr >= 'a' && *nptr <= 'f')
+		|| (*nptr >= 'A' && *nptr <= 'F'))
 	{
-		nb = nb * 16 + (ft_strichr(base, *nptr) - 1);
+		nb = nb * 16 + (ft_strichr(base, ft_tolower(*nptr)) - 1);
 		nptr++;
 	}
 	return (nb);
