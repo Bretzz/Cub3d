@@ -52,7 +52,7 @@ int	put_board(t_mlx *mlx)
 	player_handle(mlx, mlx->fake_lobby);
 	if (!img_init(mlx->mlx, &mlx->img[0], MLX_WIN_X, MLX_WIN_Y))
 		return (0);
-	if (mlx->keys.minimap)
+	if (mlx->keys.minimap && mlx->map.mini_side != 0)
 	{
 		if (!img_init(mlx->mlx, &mlx->img[1],
 				mlx->map.mini_side * mlx->map.stats[0],
@@ -68,7 +68,7 @@ int	put_board(t_mlx *mlx)
 	put_crosshair(mlx, 0xFF0000);
 	my_number_put(&mlx->img, MLX_WIN_X - 30, 20, mlx->fps);
 	img_put_and_clean(mlx, &mlx->img[0], 0);
-	if (mlx->keys.minimap)
+	if (mlx->keys.minimap && mlx->map.mini_side != 0)
 		img_put_and_clean(mlx, &mlx->img[1], MINIMAP_OFFSET);
 	return (1);
 }
