@@ -13,9 +13,9 @@
 #include "cub3D.h"
 #include <stdlib.h>
 
-int clean_exit(t_mlx *mlx, int exit_code);
+int	clean_exit(t_mlx *mlx, int exit_code);
 
-static void destroy_wall_data(t_mlx *mlx)
+static void	destroy_wall_data(t_mlx *mlx)
 {
 	if (mlx->map.walls[NO].img_ptr)
 		mlx_destroy_image(mlx->mlx, mlx->map.walls[NO].img_ptr);
@@ -40,14 +40,14 @@ int	clean_exit(t_mlx *mlx, int exit_code)
 	destroy_wall_data(mlx);
 	if (mlx->mlx)
 	{
-		if(mlx->img->img_ptr)
-		mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
+		if (mlx->img->img_ptr)
+			mlx_destroy_image(mlx->mlx, mlx->img->img_ptr);
 		if (mlx->win)
 		{
 			mlx_destroy_window(mlx->mlx, mlx->win);
 			mlx->win = NULL;
 		}
-		if(__LINUX__)
+		if (__LINUX__)
 			mlx_destroy_display(mlx->mlx);
 		free(mlx->mlx);
 	}
