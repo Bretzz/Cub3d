@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 19:56:30 by scarlucc          #+#    #+#             */
-/*   Updated: 2025/06/22 13:28:25 by topiana-         ###   ########.fr       */
+/*   Created: 2025-06-22 13:00:58 by scarlucc          #+#    #+#             */
+/*   Updated: 2025-06-22 13:00:58 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
 /* 0 = ok, 1 = error */
-int	check_walls(char *line, char	*start, t_mlx *mlx)
+int	check_walls(char *line, t_mlx *mlx)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 	{
 		if (check_single_wall(line, &mlx->map.no_wall))
-			return (free(start), 1);
+			return (1);
 	}
 	else if (ft_strncmp(line, "SO ", 3) == 0)
 	{
 		if (check_single_wall(line, &mlx->map.so_wall))
-			return (free(start), 1);
+			return (1);
 	}
 	else if (ft_strncmp(line, "WE ", 3) == 0)
 	{
 		if (check_single_wall(line, &mlx->map.we_wall))
-			return (free(start), 1);
+			return (1);
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 	{
 		if (check_single_wall(line, &mlx->map.ea_wall))
-			return (free(start), 1);
+			return (1);
 	}
 	return (0);
 }

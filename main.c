@@ -64,6 +64,8 @@ int	main(int argc, char *argv[])
 	ft_memset(&mlx, 0, sizeof(t_mlx));
 	if (argc != 2)
 		return (error_msg(ERR_ARGS), 1);
+	mlx.map.sky = UINT_MAX;
+	mlx.map.floor = UINT_MAX;
 	if (parsing(argv[1], &mlx))
 		clean_exit(&mlx, EXIT_FAILURE);
 	if (data_init(&mlx))

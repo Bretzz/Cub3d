@@ -1,18 +1,8 @@
 NO    ./textures/colorstone.xpm
 SO ./textures/greystone.xpm
-
-
-F       255,   00000, 0,,,,
-
-
-    C       0,   0,  255
-
-
-
-
-   EA ./textures/redbrick.xpm
-
-
-   WE     ./textures/wood.xpm
+F   255,00000,0
+C 0,0,255
+EA ./textures/redbrick.xpm
+WE     ./textures/wood.xpm
 
 

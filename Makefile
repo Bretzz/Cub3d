@@ -88,6 +88,7 @@ SRC_FILES		= main.c \
 				\
 				utils.c \
 				load_walls_texture.c \
+				is_white.c \
 				\
 				debug.c
 

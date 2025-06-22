@@ -54,6 +54,9 @@ in scene description file"
 # define ERR_FC_BOUNDS "	color value out of bounds"
 # define ERR_NEWLINE_MAP "	empty line in map"
 # define ERR_OPEN_MAP "	open map"
+# define ERR_NO_MAP "	missing map"
+# define ERR_PATH_WALL "	path wall incorrect"
+# define ERR_SPACE_END_PATH "	trim spaces at end of path"
 # define ERR_SPAWN "	map needs exactly ONE of the following chars: N S W E"
 # define BAD_CHAR "	invalid character"
 # define ERR_CHAR_FILE "	invalid character in scene description file"
@@ -330,10 +333,11 @@ int				is_file_type(const char *file, const char *type);
 int				ft_mapchr(char *str, const char *map);
 int				check_single_floor(char	*line, unsigned int	*floor_ceiling);
 int				check_single_wall(char	*line, char **wall);
+int				check_path_walls(t_mlx *mlx);
 
 /* =========== PARSING_MAP =========== */
 
-int				check_walls(char *line, char	*start, t_mlx *mlx);
+int				check_walls(char *line, t_mlx *mlx);
 int				parsing_map(char **map, int line, int count);
 int				check_cross_help(int *i, char *allowed);
 int				check_cross(char **map, int line, int count, char *allowed);
@@ -347,6 +351,7 @@ int				skip_spaces(char *line, int count);
 int				check_rgb(char *rgb_value);
 
 int				load_walls_texture(t_mlx *mlx);
+int				is_white(char	*line);
 
 /* ============ DEBUG ============= */
 

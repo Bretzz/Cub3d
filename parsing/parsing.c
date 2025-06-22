@@ -35,7 +35,7 @@ int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 		|| (ft_strncmp(line, "WE ", 3) == 0)
 		|| (ft_strncmp(line, "EA ", 3) == 0))
 	{
-		if (check_walls(line, start, mlx))
+		if (check_walls(line, mlx))
 			return (1);
 	}
 	else if ((ft_strncmp(line, "F ", 2) == 0)
@@ -47,7 +47,7 @@ int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 	else if (*line == '1')
 		return (mlx->map.tmp_line = start, 2);
 	else
-		return (error_msg(ERR_CHAR_FILE), free(start), 1);
+		return (error_msg(ERR_CHAR_FILE), 1);
 	return (0);
 }
 
@@ -60,7 +60,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 
 	while (line)
 	{
-		while (line && *line == '\n')
+		while (line && is_white(line))
 		{
 			free(line);
 			line = get_next_line(fd);
@@ -72,7 +72,7 @@ int	walls_ceiling(char *line, int fd, t_mlx *mlx)
 			line++;
 		result = walls_ceiling_map(line, start, mlx);
 		if (result == 1)
-			return (1);
+			return (free(start), 1);
 		else if (result == 2)
 			return (0);
 		free(start);
@@ -117,8 +117,6 @@ int	parsing(const char *path, t_mlx *mlx)
 	char		**map;
 	char		*line;
 
-	mlx->map.sky = UINT_MAX;
-	mlx->map.floor = UINT_MAX;
 	if (is_file_type(path, ".cub"))
 		clean_exit(mlx, EXIT_FAILURE);
 	if (fd < 0)
@@ -132,9 +130,12 @@ int	parsing(const char *path, t_mlx *mlx)
 		|| mlx->map.ea_wall == NULL || mlx->map.we_wall == NULL)
 		return (error_msg(ERR_WALL_MISS), close(fd),
 			free(mlx->map.tmp_line), 1);
+	if (!mlx->map.tmp_line)
+		return (error_msg(ERR_NO_MAP), close(fd), 1);
 	map = get_map(mlx->map.tmp_line, fd, 0);
 	if (map == NULL)
 		return (close(fd), 1);
-	print_map(map);
+	if (check_path_walls(mlx))
+		return (close(fd), free_mtx((void **)map), 1);
 	return (close(fd), mlx->map.mtx = map, 0);
 }

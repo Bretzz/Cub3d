@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scarlucc <scarlucc@student.42firenze.it>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 20:50:33 by scarlucc          #+#    #+#             */
-/*   Updated: 2025/06/22 13:28:10 by topiana-         ###   ########.fr       */
+/*   Created: 2025-06-22 13:00:42 by scarlucc          #+#    #+#             */
+/*   Updated: 2025-06-22 13:00:42 by scarlucc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	is_file_type(const char *file, const char *type)
 	}
 	if (ft_strncmp(&file[i], type, (ft_strlen(type) + 1)) != 0)
 	{
-		error_msg(ERR_FORMAT);
+		if (ft_isspace(file[i + ft_strlen(type)]))
+			error_msg(ERR_SPACE_END_PATH);
+		else
+			error_msg(ERR_FORMAT);
 		return (1);
 	}
 	return (0);
@@ -98,4 +101,26 @@ int	check_single_floor(char	*line, unsigned int	*floor_ceiling)
 		return (0);
 	}
 	return (0);
+}
+
+int	check_path_walls(t_mlx *mlx)
+{
+	int	fd;
+
+	fd = open(mlx->map.no_wall, O_RDONLY);
+	if (fd < 0)
+		return (error_msg(ERR_PATH_WALL), 1);
+	close(fd);
+	fd = open(mlx->map.so_wall, O_RDONLY);
+	if (fd < 0)
+		return (error_msg(ERR_PATH_WALL), 1);
+	close(fd);
+	fd = open(mlx->map.ea_wall, O_RDONLY);
+	if (fd < 0)
+		return (error_msg(ERR_PATH_WALL), 1);
+	close(fd);
+	fd = open(mlx->map.we_wall, O_RDONLY);
+	if (fd < 0)
+		return (error_msg(ERR_PATH_WALL), 1);
+	return (close(fd), 0);
 }
