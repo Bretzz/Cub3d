@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 17:25:49 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 18:35:15 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	sprite_data_init(t_mlx *mlx)
 
 int	base_data_init(t_mlx *mlx, t_multi_data *data)
 {
+	mlx->map.sky = UINT_MAX;
+	mlx->map.floor = UINT_MAX;
 	mlx->online = 1;
 	mlx->index = &data->index;
 	mlx->socket = &data->socket;
