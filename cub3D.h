@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:35:17 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 17:06:45 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ in scene description file"
 typedef struct s_sprite
 {
 	float			scale;
-	int				heigth;
+	int				height;
 	int				width;
 	void			*image;
 	unsigned int	chroma;	// difference from the effective xpm file
@@ -144,7 +144,7 @@ typedef struct s_sprite
 typedef struct s_plot
 {
 	float	scale;
-	int		heigth;
+	int		height;
 	int		width;
 	int		x_screen;
 	int		y_screen;
@@ -176,7 +176,7 @@ typedef struct s_my_img
 	int		line_length;
 	int		endian;
 	int		width;
-	int		heigth;
+	int		height;
 }				t_my_img;
 
 // data of the map

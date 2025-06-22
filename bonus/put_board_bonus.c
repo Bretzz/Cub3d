@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 15:23:46 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	img_init(void *mlx_ptr, t_my_img *img, int size_x, int size_y)
 	img->data = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	img->width = size_x;
-	img->heigth = size_y;
+	img->height = size_y;
 	img->bpp = img->bits_per_pixel >> 3;
 	return (1);
 }

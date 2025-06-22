@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 03:51:02 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/21 17:52:24 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	yft_is_better(const char *path)
 // 	unsigned int	i;
 // 	unsigned int	j;
 
-// 	ft_printf("name: '%s', heigth=%d, width=%d, space=%d, colors=%d\n",
-// 		font->name, font->heigth, font->width, font->space, font->colors);
+// 	ft_printf("name: '%s', height=%d, width=%d, space=%d, colors=%d\n",
+// 		font->name, font->height, font->width, font->space, font->colors);
 // 	i = 0;
 // 	while (i < 128)
 // 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:52:50 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	vars_init(struct s_column_vars *vars,
 {
 	ft_memset(vars, 0, sizeof(struct s_column_vars));
 	if (len < 0)
-		vars->heigth = 0;
+		vars->height = 0;
 	else if (len == 0)
-		vars->heigth = MLX_WIN_Y / 2;
+		vars->height = MLX_WIN_Y / 2;
 	else
-		vars->heigth = (MLX_WIN_X / 2) / len;
+		vars->height = (MLX_WIN_X / 2) / len;
 	vars->first_y = my_wall->data + (wall_x * my_wall->bpp);
-	vars->wall_factor = (float)my_wall->heigth / (vars->heigth * 2);
+	vars->wall_factor = (float)my_wall->height / (vars->height * 2);
 }
 
 static int	get_wall_x(t_ray *ray, t_my_img *walls)
@@ -60,11 +60,11 @@ int	put_whole_column(void *my_struct, int x, float len)
 	vars_init(&vars, len, my_wall, wall_x);
 	while (vars.y < MLX_WIN_Y)
 	{
-		if (vars.y < mid_line - vars.heigth)
+		if (vars.y < mid_line - vars.height)
 			vars.put_color = mlx->map.sky;
-		else if (vars.y < mid_line + vars.heigth)
+		else if (vars.y < mid_line + vars.height)
 			vars.put_color = *(unsigned int *)(vars.first_y + (int)((vars.y
-							- (mid_line - vars.heigth)) * vars.wall_factor)
+							- (mid_line - vars.height)) * vars.wall_factor)
 					*my_wall->line_length);
 		else
 			vars.put_color = mlx->map.floor;

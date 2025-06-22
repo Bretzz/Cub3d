@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:10:24 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 21:55:57 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 	const float	diff = fabsf(dir_diff(dir[0], plot.dir)) * MY_PI / 180;
 	const float	conv_dir = -(dir[1] - 90);
 	const float	laser_dir = (plot.dist * sinf(diff)) / cosf(diff);
-	float		heigth;
+	float		height;
 
 	if ((laser_dir > (MY_PI / 20))
 		|| laser_dir < -(MY_PI / 20))
@@ -33,9 +33,9 @@ static int	shoot_laser(t_mlx *mlx, t_plot plot, float *dir)
 			mlx->player.pos[1],
 			plot.dir) < plot.dist)
 		return (1);
-	heigth = (plot.dist / cosf(conv_dir * MY_PI / 180))
+	height = (plot.dist / cosf(conv_dir * MY_PI / 180))
 		* sinf(conv_dir * MY_PI / 180) + 0.5f;
-	if (heigth < 0 || heigth > 0.3f)
+	if (height < 0 || height > 0.3f)
 		return (1);
 	return (0);
 }

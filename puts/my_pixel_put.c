@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_pixel_put.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:57:34 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:49:35 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	my_pixel_put(void *my_struct, int x, int y, unsigned int color)
 	if (my_struct == NULL
 		|| img->data == NULL)
 		return ;
-	if (x < 0 || y < 0 || x >= img->width || y >= img->heigth)
+	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
 		return ;
 	*(unsigned int *)(img->data + (y * img->line_length
 			+ x * (img->bits_per_pixel / sizeof(int *)))) = color;

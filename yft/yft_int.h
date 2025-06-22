@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:48:06 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/22 15:51:18 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_yft_img
 	int		line_length;
 	int		endian;
 	int		width;
-	int		heigth;
+	int		height;
 }				t_yft_img;
 
 /* current 16x16, go with malloc for bigger sized fonts */
@@ -60,7 +60,7 @@ typedef struct s_color_pair
 typedef struct s_font
 {
 	char			name[128];			// name of the font
-	int				heigth;				// heigth of each char
+	int				height;				// height of each char
 	int				width;				// width of each char
 	int				space;				// space between letters
 	int				colors;
@@ -75,7 +75,7 @@ void		*yft_string_to_image(void *mlx_ptr, const char *font_name,
 
 int			yft_string_put(void *img_ptr, int x, int y, const char *string);
 
-t_yft_img	yft_img_init(void *mlx_ptr, int length, int heigth);
+t_yft_img	yft_img_init(void *mlx_ptr, int length, int height);
 
 void		yft_draw_ascii(t_yft_img *img, t_draw_map *map,
 				int *coord, int scale);

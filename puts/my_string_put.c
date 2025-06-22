@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 13:55:15 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 13:05:41 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	put_2by2_square(void *my_struct, int x, int y, unsigned int color)
 		while (s < 2)
 		{
 			if (x + t >= 0 && y + s >= 0
-				&& x + t < img->width && y + s < img->heigth)
+				&& x + t < img->width && y + s < img->height)
 				*(unsigned int *)(img->data + ((y + s) * img->line_length
 							+ (x + t) * bpp)) = color;
 			s++;

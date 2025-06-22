@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 05:02:12 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/21 17:51:36 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	get_row_pixels(char *row, const int y, t_font *font, int what)
 				i - 1, y, color);
 		i++;
 	}
-	if (y == font->heigth - 1)
+	if (y == font->height - 1)
 	{
 		font->ascii_table[what].map[pixel_count][0] = -1;
 		font->ascii_table[what].map[pixel_count][1] = -1;
@@ -76,7 +76,7 @@ int	yft_fill_map(char *miniline, t_font *font)
 		i++;
 	i = i + 1;
 	y = 0;
-	while (miniline[i] != '\0' && y < font->heigth
+	while (miniline[i] != '\0' && y < font->height
 		&& (miniline[i] != '}' || miniline[i + 1] != '}'))
 	{
 		get_row_pixels(&miniline[i], y, font, what);

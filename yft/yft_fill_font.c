@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 04:55:27 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/21 17:47:21 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:23:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ static int	get_color_table(char *monoline, int colors,
 	return (0);
 }
 
-// {font="MyCoolFont",width=9,heigth=5,[space=3],colors=2,".cVoid","#cFill"}
+// {font="MyCoolFont",width=9,height=5,[space=3],colors=2,".cVoid","#cFill"}
 static int	get_font_format(char *monoline, t_font *font, size_t *i)
 {
 	const size_t	mono_len = ft_strlen(monoline);
 	char			*target;
 
 	ft_strlcpy(font->name, &monoline[7], get_quotes_len(&monoline[6]) + 1);
-	target = ft_strnstr(monoline, "heigth=", mono_len);
+	target = ft_strnstr(monoline, "height=", mono_len);
 	if (target == NULL)
 		return (1);
-	font->heigth = ft_atoi(&target[7]);
+	font->height = ft_atoi(&target[7]);
 	target = ft_strnstr(monoline, "width=", mono_len);
 	if (target == NULL)
 		return (1);

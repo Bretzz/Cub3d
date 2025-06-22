@@ -87,7 +87,7 @@ SRC_FILES		= main.c \
 				clean_exit.c \
 				\
 				utils.c \
-				load_walls_textures.c \
+				load_walls_texture.c \
 				\
 				debug.c
 

@@ -30,7 +30,7 @@ struct s_column_vars_bonus
 	unsigned int	put_color;
 	float			wall_factor;
 	char			*first_y;
-	int				heigth;
+	int				height;
 	int				y;
 	int				z;
 	int				cw;

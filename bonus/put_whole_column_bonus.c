@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_whole_column_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 12:38:02 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:56:25 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static void	vars_init(struct s_column_vars_bonus *vars,
 
 	ft_memset(vars, 0, sizeof(struct s_column_vars_bonus));
 	if (len < 0)
-		vars->heigth = 0;
+		vars->height = 0;
 	else if (len == 0)
-		vars->heigth = MLX_WIN_Y;
+		vars->height = MLX_WIN_Y;
 	else
-		vars->heigth = MLX_WIN_X / len;
+		vars->height = MLX_WIN_X / len;
 	vars->first_y = my_wall->data + (wall_x * my_wall->bpp);
-	vars->wall_factor = (float)my_wall->heigth / (vars->heigth);
-	vars->z = vars->heigth / (mlx->player.pos[2] + 1);
+	vars->wall_factor = (float)my_wall->height / (vars->height);
+	vars->z = vars->height / (mlx->player.pos[2] + 1);
 	vars->cw = vars->z;
-	vars->tw = vars->heigth - vars->z;
+	vars->tw = vars->height - vars->z;
 }
 
 static int	get_wall_x(t_ray *ray, t_my_img *walls)

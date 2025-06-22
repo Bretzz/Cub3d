@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:59:08 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/18 21:55:57 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	put_sprite_on_map(t_mlx *mlx, float *pos, t_sprite sprite)
 	cast_ray(mlx, my_pos[0], my_pos[1], sprite_dir);
 	if (mlx->ray.len > 0 && mlx->ray.len < my_dist)
 		return (1);
-	sprite.scale = ((MLX_WIN_X / 2) / sprite.heigth) / my_dist;
+	sprite.scale = ((MLX_WIN_X / 2) / sprite.height) / my_dist;
 	ft_memmove(&mlx->pos_data, &sprite, 3 * sizeof(int));
 	set_sprite_data(mlx, pos, my_dist, sprite_dir);
 	put_sprite(mlx, mlx->pos_data[MAXPLAYERS], sprite);

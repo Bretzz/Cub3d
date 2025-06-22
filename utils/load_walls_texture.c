@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_walls_textures.c                              :+:      :+:    :+:   */
+/*   load_walls_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 02:31:34 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/22 13:24:48 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	load_single_wall(void *mlx_ptr, t_my_img *wall, char *path)
 {
 	wall->img_ptr = mlx_xpm_file_to_image(mlx_ptr, path, &wall->width,
-			&wall->heigth);
+			&wall->height);
 	if (wall->img_ptr == NULL)
 		return (1);
 	wall->data = mlx_get_data_addr(wall->img_ptr, &wall->bits_per_pixel,

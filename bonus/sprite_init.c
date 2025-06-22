@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:51:28 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/16 22:32:46 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ t_sprite	*sprite_init(void *mlx_ptr, int i, unsigned int subst);
 static int	load_player_sprites(void *mlx_ptr, t_sprite *sprite)
 {
 	sprite[0].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/\
-sprites/stop_front.xpm", &sprite[0].width, &sprite[0].heigth);
+sprites/stop_front.xpm", &sprite[0].width, &sprite[0].height);
 	if (sprite[0].image == NULL)
 		return (0);
 	sprite[0].scale = 1;
 	sprite[1].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/\
-sprites/stop_back.xpm", &sprite[1].width, &sprite[1].heigth);
+sprites/stop_back.xpm", &sprite[1].width, &sprite[1].height);
 	if (sprite[1].image == NULL)
 		return (0);
 	sprite[1].scale = 1;
 	sprite[2].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/\
-sprites/stop_left.xpm", &sprite[2].width, &sprite[2].heigth);
+sprites/stop_left.xpm", &sprite[2].width, &sprite[2].height);
 	if (sprite[2].image == NULL)
 		return (0);
 	sprite[2].scale = 1;
 	sprite[3].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/\
-sprites/stop_right.xpm", &sprite[3].width, &sprite[3].heigth);
+sprites/stop_right.xpm", &sprite[3].width, &sprite[3].height);
 	if (sprite[3].image == NULL)
 		return (0);
 	sprite[3].scale = 1;
 	sprite[4].image = mlx_xpm_file_to_image(mlx_ptr, "./bonus/\
-sprites/shoot_front.xpm", &sprite[4].width, &sprite[4].heigth);
+sprites/shoot_front.xpm", &sprite[4].width, &sprite[4].height);
 	if (sprite[4].image == NULL)
 		return (0);
 	sprite[4].scale = 1;
@@ -54,7 +54,7 @@ static void	change_sprite_chroma(t_sprite *sprite, int index,
 	while (pixel[0] < sprite[index].width)
 	{
 		pixel[1] = 0;
-		while (pixel[1] < sprite[index].heigth)
+		while (pixel[1] < sprite[index].height)
 		{
 			if (get_pixel_color(sprite[index].image,
 					pixel[0], pixel[1]) == subst)

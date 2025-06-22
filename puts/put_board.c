@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 21:56:56 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 13:31:42 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	put_board(t_mlx *mlx)
 			->bits_per_pixel, &mlx->img->line_length, &mlx->img->endian);
 	mlx->img->bpp = mlx->img->bits_per_pixel >> 3;
 	mlx->img->width = MLX_WIN_X;
-	mlx->img->heigth = MLX_WIN_Y;
+	mlx->img->height = MLX_WIN_Y;
 	cast_field(mlx, &put_whole_column, NULL);
 	my_number_put(&mlx->img, MLX_WIN_X - 25, 20, mlx->fps);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img_ptr, 0, 0);

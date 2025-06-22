@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_put.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:59:50 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:44:08 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	one_player_put(t_mlx *mlx, t_player player, int index)
 	sprite = &((t_sprite *)player.extra)[get_sprite_index(
 			*(float *)&player.tar[0],
 			mlx->pos_data[index].dir, player.data[0])];
-	sprite->scale = ((MLX_WIN_X / 2) / sprite->heigth)
+	sprite->scale = ((MLX_WIN_X / 2) / sprite->height)
 		/ mlx->pos_data[index].dist;
 	ft_memmove(&mlx->pos_data[index], sprite, 3 * sizeof(int));
 	put_sprite(mlx, mlx->pos_data[index], *sprite);

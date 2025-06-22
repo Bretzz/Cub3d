@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:09:11 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 12:35:48 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct s_column_vars
 	unsigned int	put_color;
 	float			wall_factor;
 	char			*first_y;
-	int				heigth;
+	int				height;
 	int				y;
 };
 

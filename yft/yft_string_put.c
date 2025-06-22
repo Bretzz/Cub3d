@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 15:19:47 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 16:51:30 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_font	*get_any_font(void)
 	data[0] = x,
 	data[1] = y,
 	data[2] = img width
-	data[3] = img heigth */
+	data[3] = img height */
 /* right now scale is 1 */
 int	yft_string_put(void *img_ptr, int x, int y, const char *string)
 {

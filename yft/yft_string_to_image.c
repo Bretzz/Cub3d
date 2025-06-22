@@ -6,7 +6,7 @@
 /*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:47:52 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/22 15:51:52 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*yft_string_to_image(void *mlx_ptr, const char *font_name,
 	}
 	img = yft_img_init(mlx_ptr, ft_strlen(string)
 			* (font->width + font->space) * scale,
-			font->heigth * scale);
+			font->height * scale);
 	if (img.img == NULL)
 		return (NULL);
 	ft_memset(coord, 0, 2 * sizeof(int));
