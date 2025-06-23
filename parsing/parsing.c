@@ -95,7 +95,7 @@ static char	**get_map(char *line, int fd, int i)
 				(i + 2) * sizeof(char *));
 		if (map == NULL)
 			return (error_msg(MALLOC), close(fd), free(line), NULL);
-		if (is_white(line))
+		if (is_white(line) && !ft_strchr(line, ' '))
 		{
 			map[i] = trim_back_nl(line);
 			return (map[++i] = NULL, error_msg(ERR_NEWLINE_MAP), close(fd),
