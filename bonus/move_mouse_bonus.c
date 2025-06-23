@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_mouse_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:57:26 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 18:54:03 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/23 02:31:45 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	move_mouse(t_mlx *mlx)
 	if (mlx->on_window == 0)
 		return (0);
 	ft_memset(moved, 0, 2 * sizeof(char));
-	mlx_mouse_get_pos(mlx->mlx, mlx->win,
+	mlx_mouse_get_pos(/* mlx->mlx,  */mlx->win,
 		&mlx->keys.mouse[0], &mlx->keys.mouse[1]);
 	if (mlx->keys.mouse[0] != MLX_WIN_X / 2 && ++moved[0])
 	{
@@ -38,7 +38,7 @@ int	move_mouse(t_mlx *mlx)
 			|| (y_diff < 0 && mlx->player.dir[1] + y_diff >= 0))
 			mlx->player.dir[1] += y_diff;
 	}
-	mlx_mouse_move(mlx->mlx, mlx->win, MLX_WIN_X / 2, MLX_WIN_Y / 2);
+	mlx_mouse_move(/* mlx->mlx,  */mlx->win, MLX_WIN_X / 2, MLX_WIN_Y / 2);
 	if (moved[0] || moved[1])
 		return (1);
 	return (0);

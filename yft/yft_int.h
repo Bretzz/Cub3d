@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   yft_int.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:48:06 by totommi           #+#    #+#             */
-/*   Updated: 2025/06/22 17:20:25 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/23 02:28:03 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ to do with that image (similar to xpm functions) */
 
 # include "libft.h"
 # include "mlx.h"
-# include "mlx_int.h"
 # include <unistd.h>
 
 # define VOID 0x000000
@@ -30,6 +29,17 @@ to do with that image (similar to xpm functions) */
 
 # define FONT_STRING "font="	/* maybe useless? (and so on...) */
 # define WIDTH_STRING "width="
+
+# ifdef __APPLE__
+
+typedef struct s_mlx_img
+{
+	int		width;
+	int		height;
+	void	*other;
+}			t_mlx_img;
+
+# endif
 
 // mlx img related data
 typedef struct s_yft_img

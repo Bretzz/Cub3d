@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_data_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 13:49:51 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 18:35:15 by topiana-         ###   ########.fr       */
+/*   Updated: 2025/06/23 02:34:35 by totommi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	data_init(t_mlx *mlx, t_multi_data *data)
 	mlx->player.friction = 8;
 	mlx->frames = 1;
 	mlx->keys.minimap = 1;
-	yft_is_better("yft/fonts/wobbly.yft");
+	if (yft_is_better("yft/fonts/wobbly.yft"))
+		return (1);
 	return (1);
 }
 
