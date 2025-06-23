@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scarlucc <scarlucc@student.42firenze.it>   #+#  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-22 13:00:42 by scarlucc          #+#    #+#             */
-/*   Updated: 2025-06-22 13:00:42 by scarlucc         ###   ########.fr       */
+/*   Created: 2025/06/22 13:00:42 by scarlucc          #+#    #+#             */
+/*   Updated: 2025/06/23 15:54:29 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,26 @@ int	check_path_walls(t_mlx *mlx)
 {
 	int	fd;
 
+	if (open(mlx->map.no_wall, __O_DIRECTORY) > 0)
+		return (error_msg(ERR_PATH_WALL), 1); 
 	fd = open(mlx->map.no_wall, O_RDONLY);
 	if (fd < 0)
 		return (error_msg(ERR_PATH_WALL), 1);
+	if (open(mlx->map.so_wall, __O_DIRECTORY) > 0)
+		return (error_msg(ERR_PATH_WALL), 1); 
 	close(fd);
 	fd = open(mlx->map.so_wall, O_RDONLY);
 	if (fd < 0)
 		return (error_msg(ERR_PATH_WALL), 1);
 	close(fd);
+	if (open(mlx->map.ea_wall, __O_DIRECTORY) > 0)
+		return (error_msg(ERR_PATH_WALL), 1); 
 	fd = open(mlx->map.ea_wall, O_RDONLY);
 	if (fd < 0)
 		return (error_msg(ERR_PATH_WALL), 1);
 	close(fd);
+	if (open(mlx->map.we_wall, __O_DIRECTORY) > 0)
+		return (error_msg(ERR_PATH_WALL), 1); 
 	fd = open(mlx->map.we_wall, O_RDONLY);
 	if (fd < 0)
 		return (error_msg(ERR_PATH_WALL), 1);
