@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 22:26:49 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/22 02:20:30 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:49:42 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 			cast.curr = 0;
 		else if (++cast.iter[1])
 			cast.curr = 1;
+		if (mlx->player.dir[2] != 0)
+		{
+			if (cast.curr == 1)
+				ft_printf("Y");
+			else
+				ft_printf("X");
+		}
 		if (out_of_bound(mlx, &cast, x, y))
 			break ;
 		if (collision_check(mlx, &cast, x, y))
@@ -76,5 +83,7 @@ float	cast_ray(t_mlx *mlx, float x, float y, float dir)
 		}
 	}
 	get_ray_data(mlx, &cast, x, y);
+	if (mlx->player.dir[2] != 0)
+		ft_printf("\nhit [%f, %f] len: %f\n", mlx->ray.hit[0], mlx->ray.hit[1], mlx->ray.len);
 	return (mlx->ray.len);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put2d_mini_ray.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:56:40 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:04:49 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:50:00 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	put2d_mini_ray(void *my_struct, int side, float null2, unsigned int color)
 		ray[1] = (mlx->ray.hit[1] * side);
 		pos[0] = (mlx->player.pos[0] * side);
 		pos[1] = (mlx->player.pos[1] * side);
+		// if (ray[0] % 10 == 0 && ray[1] % 10 == 0)
+		// 	ft_printf("ray is hitting [%d, %d]\n", ray[0], ray[1]);
 		put_line(&mlx->img[1], pos, ray, color);
 	}
 	return (0);

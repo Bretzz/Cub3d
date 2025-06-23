@@ -164,7 +164,7 @@ $(OBJS_DIR):
 
 #-D DEBUG=1
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c | $(OBJS_DIR) 
-	$(CC) $(CFLAGS) $(INKS) $(DEFS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INKS) $(DEFS) -D DEBUG=1 -c $< -o $@
 
 $(MLX_DIR):
 	@echo "${BOLD}creating $(MLX_DIR)...${RESET}"

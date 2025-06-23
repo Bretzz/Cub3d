@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_pixel_color.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: totommi <totommi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: topiana- <topiana-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:38:15 by topiana-          #+#    #+#             */
-/*   Updated: 2025/06/23 02:24:23 by totommi          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:37:47 by topiana-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ unsigned int	get_pixel_color(void *img_ptr, int x, int y)
 
 unsigned int	get_pixel_color(void *img_ptr, int x, int y)
 {
-	t_img *const	mlx_img = (t_mlx_img *)img_ptr;
+	t_img *const	mlx_img = (t_img *)img_ptr;
 
 	if (x < 0 || x >= mlx_img->width || y < 0 || y >= mlx_img->height)
 		return (0);
-	return (*(unsigned int *)(mlx->data
-		+ (y * mlx->size_line)
-		+ (x * (mlx->bpp >> 3))));
+	return (*(unsigned int *)(mlx_img->data
+		+ (y * mlx_img->size_line)
+		+ (x * (mlx_img->bpp >> 3))));
 }
 #endif
