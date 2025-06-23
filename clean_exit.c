@@ -48,7 +48,7 @@ int	clean_exit(t_mlx *mlx, int exit_code)
 			mlx->win = NULL;
 		}
 		if (__LINUX__)
-			// mlx_destroy_display(mlx->mlx);
+			mlx_destroy_display(mlx->mlx);
 		free(mlx->mlx);
 	}
 	if (mlx->map.mtx)
