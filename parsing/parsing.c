@@ -44,7 +44,8 @@ int	walls_ceiling_map(char *line, char *start, t_mlx *mlx)
 		if (check_floor_ceiling(line, mlx))
 			return (1);
 	}
-	else if (*line == '1')
+	else if (*line == '1' || *line == '0' || *line == 'N' || *line == 'S'
+		|| *line == 'E' || *line == 'W')
 		return (mlx->map.tmp_line = start, 2);
 	else
 		return (error_msg(ERR_CHAR_FILE), 1);
@@ -94,7 +95,7 @@ static char	**get_map(char *line, int fd, int i)
 				(i + 2) * sizeof(char *));
 		if (map == NULL)
 			return (error_msg(MALLOC), close(fd), free(line), NULL);
-		if (line[0] == '\n')
+		if (is_white(line))
 		{
 			map[i] = trim_back_nl(line);
 			return (map[++i] = NULL, error_msg(ERR_NEWLINE_MAP), close(fd),
